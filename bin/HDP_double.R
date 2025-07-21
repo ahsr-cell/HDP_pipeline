@@ -95,6 +95,33 @@ tinuc_sort <- c("A[C>A]A","A[C>A]C","A[C>A]G","A[C>A]T","C[C>A]A","C[C>A]C","C[C
 
 mutation_table <- as.data.frame(mutation_table)[, unlist(tinuc_sort)]
 
+key_table=read.table("key_table.txt", header=T, check.names=FALSE, sep="\t",quote = "")
+
+#If requiring a minimum number of mutations:
+sample_remove=rownames(mutations)[rowSums(mutations)<lower_threshold]
+mutations=mutations[!rownames(mutations)%in%sample_remove,]
+key_table=key_table[!key_table$Sample%in%sample_remove,]
+
+key_table$Type <- factor(key_table$Patient)
+
+key_table$Type = paste0(key_table$Patient, key_table$Tissue)
+
+key_table$GP <- as.numeric(factor(key_table$Tissue, levels = unique(key_table$Tissue)))
+table(key_table$GP)
+
+key_table$CD <- as.numeric(factor(key_table$Type, levels = unique(key_table$Type)))
+table(key_table$CD)
+
+gp <- key_table$GP
+pp <- key_table %>% select(Type, GP) %>% distinct() %>% .$GP
+cd <- key_table$CD
+
+dps_to_add <- c(0, 
+                rep(1, max(gp)), 
+                pp + 1, 
+                cd + max(gp) + 1)
+
+#loading priors list
 ref = read.table("sigpro_ref.txt", header = T, stringsAsFactors = F, sep = '\t')
 
 rownames(ref) <- ref[,1]
@@ -103,42 +130,46 @@ ref <- ref[tinuc_sort,]
 
 
 prior_sigs = as.matrix(ref)
-
+# number of prior signatures to condition on (8)
 nps <- ncol(prior_sigs)
 
 
-ppindex <- c(1, rep(1+nps+1, nrow(mutations)))
-cpindex <- c(3, rep(4, nrow(mutations)))
+#with PID and Method as parents (2 hierarchy)
+hdp_PD_tissue_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
+                                          prior_pseudoc = rep(1000, nps), # pseudocount weights
+                                          hh=rep(1, 96), # uniform prior over 96 categories
+                                          alphaa=c(1, 1), # shape hyperparams for 2 CPs
+                                          alphab=c(1, 1)) # rate hyperparams for 2 CPs
+
+hdp_PD_tissue_prior <- hdp_addconparam(hdp_PD_tissue_prior,
+                                           alphaa = rep(1,length(unique(dps_to_add))), # shape hyperparams for 2 new CPs
+                                           alphab = rep(1,length(unique(dps_to_add)))) # rate hyperparams for 2 new CPs
+
+#Adjustment for the priors
+pd <- c(1, dps_to_add[-1]+nps+1)
 
 
-hdp_prior <- hdp_prior_init(prior_distn = prior_sigs,
-                            prior_pseudoc = rep(1000, nps),
-                            hh = rep(1, 96), # prior is uniform over 96 categories
-                            alphaa = rep(1, 2), # shape hyperparameters for 2 CPs
-                            alphab = rep(1, 2))  # rate hyperparameters for 2 CPs
+hdp_PD_tissue_prior <- hdp_adddp(hdp_PD_tissue_prior,
+                                     numdp = length(dps_to_add),
+                                     ppindex = pd,
+                                     cpindex = dps_to_add+3)
 
-hdp_prior <- hdp_addconparam(hdp_prior,
-                              alphaa = rep(1,length(unique(cpindex))), # shape hyperparams for 2 new CPs
-                              alphab = rep(1,length(unique(cpindex)))) # rate hyperparams for 2 new CPs
+# assign data to the relevant DP nodes (samples to appropriate tissues)
+hdp_PD_tissue_prior <- hdp_setdata(hdp_PD_tissue_prior,
+                                       dpindex = (((length(dps_to_add) - nrow(mutations))+nps+1)+1):length(dpstate(hdp_PD_tissue_prior)),
+                                       mutations)
 
 
-hdp_prior <- hdp_adddp(hdp_prior,
-                       numdp = 1 + nrow(mutations),
-                       ppindex = ppindex,
-                       cpindex = cpindex)
 
-hdp_prior <- hdp_setdata(hdp_prior,
-                          dpindex = (1+nps+1)+1:nrow(mutations)
-                          mutations)
+hdp_PD_tissue_prior_activated <- dp_activate(hdp_PD_tissue_prior,
+                                                 dpindex = ((1+nps+1)+0):length(dpstate(hdp_PD_tissue_prior)),
+                                                 initcc = 10,
+                                                 seed = n*300)
 
-hdp_activated <- dp_activate(hdp_prior,
-                               dpindex = (1+nps+1):numdp(hdp_prior), initcc=nps+5, seed=i*300)
-
-chain=hdp_posterior(hdp_activated,
-                    burnin=30000,
-                    n=100,
-                    seed=n*1000,
-                    space=200,
-                    cpiter=3)
-
-saveRDS(chain,paste0("hdp_chain_",n,".Rdata"))
+chain_PD_tissue=hdp_posterior(hdp_PD_tissue_prior_activated,
+                              burnin=30000,
+                              n=100,
+                              seed=n*1000,
+                              space=200,
+                              cpiter=3)
+saveRDS(chain_PD_tissue,paste0("hdp_chain_",n,"_PD_tissue_prior.Rdata"))  
