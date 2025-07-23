@@ -41,7 +41,7 @@ parser$add_argument("-t", "--threshold", type = 'character', default = "0", help
 args <- parser$parse_args()
 
 mutation_matrix <- args$mutation_matrix
-if(!exists("mutation_matrix")) {
+if (!exists("mutation_matrix")) {
   stop(sprintf("Mutation matrix not provided. Please specify by providing path at end of command; Use -h for further information."))
 }
 
@@ -51,22 +51,22 @@ if (!is.null("args$hierarchy_matrix")) {
 
 if (!is.null("args$prior_matrix")) {
   prior_matrix <- args$prior_matrix
-} 
-
-if (!is.null("args$mutational_context")) {
-  mut_context <- args$mutational_context  
 }
 
-if(!exists("mut_context")) {
+if (!is.null("args$mutational_context")) {
+  mut_context <- args$mutational_context
+}
+
+if (!exists("mut_context")) {
   stop(sprintf("Mutational signature context not specified. Please specify using -c or --mutational_context; Use -h for further information."))
 }
 
-if(!exists("n_iter")) {
-    n_iter <- args$n_iter
+if (!exists("n_iter")) {
+  n_iter <- args$n_iter
 }
 
-if(!exists("threshold")) {
-    threshold <- args$threshold
+if (!exists("threshold")) {
+  threshold <- args$threshold
 }
 
 lower_threshold=threshold
@@ -89,10 +89,10 @@ if (mut_context == 'SBS96' | mut_context == 'SBS288' | mut_context == 'SBS1536')
   u.mc <- 'SBS'
 }
 if (mut_context == 'DBS78') {
-  u.mc = 'DBS'
+  u.mc <- 'DBS'
 }
-  if (mut_context == 'ID83') {
-    u.mc = 'ID'
+if (mut_context == 'ID83') {
+    u.mc <- 'ID'
 }
 
 n=as.numeric(n_iter)

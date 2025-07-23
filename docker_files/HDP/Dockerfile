@@ -20,6 +20,7 @@ RUN apt-get update \
         r-cran-devtools \
         r-cran-biocmanager \
         r-cran-tidyverse \
+        r-cran-argparse \
     && apt-get -y install git-all \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -29,4 +30,5 @@ RUN R -e "devtools::install_github('NickWilliamsSanger/hdp')"
 
 RUN R -e "library(dplyr); \
     library(hdp); \ 
+    library(argparse); \
     print('All packages are ready to be used!')"

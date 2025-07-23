@@ -11,11 +11,11 @@ suppressPackageStartupMessages(require(hdp))
 suppressPackageStartupMessages(require(tidyverse))
 suppressPackageStartupMessages(require(argparse))
 
-options(stringsAsFactors = F)
+options(stringsAsFactors = FALSE)
 
-### Setting up CLI argument parsing 
+### Setting up CLI argument parsing
 # Create parser
-parser = ArgumentParser(prog = 'HDP', description='Hdp pipeline')
+parser <- ArgumentParser(prog = 'HDP', description='Hdp pipeline')
 #Command line arguments
 parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input mutational matrix.") 
 
@@ -85,7 +85,7 @@ if (mut_context == 'SBS96' | mut_context == 'SBS288' | mut_context == 'SBS1536')
 if (mut_context == 'DBS78') {
   u.mc = 'DBS'
 }
-  if (mut_context == 'ID83') {
+if (mut_context == 'ID83') {
     u.mc = 'ID'
 }
 
