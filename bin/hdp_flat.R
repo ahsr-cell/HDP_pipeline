@@ -1,18 +1,17 @@
 #!/usr/bin/env Rscript
 
-### Script for mSigHdp 
+### Script for HDP run with double hierarchy
 
 application <- "HDP mutational signature extraction pipeline."
 
 message(paste("Welcome to", application, "For any questions, please consort the original GitHub/vignette: (https://github.com/nicolaroberts/hdp/blob/master/vignettes/mutation_signatures.Rmd), or the Stratton group. \n"))
 
-### Load in required packages 
+### Load in required packages
 suppressPackageStartupMessages(require(hdp))
 suppressPackageStartupMessages(require(tidyverse))
 suppressPackageStartupMessages(require(argparse))
 
 options(stringsAsFactors = F)
-lower_threshold=0
 
 ### Setting up CLI argument parsing 
 # Create parser
@@ -20,17 +19,21 @@ parser = ArgumentParser(prog = 'HDP', description='Hdp pipeline')
 #Command line arguments
 parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input mutational matrix.") 
 
-parser$add_argument("-h","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
+parser$add_argument("-p","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
 
 parser$add_argument("-a", "--analysis_type", type = "character", default = "Testing", help = "Specify type of analysis run. Options are [testing] or [analysis].", required=TRUE)
 
 parser$add_argument("-b", "--burnin_iterations", type = 'double', default = "30000", help = "Specify number of burn-in iterations. Default set to 30000.", required=FALSE) 
+
 parser$add_argument("-o", "--posterior", type = 'double', default = "100", help = "Specify number of posterior samples to collect. Default set to 100.", required=FALSE) 
+
 parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "1000", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
 
 parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), SBS288, SBS1536, DBS78, or ID83.", required = TRUE)
 
 parser$add_argument("-n", "--n_iter", type = 'character', default = "20", help = "n iteration, provided by for loop")
+
+parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
 #Parse arguments
 args <- parser$parse_args()
@@ -40,9 +43,9 @@ if(!exists("mutation_matrix")) {
   stop(sprintf("Mutation matrix not provided. Please specify by providing path at end of command; Use -h for further information."))
 }
 
-if (!is.null("args$hierarchy_matrix")) {
-  hierarchy_matrix <- args$hierarchy_matrix
-}
+if (!is.null("args$prior_matrix")) {
+  prior_matrix <- args$prior_matrix
+} 
 
 if (!is.null("args$mutational_context")) {
   mut_context <- args$mutational_context  
@@ -56,17 +59,23 @@ if(!exists("n_iter")) {
     n_iter <- args$n_iter
 }
 
-u.analysis.type <- args$analysis_type
+if(!exists("threshold")) {
+    threshold <- args$threshold
+}
 
-if (u.analysis.type == 'analysis') {
+lower_threshold=threshold
+
+u_analysis_type <- args$analysis_type
+
+if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   if (!is.null("args$burnin_iterations")) {
-    u.burnin <- args$burnin_iterations
+    u_burnin <- args$burnin_iterations
     }
   if (!is.null("args$posterior")) {
-    u.post <- args$posterior
+    u_post <- args$posterior
   }
   if (!is.null("args$posterior_iterations")) {
-    u.post.space <- args$posterior_iterations
+    u_post_space <- args$posterior_iterations
   }
 }
 
@@ -80,7 +89,7 @@ if (mut_context == 'DBS78') {
     u.mc = 'ID'
 }
 
-n=as.numeric(commandArgs(T)[1])
+n=as.numeric(n_iter)
 
 ##### Setting up HDP
 message("Importing user datasets and conducting necessary data wrangling.")
@@ -95,50 +104,78 @@ tinuc_sort <- c("A[C>A]A","A[C>A]C","A[C>A]G","A[C>A]T","C[C>A]A","C[C>A]C","C[C
 
 mutation_table <- as.data.frame(mutation_table)[, unlist(tinuc_sort)]
 
-ref = read.table("sigpro_ref.txt", header = T, stringsAsFactors = F, sep = '\t')
+if (exists("prior_matrix")) {
+    ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
+    if (ncol(ref) == 1 ) {
+    ref <- read.table(prior_matrix, header=T, sep = ",")
+    }
 
-rownames(ref) <- ref[,1]
-ref <- ref[,-1]
-ref <- ref[tinuc_sort,]
+    rownames(ref) <- ref[,1]
+    ref <- ref[,-1]
+    ref <- ref[tinuc_sort,]
 
+    prior_sigs = as.matrix(ref)
 
-prior_sigs = as.matrix(ref)
+    nps <- ncol(prior_sigs)
 
-nps <- ncol(prior_sigs)
+    ppindex <- c(1, rep(1+nps+1, nrow(mutations)))
+    cpindex <- c(3, rep(4, nrow(mutations)))
 
-
-ppindex <- c(1, rep(1+nps+1, nrow(mutations)))
-cpindex <- c(3, rep(4, nrow(mutations)))
-
-
-hdp_prior <- hdp_prior_init(prior_distn = prior_sigs,
+    hdp_prior <- hdp_prior_init(prior_distn = prior_sigs,
                             prior_pseudoc = rep(1000, nps),
                             hh = rep(1, 96), # prior is uniform over 96 categories
                             alphaa = rep(1, 2), # shape hyperparameters for 2 CPs
                             alphab = rep(1, 2))  # rate hyperparameters for 2 CPs
 
-hdp_prior <- hdp_addconparam(hdp_prior,
+    hdp_prior <- hdp_addconparam(hdp_prior,
                               alphaa = rep(1,length(unique(cpindex))), # shape hyperparams for 2 new CPs
                               alphab = rep(1,length(unique(cpindex)))) # rate hyperparams for 2 new CPs
 
-
-hdp_prior <- hdp_adddp(hdp_prior,
+    hdp_prior <- hdp_adddp(hdp_prior,
                        numdp = 1 + nrow(mutations),
                        ppindex = ppindex,
                        cpindex = cpindex)
 
-hdp_prior <- hdp_setdata(hdp_prior,
+    hdp_prior <- hdp_setdata(hdp_prior,
                           dpindex = (1+nps+1)+1:nrow(mutations)
                           mutations)
 
-hdp_activated <- dp_activate(hdp_prior,
+    hdp_activated <- dp_activate(hdp_prior,
                                dpindex = (1+nps+1):numdp(hdp_prior), initcc=nps+5, seed=i*300)
 
-chain=hdp_posterior(hdp_activated,
-                    burnin=30000,
-                    n=100,
+} else {
+    ppindex = c(0, rep(1, nrow(mutations)))
+    cpindex = c(1, rep(2, nrow(mutations)))
+
+    hdp_mut <- hdp_init(ppindex = ppindex, # index of parental node
+                    cpindex = cpindex, # index of the CP to use
+                    hh = rep(1, 96), # prior is uniform over 96 categories
+                    alphaa = rep(1,length(unique(cpindex))), # shape hyperparameters for 2 CPs
+                    alphab = rep(1,length(unique(cpindex))))  # rate hyperparameters for 2 CPs
+
+    hdp_mut <- hdp_setdata(hdp_mut, 
+                       dpindex = 2:numdp(hdp_mut), # index of nodes to add data to
+                       mutations)
+
+    hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
+}
+
+if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
+    chain=hdp_posterior(hdp_activated,
+                    burnin=u_burnin,
+                    n=u_post,
                     seed=n*1000,
-                    space=200,
+                    space=u_post_space,
                     cpiter=3)
+}
+
+if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {
+    chain=hdp_posterior(hdp_activated,
+                    burnin=100,
+                    n=10,
+                    seed=n*1000,
+                    space=10,
+                    cpiter=3)
+}
 
 saveRDS(chain,paste0("hdp_chain_",n,".Rdata"))

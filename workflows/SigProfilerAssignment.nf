@@ -3,7 +3,7 @@ process SigProfilerAssignment {
     publishDir "${params.outdir}", mode: "copy", overwrite: true
 
     input: 
-    path deNovoSignatures_matrix
+    path HDP_chains
     path mutational_matrix
 
     output:
@@ -11,6 +11,6 @@ process SigProfilerAssignment {
 
     script:
     """
-    SigProfilerAssignment.py --mutational_matrix ${mutational_matrix} --deNovoSignatures_matrix ${deNovoSignatures_matrix}
+    SigProfilerAssignment.py --mutational_matrix ${mutational_matrix} --HDP_chains ${HDP_chains}
     """
 }

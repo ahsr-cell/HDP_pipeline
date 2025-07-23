@@ -5,19 +5,18 @@ process HDP_flat {
     path mutational_matrix
     path hierarchy_matrix
     path prior_matrix
-    val hierarchy
-    val prior
     val analysis_type 
-    val burning_iterations 
+    val burnin_iterations 
     val posterior 
-    val posterior_space 
+    val posterior_space
+    val n_iter
+    val threshold
 
     output:
-    path "deNovo_signatures", emit: deNovo_signaturesdir
-    path "deNovo_signatures"
+    path "HDP_chains", emit: HDP_chains
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_flat.R
+    Rscript --vanilla ${projectDir}/bin/HDP_flat.R -h ${hierarchy_matrix} -p ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${n_iter} -t ${threshold} ${mutational_matrix}
     """
 }
