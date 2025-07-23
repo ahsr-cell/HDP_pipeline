@@ -36,7 +36,9 @@ workflow {
             )
             HDP_combine(
              HDP_double.out.HDP_chains,
-             params.mutational_matrix   
+             params.mutational_matrix,
+             params.hierarchy_matrix,
+             params.threshold
             )
             if (params.plotting == true) {
                 if (params.decompose == true) {
@@ -48,27 +50,27 @@ workflow {
                 HDP_combine.out.deNovo_extractedsigs,
                 params.mutational_matrix
             )
-            if (HDP_combine.out.deNovo_lowconfsigs != null){
-                SigPlt_LowConfidence(
-                    HDP_double.out.deNovo_lowconfsigs,
-                    params.mutational_context
-                )
-                SigPA_LowConfidence(
-                    HDP_combine.out.deNovo_lowconfsigs,
-                    params.mutational_matrix
-                )
-                }
+//            if (HDP_combine.out.deNovo_lowconfsigs != null){
+//                SigPlt_LowConfidence(
+//                    HDP_double.out.deNovo_lowconfsigs,
+//                    params.mutational_context
+//                )
+//                SigPA_LowConfidence(
+//                    HDP_combine.out.deNovo_lowconfsigs,
+//                    params.mutational_matrix
+//                )
+//                }
             } else {
                 SigPlt_Extracted(
                     HDP_combine.out.deNovo_extractedsigs,
                     params.mutational_context
             )
-            if (HDP_combine.out.deNovo_lowconfsigs != null){
-                SigPlt_LowConfidence(
-                    HDP_combine.out.deNovo_lowconfsigs,
-                    params.mutational_context
-                )
-                }
+//            if (HDP_combine.out.deNovo_lowconfsigs != null){
+//                SigPlt_LowConfidence(
+//                    HDP_combine.out.deNovo_lowconfsigs,
+//                    params.mutational_context
+//                )
+//                }
             }             
         } else {
             if (params.decompose == true) {
@@ -85,18 +87,20 @@ workflow {
             )
             HDP_combine(
              HDP_double.out.HDP_chains,
-             params.mutational_matrix   
+             params.mutational_matrix,
+             params.hierarchy_matrix,
+             params.threshold   
             )
             SigPA_Extracted(
                 HDP_combine.out.deNovo_extractedsigs,
                 params.mutational_matrix
             )
-            if (HDP_combine.out.deNovo_lowconfsigs != null) {
-                SigPA_LowConfidence(
-                    HDP_combine.out.deNovo_lowconfsigs,
-                    params.mutational_matrix
-                )
-            }
+//            if (HDP_combine.out.deNovo_lowconfsigs != null) {
+//                SigPA_LowConfidence(
+//                    HDP_combine.out.deNovo_lowconfsigs,
+//                    params.mutational_matrix
+//                )
+//            }
         }
         } 
     }
@@ -114,7 +118,9 @@ workflow {
             )
             HDP_combine(
                 HDP_single.out.HDP_chains,
-                params.mutational_matrix   
+                params.mutational_matrix,
+                params.hierarchy_matrix,
+                params.threshold   
             )
             if (params.plotting == true) {
                 if (params.decompose == true) {
@@ -126,27 +132,27 @@ workflow {
                     HDP_combine.out.deNovo_extractedsigs,
                     params.mutational_matrix
                 )
-                if (HDP_combine.out.deNovo_lowconfsigs != null){
-                    SigPlt_LowConfidence(
-                        HDP_single.out.deNovo_lowconfsigs,
-                        params.mutational_context
-                    )
-                    SigPA_LowConfidence(
-                        HDP_combine.out.deNovo_lowconfsigs,
-                        params.mutational_matrix
-                    )
-                }
+//               if (HDP_combine.out.deNovo_lowconfsigs != null){
+//                    SigPlt_LowConfidence(
+//                        HDP_single.out.deNovo_lowconfsigs,
+//                        params.mutational_context
+//                    )
+//                    SigPA_LowConfidence(
+//                        HDP_combine.out.deNovo_lowconfsigs,
+//                        params.mutational_matrix
+//                    )
+//                }
                 } else {
                 SigPlt_Extracted(
                     HDP_combine.out.deNovo_extractedsigs,
                     params.mutational_context
             )
-            if (HDP_combine.out.deNovo_lowconfsigs != null){
-                SigPlt_LowConfidence(
-                    HDP_combine.out.deNovo_lowconfsigs,
-                    params.mutational_context
-                )
-                }
+//            if (HDP_combine.out.deNovo_lowconfsigs != null){
+//                SigPlt_LowConfidence(
+//                    HDP_combine.out.deNovo_lowconfsigs,
+//                    params.mutational_context
+//                )
+//                }
             }             
         } else {
             if (params.decompose == true) {
@@ -163,18 +169,20 @@ workflow {
             )
             HDP_combine(
                 HDP_single.out.HDP_chains,
-                params.mutational_matrix   
+                params.mutational_matrix,
+                params.hierarchy_matrix,
+                params.threshold   
             )
             SigPA_Extracted(
                 HDP_combine.out.deNovo_extractedsigs,
                 params.mutational_matrix
             )
-            if (HDP_combine.out.deNovo_lowconfsigs != null) {
-                SigPA_LowConfidence(
-                    HDP_combine.out.deNovo_lowconfsigs,
-                    params.mutational_matrix
-                )
-            }
+//            if (HDP_combine.out.deNovo_lowconfsigs != null) {
+//                SigPA_LowConfidence(
+//                    HDP_combine.out.deNovo_lowconfsigs,
+//                    params.mutational_matrix
+//                )
+//            }
         }
         }
     }
@@ -192,7 +200,9 @@ workflow {
             )
             HDP_combine(
                 HDP_flat.out.HDP_chains,
-                params.mutational_matrix   
+                params.mutational_matrix,
+                params.hierarchy_matrix,
+                params.threshold   
             )
             if (params.plotting == true) {
                 if (params.decompose == true) {
@@ -204,27 +214,27 @@ workflow {
                     HDP_combine.out.deNovo_extractedsigs,
                     params.mutational_matrix
                 )
-                if (HDP_combine.out.deNovo_lowconfsigs != null){
-                    SigPlt_LowConfidence(
-                        HDP_combine.out.deNovo_lowconfsigs,
-                        params.mutational_context
-                    )
-                    SigPA_LowConfidence(
-                        HDP_combine.out.deNovo_lowconfsigs,
-                        params.mutational_matrix
-                    )
-                }
+//                if (HDP_combine.out.deNovo_lowconfsigs != null){
+//                    SigPlt_LowConfidence(
+//                        HDP_combine.out.deNovo_lowconfsigs,
+//                        params.mutational_context
+//                    )
+//                    SigPA_LowConfidence(
+//                        HDP_combine.out.deNovo_lowconfsigs,
+//                        params.mutational_matrix
+//                    )
+//                }
                 } else {
                 SigPlt_Extracted(
                     HDP_combine.out.deNovo_extractedsigs,
                     params.mutational_context
             )
-            if (HDP_combine.out.deNovo_lowconfsigs != null){
-                SigPlt_LowConfidence(
-                    HDP_combine.out.deNovo_lowconfsigs,
-                    params.mutational_context
-                )
-                }
+//            if (HDP_combine.out.deNovo_lowconfsigs != null){
+//               SigPlt_LowConfidence(
+//                    HDP_combine.out.deNovo_lowconfsigs,
+//                    params.mutational_context
+//                )
+//                }
             }             
         } else {
             if (params.decompose == true) {
@@ -241,18 +251,20 @@ workflow {
             )
             HDP_combine(
                 HDP_flat.out.HDP_chains,
-                params.mutational_matrix   
+                params.mutational_matrix,
+                params.hierarchy_matrix,
+                params.threshold
             )
             SigPA_Extracted(
                 HDP_combine.out.deNovo_extractedsigs,
                 params.mutational_matrix
             )
-            if (HDP_combine.out.deNovo_lowconfsigs != null) {
-                SigPA_LowConfidence(
-                    HDP_combine.out.deNovo_lowconfsigs,
-                    params.mutational_matrix
-                )
-            }
+//            if (HDP_combine.out.deNovo_lowconfsigs != null) {
+//                SigPA_LowConfidence(
+//                    HDP_combine.out.deNovo_lowconfsigs,
+//                    params.mutational_matrix
+//                )
+//            }
         }
         }
     }

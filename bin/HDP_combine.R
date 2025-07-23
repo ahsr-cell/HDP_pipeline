@@ -20,11 +20,7 @@ parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input 
 
 parser$add_argument("-hierarch","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
 
-parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
-
 parser$add_argument("-h_chains", "--HDP_chains", type = 'character', default = "0", help = "Specify path to HDP chains.")
-
-parser$add_argument("-n", "--n_iter", type = 'character', default = "20", help = "Set n iteration, usually provided by for loop.")
 
 parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
@@ -38,16 +34,8 @@ if (!is.null("args$hierarchy_matrix")) {
   hierarchy_matrix <- args$hierarchy_matrix
 }
 
-if (!is.null("args$prior_matrix")) {
-  prior_matrix <- args$prior_matrix
-}
-
 if (!is.null("args$HDP_chains")) {
   HDP_chain_path <- args$HDP_chains
-}
-
-if (!exists("n_iter")) {
-  n_iter <- args$n_iter
 }
 
 if (!exists("threshold")) {
@@ -138,4 +126,4 @@ ncomp <- ncol(dp_distn$mean)
 mean_assignment <- as.data.frame(comp_dp_distn(mut_example_multi)$mean)
 write.table(mean_assignment, "mean_assignment_hdp.txt")
 mean_sigs <- as.data.frame(t(comp_categ_distn(mut_example_multi)$mean))
-write.table(mean_sigs, "hdp_sigs.txt")
+write.table(mean_sigs, "HDP_deNovoSignatures.txt")

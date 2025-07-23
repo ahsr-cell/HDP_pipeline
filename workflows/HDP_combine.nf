@@ -4,6 +4,8 @@ process HDP_combine {
     input:
     path HDP_chains
     path mutational_matrix
+    path hierarchy_matrix
+    val threshold
     
     output:
     path "deNovo_extractedsigs", emit: deNovo_signaturesdir
@@ -11,6 +13,6 @@ process HDP_combine {
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_combine.R ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_combine.R ${mutational_matrix} --hierarchy_matrix ${hierarchy_matrix} --HDP_chains ${HDP_chains} -t ${threshold}
     """
 }
