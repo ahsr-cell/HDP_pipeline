@@ -19,7 +19,11 @@ parser = ArgumentParser(prog = 'HDP', description='Hdp pipeline')
 #Command line arguments
 parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input mutational matrix.") 
 
-parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
+parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE)
+
+parser$add_argument("-hp1","--hierarchy_parameter1", type = 'character', help = "Specify primary hierarchy parameter as listed in input hierarchy matrix (e.g., column name). Used to identify column.", required=FALSE) 
+
+parser$add_argument("-hp2","--hierarchy_parameter2", type = 'character', help = "Specify secondary hierarchy parameter as listed in input hierarchy matrix (e.g., column name). Used to identify column.", required=FALSE)
 
 parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
 
@@ -47,6 +51,14 @@ if (!exists("mutation_matrix")) {
 
 if (!is.null("args$hierarchy_matrix")) {
   hierarchy_matrix <- args$hierarchy_matrix
+}
+
+if (!is.null("args$hierarchy_parameter1")) {
+  hp1 <- args$hierarchy_parameter1
+}
+
+if (!is.null("args$hierarchy_parameter21")) {
+  hp2 <- args$hierarchy_parameter2
 }
 
 if (!is.null("args$prior_matrix")) {
@@ -133,22 +145,32 @@ if (ncol(key_table) == 1 ) {
   key_table <- read.table(hierarchy_matrix, header=T, sep = ",")
 }
 
-message(paste0("Chain ",n,": hierarchy matrix successfully imported. Extracting and incorporating hierarchy parameters to initialise HDP structure with double hierarchy. \n"))
+message(paste0("Chain ",n,": hierarchy matrix successfully imported. Extracting hierarchy parameters to initialise HDP structure with double hierarchy. \n"))
 
 #If requiring a minimum number of mutations:
 sample_remove=rownames(mutations)[rowSums(mutations)<lower_threshold]
 mutations=mutations[!rownames(mutations)%in%sample_remove,]
 key_table=key_table[!key_table$Sample%in%sample_remove,]
 
-key_table$Type <- factor(key_table$Patient)
+hp1i <- which(colnames(key_table)==hp1)
+hp2i <- which(colnames(key_table)==hp2)
 
-key_table$Type = paste0(key_table$Patient, key_table$Tissue)
-
-key_table$GP <- as.numeric(factor(key_table$Tissue, levels = unique(key_table$Tissue)))
+key_table$Type <- factor(key_table[,hp1i])
+key_table$Type = paste0(key_table[,hp1i], key_table[,hp2i])
+key_table$GP <- as.numeric(factor(key_table[,hp2i], levels = unique(key_table[,hp2i])))
 table(key_table$GP)
-
 key_table$CD <- as.numeric(factor(key_table$Type, levels = unique(key_table$Type)))
 table(key_table$CD)
+
+#key_table$Type <- factor(key_table$Patient)
+
+#key_table$Type = paste0(key_table$Patient, key_table$Tissue)
+
+#key_table$GP <- as.numeric(factor(key_table$Tissue, levels = unique(key_table$Tissue)))
+#table(key_table$GP)
+
+#key_table$CD <- as.numeric(factor(key_table$Type, levels = unique(key_table$Type)))
+#table(key_table$CD)
 
 gp <- key_table$GP
 pp <- key_table %>% select(Type, GP) %>% distinct() %>% .$GP
@@ -161,7 +183,7 @@ dps_to_add <- c(0,
 
 #loading priors list
 if (exists("prior_matrix")) {
-  message(paste0("Chain ", n,": Prior matrix provided. Extracting and incorporating hierarchy parameter to initialise HDP structure with single tier hierarchy. \n"))
+  message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate and adjust HDP structure. \n"))
 
   ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
   if (ncol(ref) == 1 ) {
@@ -173,56 +195,49 @@ if (exists("prior_matrix")) {
   ref <- ref[tinuc_sort,]
 
   prior_sigs = as.matrix(ref)
-  # number of prior signatures to condition on (8)
+
+  message(paste0("Chain ", n,": prior matrix imported and signatures extracted. \n"))  
+
+  # number of prior signatures to condition on
   nps <- ncol(prior_sigs)
 
   #with PID and Method as parents (2 hierarchy)
-  hdp_PD_tissue_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
+  hdp_PD_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
                                           prior_pseudoc = rep(1000, nps), # pseudocount weights
                                           hh=rep(1, 96), # uniform prior over 96 categories
                                           alphaa=c(1, 1), # shape hyperparams for 2 CPs
                                           alphab=c(1, 1)) # rate hyperparams for 2 CPs
 
-  hdp_PD_tissue_prior <- hdp_addconparam(hdp_PD_tissue_prior,
+  hdp_PD_prior <- hdp_addconparam(hdp_PD_prior,
                                            alphaa = rep(1,length(unique(dps_to_add))), # shape hyperparams for 2 new CPs
                                            alphab = rep(1,length(unique(dps_to_add)))) # rate hyperparams for 2 new CPs
 
   #Adjustment for the priors
   pd <- c(1, dps_to_add[-1]+nps+1)
 
-  hdp_PD_tissue_prior <- hdp_adddp(hdp_PD_tissue_prior,
+  hdp_PD_prior <- hdp_adddp(hdp_PD_prior,
                                      numdp = length(dps_to_add),
                                      ppindex = pd,
                                      cpindex = dps_to_add+3)
 
   # assign data to the relevant DP nodes (samples to appropriate tissues)
-  hdp_PD_tissue_prior <- hdp_setdata(hdp_PD_tissue_prior,
-                                       dpindex = (((length(dps_to_add) - nrow(mutations))+nps+1)+1):length(dpstate(hdp_PD_tissue_prior)),
+  hdp_PD_prior <- hdp_setdata(hdp_PD_prior,
+                                       dpindex = (((length(dps_to_add) - nrow(mutations))+nps+1)+1):length(dpstate(hdp_PD_prior)),
                                        mutations)
 
 
 
-  hdp_PD_tissue_prior_activated <- dp_activate(hdp_PD_tissue_prior,
-                                                 dpindex = ((1+nps+1)+0):length(dpstate(hdp_PD_tissue_prior)),
+  hdp_PD_prior_activated <- dp_activate(hdp_PD_prior,
+                                                 dpindex = ((1+nps+1)+0):length(dpstate(hdp_PD_prior)),
                                                  initcc = 10,
                                                  seed = n*300)
-} else {
-  hdp_PD_tissue <- hdp_init(ppindex = dps_to_add, # index of parental node
-                          cpindex = dps_to_add +1, # index of the CP to use
-                          hh = rep(1, 96), # prior is uniform over 96 categories
-                          alphaa = rep(1,length(unique(dps_to_add))), # shape hyperparameters for 2 CPs
-                          alphab = rep(1,length(unique(dps_to_add))))  # rate hyperparameters for 2 CPs
-  ppindex(hdp_PD_tissue)
+  
+  message(paste0("Chain ", n,": HDP structure initialised with priors and double hierarchy. \n"))
 
-  hdp_PD_tissue <- hdp_setdata(hdp_PD_tissue,
-                             dpindex = (1+  length(unique(key_table$GP)) + length(unique(key_table$CD)) +1 ):numdp(hdp_PD_tissue), # index of nodes to add data to
-                             mutations)
-
-  hdp_act_PD_tissue <- dp_activate(hdp_PD_tissue, 1:numdp(hdp_PD_tissue), initcc=10,seed=n*300)
-}
-
-if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
-    chain_PD_tissue=hdp_posterior(hdp_PD_tissue_prior_activated,
+  if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
+  message(paste0("Chain ",n,": Executing posterior sampling chain ", n, " with analysis run settings: ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space," iterations between each. \n"))
+  
+  chain_PD=hdp_posterior(hdp_PD_prior_activated,
                               burnin=u_burnin,
                               n=u_post,
                               seed=n*1000,
@@ -231,9 +246,9 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
 }
 
 if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {
-  message(paste0("Executing posterior sampling chain number, ", n, ". Running with test run settings: 100 burn-in iterations, collecting 10 posterior samples off each chain with 10 iterations between each. "))
+  message(paste0("Executing posterior sampling chain ", n, " with test run settings: 100 burn-in iterations, collecting 10 posterior samples off each chain with 10 iterations between each. "))
 
-  chain_PD_tissue=hdp_posterior(hdp_PD_tissue_prior_activated,
+  chain_PD=hdp_posterior(hdp_PD_prior_activated,
                               burnin=100,
                               n=10,
                               seed=n*1000,
@@ -241,6 +256,46 @@ if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_typ
                               cpiter=3)
 }
 
-saveRDS(chain_PD_tissue,paste0("hdp_chain_",n,"_PD_tissue_prior.Rdata"))  
+} else {
+  message(paste0("Chain ",n,": Hierarchy parameters successfully extracted. No prior matrix provided. Initialising HDP structure with single hierarchy. \n"))
+
+  hdp_PD <- hdp_init(ppindex = dps_to_add, # index of parental node
+                          cpindex = dps_to_add +1, # index of the CP to use
+                          hh = rep(1, 96), # prior is uniform over 96 categories
+                          alphaa = rep(1,length(unique(dps_to_add))), # shape hyperparameters for 2 CPs
+                          alphab = rep(1,length(unique(dps_to_add))))  # rate hyperparameters for 2 CPs
+  ppindex(hdp_PD)
+
+  hdp_PD <- hdp_setdata(hdp_PD,
+                             dpindex = (1+  length(unique(key_table$GP)) + length(unique(key_table$CD)) +1 ):numdp(hdp_PD), # index of nodes to add data to
+                             mutations)
+
+  hdp_PD_activated <- dp_activate(hdp_PD, 1:numdp(hdp_PD), initcc=10,seed=n*300)
+
+  message(paste0("Chain ", n,": Successfully initialised HDP structure with double hierarchy. \n"))
+
+  if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
+  message(paste0("Chain ",n,": Executing posterior sampling chain ", n, " with analysis run settings: ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space," iterations between each. \n"))
+  chain_PD=hdp_posterior(hdp_PD_activated,
+                              burnin=u_burnin,
+                              n=u_post,
+                              seed=n*1000,
+                              space=u_post_space,
+                              cpiter=3)
+}
+
+if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {
+  message(paste0("Executing posterior sampling chain ", n, " with test run settings: 100 burn-in iterations, collecting 10 posterior samples off each chain with 10 iterations between each. "))
+
+  chain_PD=hdp_posterior(hdp_PD_activated,
+                              burnin=100,
+                              n=10,
+                              seed=n*1000,
+                              space=10,
+                              cpiter=3)
+}  
+}
+
+saveRDS(chain_PD,paste0("hdp_chain_",n,".Rdata"))  
 
 message(paste0("Posterior sampling chain number", n, " completed. Successfully saved chain .Rdata for subsequent step."))

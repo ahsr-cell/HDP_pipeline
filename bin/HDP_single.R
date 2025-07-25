@@ -21,6 +21,8 @@ parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input 
 
 parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
 
+parser$add_argument("-hp1","--hierarchy_parameter1", type = 'character', help = "Specify primary hierarchy parameter as listed in input hierarchy matrix (e.g., column name). Used to identify column.", required=FALSE)
+
 parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
 
 parser$add_argument("-a", "--analysis_type", type = "character", default = "Testing", help = "Specify type of analysis run. Options are [testing] or [analysis].", required=TRUE)
@@ -47,6 +49,10 @@ if (!exists("mutation_matrix")) {
 
 if (!is.null("args$hierarchy_matrix")) {
   hierarchy_matrix <- args$hierarchy_matrix
+}
+
+if (!is.null("args$hierarchy_parameter1")) {
+  hp1 <- args$hierarchy_parameter1
 }
 
 if (!is.null("args$prior_matrix")) {
@@ -135,7 +141,7 @@ if (ncol(key_table) == 1 ) {
 message(paste0("Chain ",n,": hierarchy matrix successfully imported. \n"))
 
 if (exists("prior_matrix")) {
-  message(paste0("Chain ", n,": Prior matrix provided. Extracting and incorporating hierarchy parameter to initialise HDP structure with single tier hierarchy. \n"))
+  message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate and adjust HDP structure. \n"))
 
   ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
   if (ncol(ref) == 1 ) {
@@ -148,7 +154,7 @@ if (exists("prior_matrix")) {
 
   prior_sigs = as.matrix(ref)
 
-  message(paste0("Chain ", n,": prior matrix successfuly imported. Extracting and incorporating hierarchy parameter to initialise HDP structure with single tier hierarchy. \n"))  
+  message(paste0("Chain ", n,": prior matrix imported and signatures extracted. \n"))  
 
   # number of prior signatures to condition on (8)
   nps <- ncol(prior_sigs)
@@ -158,8 +164,10 @@ if (exists("prior_matrix")) {
   mutations=mutations[!rownames(mutations)%in%sample_remove,]
   key_table=key_table[!key_table$Sample%in%sample_remove,]
 
-  #Hierarchy is set per patient, can change if wanted
-  freq <- table(key_table$Tissue)
+  #Set Hierarchy
+  hp1i <- which(colnames(key_table)==hp1)
+
+  freq <- table(key_table[,hp1i])
 
   hdp_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
                             prior_pseudoc = rep(1000, nps), # pseudocount weights
@@ -194,10 +202,14 @@ if (exists("prior_matrix")) {
                              dpindex = (1+nps+1)+0:nrow(mutations), 
                              initcc = nps+5,
                              seed = n * 1000)
+  
+  message(paste0("Chain ", n,": HDP structure initialised with priors and single hierarchy. \n"))
 } else {
-  freq=table(key_table$Tissue)
+  hp1i <- which(colnames(key_table)==hp1)
 
-  message(paste0("Chain ", n,": No prior matrix provided. Initialising HDP structure for single tier hierarchy. \n"))
+  freq <- table(key_table[,hp1i])
+  
+  message(paste0("Chain ", n,": Hierarchy parameters successfully extracted. No prior matrix provided. Initialising HDP structure for single tier hierarchy. \n"))
 
   #with Just type as parent (1 hierarchy)
   hdp_mut <- hdp_init(ppindex = c(0, rep(1,length(freq)),rep(2:(length(freq)+1), times=freq)), # index of parental node
@@ -210,11 +222,13 @@ if (exists("prior_matrix")) {
                        dpindex = (length(freq)+2):numdp(hdp_mut), # index of nodes to add data to
                        mutations)
 
-    hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
+  hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
+
+  message(paste0("Chain ", n,": Successfully initialised HDP structure with single tier hierarchy. \n"))
 }
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
-  message(paste0("Executing posterior sampling chain number, ",n,". Running with ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space,"iterations between each chain. \n"))
+  message(paste0("Chain ",n,": Executing posterior sampling chain ", n, " with analysis run settings: ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space," iterations between each. \n"))
   chain=hdp_posterior(hdp_activated,
                     burnin=u_burnin,
                     n=u_post,
