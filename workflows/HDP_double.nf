@@ -17,6 +17,6 @@ process HDP_double {
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_double.R -h ${hierarchy_matrix} -p ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${n_iter} -t ${threshold} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_double.R -hierarchy ${hierarchy_matrix} -prior ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${n_iter} -t ${threshold} ${mutational_matrix}
     """
 }

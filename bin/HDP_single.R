@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-### Script for HDP run with double hierarchy
+### Script for HDP run with single hierarchy
 
 application <- "HDP mutational signature extraction pipeline."
 
@@ -19,7 +19,7 @@ parser = ArgumentParser(prog = 'HDP', description='Hdp pipeline')
 #Command line arguments
 parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input mutational matrix.") 
 
-parser$add_argument("-hierarch","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
+parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
 
 parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
 
@@ -42,7 +42,7 @@ args <- parser$parse_args()
 
 mutation_matrix <- args$mutation_matrix
 if (!exists("mutation_matrix")) {
-  stop(sprintf("Mutation matrix not provided. Please specify by providing path at end of command; Use -h for further information."))
+  stop(sprintf("Mutation matrix not provided. Please specify by providing path at end of command; Use -h for further information. \n"))
 }
 
 if (!is.null("args$hierarchy_matrix")) {
@@ -74,6 +74,8 @@ lower_threshold=threshold
 u_analysis_type <- args$analysis_type
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
+  message(paste0("Analysis run selected. Please note that this is intended to be run on Lustre as it requires 20 threads. \n"))
+
   if (!is.null("args$burnin_iterations")) {
     u_burnin <- args$burnin_iterations
     }
@@ -83,6 +85,8 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   if (!is.null("args$posterior_iterations")) {
     u_post_space <- args$posterior_iterations
   }
+} else {
+  message(paste0("Testing run selected. Executing run with minimal HDP settings. \n"))
 }
 
 if (mut_context == 'SBS96' | mut_context == 'SBS288' | mut_context == 'SBS1536') {
@@ -95,10 +99,12 @@ if (mut_context == 'ID83') {
     u.mc = 'ID'
 }
 
-n=as.numeric(n_iter)
+n <- as.numeric(n_iter)
 
 ##### Setting up HDP
-message("Importing user datasets and conducting necessary data wrangling. \n")
+message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
+
+message("Chain ", n, ": Importing user datasets. \n")
 
 ### Import mutation matrix and conduct necessary data wrangling 
 mutations=read.table(mutation_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "", row.names = 1)
@@ -108,7 +114,7 @@ if (ncol(mutations) == 1) {
 }
 
 if (ncol(mutations) > 96 | nrow(mutations) == 96) {
-  message("Input mutation matrix provided detected to be formatted with rows as mutation type. Conducting data wrangling to make compatible with HDP pipeline.")
+  message("Input mutation matrix format detected with mutation type as rownames/in rows. Conducting data wrangling to make input matrix compatible with HDP pipeline. \n")
   mutations <- mutations <- tibble::rownames_to_column(mutations, "MutationType")
   mutations <- t(mutations)
   colnames(mutations) <- as.character(mutations[1, ])
@@ -120,19 +126,29 @@ tinuc_sort <- c("A[C>A]A","A[C>A]C","A[C>A]G","A[C>A]T","C[C>A]A","C[C>A]C","C[C
 mutations <- mutations[tinuc_sort]
 #mutations <- as.data.frame(mutations)[, unlist(tinuc_sort)]
 
+message(paste0("Chain ",n,": mutation matrix successfully imported. \n"))
+
 key_table=read.table(hierarchy_matrix, header=T, check.names=FALSE, sep="\t",quote = "")
+if (ncol(key_table) == 1 ) {
+    key_table <- read.table(hierarchy_matrix, header=T, sep = ",")
+  }
+message(paste0("Chain ",n,": hierarchy matrix successfully imported. \n"))
 
 if (exists("prior_matrix")) {
+  message(paste0("Chain ", n,": Prior matrix provided. Extracting and incorporating hierarchy parameter to initialise HDP structure with single tier hierarchy. \n"))
 
   ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
   if (ncol(ref) == 1 ) {
     ref <- read.table(prior_matrix, header=T, sep = ",")
   }
+
   rownames(ref) <- ref[,1]
   ref <- ref[,-1]
   ref <- ref[tinuc_sort,]
 
   prior_sigs = as.matrix(ref)
+
+  message(paste0("Chain ", n,": prior matrix successfuly imported. Extracting and incorporating hierarchy parameter to initialise HDP structure with single tier hierarchy. \n"))  
 
   # number of prior signatures to condition on (8)
   nps <- ncol(prior_sigs)
@@ -181,6 +197,8 @@ if (exists("prior_matrix")) {
 } else {
   freq=table(key_table$Tissue)
 
+  message(paste0("Chain ", n,": No prior matrix provided. Initialising HDP structure for single tier hierarchy. \n"))
+
   #with Just type as parent (1 hierarchy)
   hdp_mut <- hdp_init(ppindex = c(0, rep(1,length(freq)),rep(2:(length(freq)+1), times=freq)), # index of parental node
                     cpindex = c(1, rep(2,length(freq)),rep(3:(length(freq)+2), times=freq)), # index of the CP to use
@@ -196,6 +214,7 @@ if (exists("prior_matrix")) {
 }
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
+  message(paste0("Executing posterior sampling chain number, ",n,". Running with ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space,"iterations between each chain. \n"))
   chain=hdp_posterior(hdp_activated,
                     burnin=u_burnin,
                     n=u_post,
@@ -205,6 +224,7 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
 }
 
 if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {
+  message(paste0("Executing posterior sampling chain number, ", n, ". Running with test run settings: 100 burn-in iterations, collecting 10 posterior samples off each chain with 10 iterations between each. \n"))
   chain=hdp_posterior(hdp_activated,
                     burnin=100,
                     n=10,
@@ -213,4 +233,6 @@ if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_typ
                     cpiter=3)
 }
 
-saveRDS(chain,paste0("hdp_prior_chain_",n,".Rdata"))
+saveRDS(chain,paste0("hdp_chain_",n,".Rdata"))
+
+message(paste0("Posterior sampling chain number", n, " completed. Successfully saved chain .Rdata for subsequent step. \n"))

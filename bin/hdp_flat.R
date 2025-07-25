@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-### Script for HDP run with double hierarchy
+### Script for HDP run with no hierarchy
 
 application <- "HDP mutational signature extraction pipeline."
 
@@ -19,7 +19,7 @@ parser <- ArgumentParser(prog = 'HDP', description='Hdp pipeline')
 #Command line arguments
 parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input mutational matrix.") 
 
-parser$add_argument("-p","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
+parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
 
 parser$add_argument("-a", "--analysis_type", type = "character", default = "Testing", help = "Specify type of analysis run. Options are [testing] or [analysis].", required=TRUE)
 
@@ -31,7 +31,7 @@ parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "
 
 parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), SBS288, SBS1536, DBS78, or ID83.", required = TRUE)
 
-parser$add_argument("-n", "--n_iter", type = 'character', default = "20", help = "n iteration, provided by for loop")
+parser$add_argument("-n", "--n_iter", type = 'character', default = "20", help = "n iteration, provided by LSF job array or for loop")
 
 parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
@@ -63,7 +63,7 @@ if(!exists("threshold")) {
     threshold <- args$threshold
 }
 
-lower_threshold=threshold
+lower_threshold <- threshold
 
 u_analysis_type <- args$analysis_type
 
@@ -92,15 +92,19 @@ if (mut_context == 'ID83') {
 n <- as.numeric(n_iter)
 
 ##### Setting up HDP
+message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
+
 message("Importing user datasets and conducting necessary data wrangling. \n")
 
 ### Import mutation matrix and conduct necessary data wrangling
+mutations=read.table(mutation_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "", row.names = 1)
+
 if (ncol(mutations) == 1) {
   mutations <- read.table(mutation_matrix, header = TRUE, sep = ",")
 }
 
 if (ncol(mutations) > 96 | nrow(mutations) == 96) {
-  message("Input mutation matrix provided detected to be formatted with rows as mutation type. Conducting data wrangling to make compatible with HDP pipeline.")
+  message("Input mutation matrix detected with rows as mutation type. Conducting data wrangling to make compatible with HDP pipeline.")
   mutations <- mutations <- tibble::rownames_to_column(mutations, "MutationType")
   mutations <- t(mutations)
   colnames(mutations) <- as.character(mutations[1, ])
@@ -115,7 +119,7 @@ mutations <- mutations[tinuc_sort]
 message("Successfully imported input mutation matrix. \n")
 
 if (exists("prior_matrix")) {
-    ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
+    ref = read.table(prior_matrix, header = TRUE, stringsAsFactors = FALSE, sep = '\t')
     if (ncol(ref) == 1 ) {
     ref <- read.table(prior_matrix, header=T, sep = ",")
     }
@@ -124,7 +128,7 @@ if (exists("prior_matrix")) {
     ref <- ref[,-1]
     ref <- ref[tinuc_sort,]
 
-    prior_sigs = as.matrix(ref)
+    prior_sigs <- as.matrix(ref)
 
     nps <- ncol(prior_sigs)
 

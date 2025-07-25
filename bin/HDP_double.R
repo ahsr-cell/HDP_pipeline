@@ -19,7 +19,7 @@ parser = ArgumentParser(prog = 'HDP', description='Hdp pipeline')
 #Command line arguments
 parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input mutational matrix.") 
 
-parser$add_argument("-hierarch","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
+parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
 
 parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
 
@@ -74,6 +74,8 @@ lower_threshold <- threshold
 u_analysis_type <- args$analysis_type
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
+  message(paste0("Analysis run selected. Please note that this is intended to be run on Lustre as it requires 20 threads. \n"))
+
   if (!is.null("args$burnin_iterations")) {
     u_burnin <- args$burnin_iterations
     }
@@ -83,6 +85,8 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   if (!is.null("args$posterior_iterations")) {
     u_post_space <- args$posterior_iterations
   }
+} else {
+  message(paste0("Testing run selected. Executing run with minimal HDP settings. \n"))
 }
 
 if (mut_context == 'SBS96' | mut_context == 'SBS288' | mut_context == 'SBS1536') {
@@ -98,15 +102,19 @@ if (mut_context == 'ID83') {
 n <- as.numeric(n_iter)
 
 ##### Setting up HDP
-message("Importing user datasets and conducting necessary data wrangling. \n")
+message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
+
+message("Chain ", n, ": Importing user datasets. \n")
 
 ### Import mutation matrix and conduct necessary data wrangling
+mutations=read.table(mutation_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "", row.names = 1)
+
 if (ncol(mutations) == 1) {
   mutations <- read.table(mutation_matrix, header = TRUE, sep = ",")
 }
 
 if (ncol(mutations) > 96 | nrow(mutations) == 96) {
-  message("Input mutation matrix provided detected to be formatted with rows as mutation type. Conducting data wrangling to make compatible with HDP pipeline.")
+  message("Input mutation matrix format detected with rows as rownames/in rows. Conducting data wrangling to make input matrix compatible with HDP pipeline. \n")
   mutations <- mutations <- tibble::rownames_to_column(mutations, "MutationType")
   mutations <- t(mutations)
   colnames(mutations) <- as.character(mutations[1, ])
@@ -118,10 +126,15 @@ tinuc_sort <- c("A[C>A]A","A[C>A]C","A[C>A]G","A[C>A]T","C[C>A]A","C[C>A]C","C[C
 mutations <- mutations[tinuc_sort]
 #mutations <- as.data.frame(mutations)[, unlist(tinuc_sort)]
 
+message(paste0("Chain ",n,": mutation matrix successfully imported. \n"))
+
 key_table=read.table(hierarchy_matrix, header=T, check.names=FALSE, sep="\t",quote = "")
 if (ncol(key_table) == 1 ) {
   key_table <- read.table(hierarchy_matrix, header=T, sep = ",")
 }
+
+message(paste0("Chain ",n,": hierarchy matrix successfully imported. Extracting and incorporating hierarchy parameters to initialise HDP structure with double hierarchy. \n"))
+
 #If requiring a minimum number of mutations:
 sample_remove=rownames(mutations)[rowSums(mutations)<lower_threshold]
 mutations=mutations[!rownames(mutations)%in%sample_remove,]
@@ -148,7 +161,13 @@ dps_to_add <- c(0,
 
 #loading priors list
 if (exists("prior_matrix")) {
+  message(paste0("Chain ", n,": Prior matrix provided. Extracting and incorporating hierarchy parameter to initialise HDP structure with single tier hierarchy. \n"))
+
   ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
+  if (ncol(ref) == 1 ) {
+    ref <- read.table(prior_matrix, header=T, sep = ",")
+  }
+  
   rownames(ref) <- ref[,1]
   ref <- ref[,-1]
   ref <- ref[tinuc_sort,]
@@ -212,7 +231,9 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
 }
 
 if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {
-    chain_PD_tissue=hdp_posterior(hdp_PD_tissue_prior_activated,
+  message(paste0("Executing posterior sampling chain number, ", n, ". Running with test run settings: 100 burn-in iterations, collecting 10 posterior samples off each chain with 10 iterations between each. "))
+
+  chain_PD_tissue=hdp_posterior(hdp_PD_tissue_prior_activated,
                               burnin=100,
                               n=10,
                               seed=n*1000,
@@ -221,3 +242,5 @@ if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_typ
 }
 
 saveRDS(chain_PD_tissue,paste0("hdp_chain_",n,"_PD_tissue_prior.Rdata"))  
+
+message(paste0("Posterior sampling chain number", n, " completed. Successfully saved chain .Rdata for subsequent step."))
