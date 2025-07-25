@@ -68,6 +68,8 @@ lower_threshold <- threshold
 u_analysis_type <- args$analysis_type
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
+  message(paste0("Analysis run selected. Please note that this is intended to be run on a HPC as it requires 20 threads. \n"))
+
   if (!is.null("args$burnin_iterations")) {
     u_burnin <- args$burnin_iterations
     }
@@ -94,7 +96,7 @@ n <- as.numeric(n_iter)
 ##### Setting up HDP
 message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
 
-message("Importing user datasets and conducting necessary data wrangling. \n")
+message("Chain ", n, ": Importing user datasets. \n")
 
 ### Import mutation matrix and conduct necessary data wrangling
 mutations=read.table(mutation_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "", row.names = 1)
@@ -116,12 +118,15 @@ tinuc_sort <- c("A[C>A]A","A[C>A]C","A[C>A]G","A[C>A]T","C[C>A]A","C[C>A]C","C[C
 mutations <- mutations[tinuc_sort]
 #mutations <- as.data.frame(mutations)[, unlist(tinuc_sort)]
 
-message("Successfully imported input mutation matrix. \n")
+message("Chain ",n,": successfully imported input mutation matrix. \n")
 
 if (exists("prior_matrix")) {
-    ref = read.table(prior_matrix, header = TRUE, stringsAsFactors = FALSE, sep = '\t')
+
+  message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate into HDP structure. \n"))
+
+  ref = read.table(prior_matrix, header = TRUE, stringsAsFactors = FALSE, sep = '\t')
     if (ncol(ref) == 1 ) {
-    ref <- read.table(prior_matrix, header=T, sep = ",")
+      ref <- read.table(prior_matrix, header=T, sep = ",")
     }
 
     rownames(ref) <- ref[,1]
@@ -129,6 +134,8 @@ if (exists("prior_matrix")) {
     ref <- ref[tinuc_sort,]
 
     prior_sigs <- as.matrix(ref)
+    
+    message(paste0("Chain ", n,": prior matrix imported and signatures extracted. Adjusting and initialising HDP structure. \n"))
 
     nps <- ncol(prior_sigs)
 
@@ -156,26 +163,35 @@ if (exists("prior_matrix")) {
 
     hdp_activated <- dp_activate(hdp_prior,
                                dpindex = (1+nps+1):numdp(hdp_prior), initcc=nps+5, seed=i*300)
+    message(paste0("Chain ", n,": HDP structure initialised with priors and no hierarchy. \n"))
 
 } else {
-    ppindex = c(0, rep(1, nrow(mutations)))
-    cpindex = c(1, rep(2, nrow(mutations)))
 
-    hdp_mut <- hdp_init(ppindex = ppindex, # index of parental node
+  message(paste0("Chain ", n,": no prior matrix provided. Initialising HDP structure. \n"))
+  
+  ppindex = c(0, rep(1, nrow(mutations)))
+  cpindex = c(1, rep(2, nrow(mutations)))
+
+  hdp_mut <- hdp_init(ppindex = ppindex, # index of parental node
                     cpindex = cpindex, # index of the CP to use
                     hh = rep(1, 96), # prior is uniform over 96 categories
                     alphaa = rep(1,length(unique(cpindex))), # shape hyperparameters for 2 CPs
                     alphab = rep(1,length(unique(cpindex))))  # rate hyperparameters for 2 CPs
 
-    hdp_mut <- hdp_setdata(hdp_mut, 
+  hdp_mut <- hdp_setdata(hdp_mut, 
                        dpindex = 2:numdp(hdp_mut), # index of nodes to add data to
                        mutations)
 
-    hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
+  hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
+
+  message(paste0("Chain ", n,": HDP structure initialised with no priors nor hierarchy. \n"))
 }
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
-    chain=hdp_posterior(hdp_activated,
+
+  message(paste0("Chain ",n,": Executing posterior sampling chain ", n, " with analysis run settings: ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space," iterations between each. \n"))
+  
+  chain=hdp_posterior(hdp_activated,
                     burnin=u_burnin,
                     n=u_post,
                     seed=n*1000,
@@ -184,7 +200,9 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
 }
 
 if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {
-    chain=hdp_posterior(hdp_activated,
+  message(paste0("Executing posterior sampling chain number, ", n, ". Running with test run settings: 100 burn-in iterations, collecting 10 posterior samples off each chain with 10 iterations between each. \n"))
+
+  chain=hdp_posterior(hdp_activated,
                     burnin=100,
                     n=10,
                     seed=n*1000,
@@ -193,3 +211,5 @@ if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_typ
 }
 
 saveRDS(chain,paste0("hdp_chain_",n,".Rdata"))
+
+message(paste0("Posterior sampling chain number", n, " completed. Successfully saved chain .Rdata for subsequent step. \n"))

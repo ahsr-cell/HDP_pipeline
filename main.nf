@@ -26,6 +26,8 @@ workflow {
         HDP_double(
             params.mutational_matrix,
             params.hierarchy_matrix,
+            params.hierarchy_parameter1,
+            params.hierarchy_parameter2,
             params.prior_matrix,
             params.analysis_type, 
             params.burnin_iterations,
@@ -77,6 +79,8 @@ workflow {
             HDP_double(
             params.mutational_matrix,
             params.hierarchy_matrix,
+            params.hierarchy_parameter1,
+            params.hierarchy_parameter2,
             params.prior_matrix,
             params.analysis_type, 
             params.burnin_iterations,
@@ -108,6 +112,7 @@ workflow {
         HDP_single(
             params.mutational_matrix,
             params.hierarchy_matrix,
+            params.hierarchy_parameter1,
             params.prior_matrix,
             params.analysis_type, 
             params.burnin_iterations,
@@ -159,6 +164,7 @@ workflow {
             HDP_single(
             params.mutational_matrix,
             params.hierarchy_matrix,
+            params.hierarchy_parameter1,
             params.prior_matrix,
             params.analysis_type, 
             params.burnin_iterations,

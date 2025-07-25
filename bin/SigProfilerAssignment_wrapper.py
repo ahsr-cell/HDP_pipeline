@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import SigProfilerAssignment
+from SigProfilerAssignment import Analyzer as Analyze
 import argparse
 import sys
 
@@ -14,7 +14,7 @@ def get_arguments():
 
 def sigPA_decompose(mutational_matrix, deNovoSignatures_matrix):
     output = "SigProfilerDecomposition" 
-    SigProfilerAssignment.Analyzer.decompose_fit(mutational_matrix, output, deNovoSignatures_matrix, genome_build="GRCh38",
+    Analyze.decompose_fit(mutational_matrix, output, deNovoSignatures_matrix, genome_build="GRCh38",
                            verbose=False, make_plots = True)
     print('SigProfilerAssignment completed. Output plots can be found in /SigProfilerDecomposition')
 

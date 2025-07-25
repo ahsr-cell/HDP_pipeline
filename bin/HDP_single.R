@@ -80,7 +80,7 @@ lower_threshold=threshold
 u_analysis_type <- args$analysis_type
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
-  message(paste0("Analysis run selected. Please note that this is intended to be run on Lustre as it requires 20 threads. \n"))
+  message(paste0("Analysis run selected. Please note that this is intended to be run on a HPC as it requires 20 threads. \n"))
 
   if (!is.null("args$burnin_iterations")) {
     u_burnin <- args$burnin_iterations
@@ -141,7 +141,7 @@ if (ncol(key_table) == 1 ) {
 message(paste0("Chain ",n,": hierarchy matrix successfully imported. \n"))
 
 if (exists("prior_matrix")) {
-  message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate and adjust HDP structure. \n"))
+  message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate into HDP structure. \n"))
 
   ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
   if (ncol(ref) == 1 ) {
@@ -154,7 +154,7 @@ if (exists("prior_matrix")) {
 
   prior_sigs = as.matrix(ref)
 
-  message(paste0("Chain ", n,": prior matrix imported and signatures extracted. \n"))  
+  message(paste0("Chain ", n,": prior matrix imported and signatures extracted. Adjusting and intialising HDP structure. \n"))  
 
   # number of prior signatures to condition on (8)
   nps <- ncol(prior_sigs)
