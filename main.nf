@@ -50,7 +50,8 @@ workflow {
             )
                 SigPA_Extracted(
                 HDP_combine.out.deNovo_extractedsigs,
-                params.mutational_matrix
+                params.mutational_matrix,
+                params.outdir
             )
 //            if (HDP_combine.out.deNovo_lowconfsigs != null){
 //                SigPlt_LowConfidence(
@@ -97,7 +98,8 @@ workflow {
             )
             SigPA_Extracted(
                 HDP_combine.out.deNovo_extractedsigs,
-                params.mutational_matrix
+                params.mutational_matrix, 
+                params.outdir
             )
 //            if (HDP_combine.out.deNovo_lowconfsigs != null) {
 //                SigPA_LowConfidence(
@@ -135,7 +137,8 @@ workflow {
                 )
                 SigPA_Extracted(
                     HDP_combine.out.deNovo_extractedsigs,
-                    params.mutational_matrix
+                    params.mutational_matrix,
+                    params.outdir
                 )
 //               if (HDP_combine.out.deNovo_lowconfsigs != null){
 //                    SigPlt_LowConfidence(
@@ -181,7 +184,8 @@ workflow {
             )
             SigPA_Extracted(
                 HDP_combine.out.deNovo_extractedsigs,
-                params.mutational_matrix
+                params.mutational_matrix,
+                params.outdir
             )
 //            if (HDP_combine.out.deNovo_lowconfsigs != null) {
 //                SigPA_LowConfidence(
@@ -218,7 +222,8 @@ workflow {
                 )
                 SigPA_Extracted(
                     HDP_combine.out.deNovo_extractedsigs,
-                    params.mutational_matrix
+                    params.mutational_matrix,
+                    params.outdir
                 )
 //                if (HDP_combine.out.deNovo_lowconfsigs != null){
 //                    SigPlt_LowConfidence(
@@ -263,7 +268,8 @@ workflow {
             )
             SigPA_Extracted(
                 HDP_combine.out.deNovo_extractedsigs,
-                params.mutational_matrix
+                params.mutational_matrix,
+                params.outdir
             )
 //            if (HDP_combine.out.deNovo_lowconfsigs != null) {
 //                SigPA_LowConfidence(
