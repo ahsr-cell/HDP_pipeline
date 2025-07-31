@@ -10,14 +10,14 @@ process HDP_single {
     val burnin_iterations 
     val posterior 
     val posterior_space
-    val n_iter
     val threshold
+    val chain_index
 
     output:
     path "HDP_chains", emit: HDP_chains
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_single.R -hierarchy ${hierarchy_matrix} -hp1 ${hierarchy_parameter1} -prior ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${n_iter} -t ${threshold} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_single.R -hierarchy ${hierarchy_matrix} -hp1 ${hierarchy_parameter1} -prior ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${chain_index} -t ${threshold} ${mutational_matrix}
     """
 }

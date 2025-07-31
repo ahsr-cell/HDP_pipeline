@@ -52,6 +52,17 @@ for (i in 1:20){
 }
 message(paste("Successfully imported HDP chains. Generating QC plots. \n"))
 
+message(paste0("Creating output subdirectory for run"))  
+main_dir <- getwd()
+sub_dir <- paste0("HDP_ExtractedSigs")
+if (!file.exists(sub_dir)){
+  dir.create(file.path(main_dir, sub_dir))
+  u.work.dir <- file.path(main_dir,sub_dir)
+  u.work.dir
+  } else {
+    u.work.dir <- file.path(main_dir,sub_dir)
+    message(paste0("Work directory is ",u.work.dir))
+
 if(any(unlist(lapply(chlist,is.null)))) chlist=chlist[-which(unlist(lapply(chlist,is.null)))]
 
 mut_example_multi <- hdp_multi_chain(chlist)
@@ -128,4 +139,4 @@ write.table(mean_assignment, "mean_assignment_hdp.txt")
 mean_sigs <- as.data.frame(t(comp_categ_distn(mut_example_multi)$mean))
 write.table(mean_sigs, "HDP_deNovoSignatures.txt")
 
-message(paste("Extracted de novo signatures matrices generation completed. \n"))
+message(paste("Extracted de novo signatures matrices generation completed. Output found in /HDP_ExtractedSigs. \n"))

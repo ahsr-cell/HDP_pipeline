@@ -35,7 +35,7 @@ parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "
 
 parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), SBS288, SBS1536, DBS78, or ID83.", required = TRUE)
 
-parser$add_argument("-n", "--n_iter", type = 'character', default = "20", help = "Set n iteration, usually provided by for loop.")
+parser$add_argument("-n", "--chain_index", type = 'character', help = "Chain index")
 
 parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
@@ -67,8 +67,8 @@ if (!exists("mut_context")) {
   stop(sprintf("Mutational signature context not specified. Specify using -c or --mutational_context; Use -h for further information."))
 }
 
-if (!exists("n_iter")) {
-  n_iter <- args$n_iter
+if (!exists("chain_index")) {
+  chain_index <- args$chain_index
 }
 
 if (!exists("threshold")) {
@@ -105,7 +105,7 @@ if (mut_context == 'ID83') {
     u.mc = 'ID'
 }
 
-n <- as.numeric(n_iter)
+n <- as.numeric(chain_index)
 
 ##### Setting up HDP
 message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
@@ -227,6 +227,18 @@ if (exists("prior_matrix")) {
   message(paste0("Chain ", n,": Successfully initialised HDP structure with single tier hierarchy. \n"))
 }
 
+  message(paste0("Creating output subdirectory for run"))  
+  main_dir <- getwd()
+  sub_dir <- paste0("HDP_chains")
+  if (!file.exists(sub_dir)){
+    dir.create(file.path(main_dir, sub_dir))
+    u.work.dir <- file.path(main_dir,sub_dir)
+    u.work.dir
+  } else {
+    u.work.dir <- file.path(main_dir,sub_dir)
+    message(paste0("Work directory is ",u.work.dir))
+  }
+
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   message(paste0("Chain ",n,": Executing posterior sampling chain ", n, " with analysis run settings: ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space," iterations between each. \n"))
   chain=hdp_posterior(hdp_activated,
@@ -249,4 +261,4 @@ if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_typ
 
 saveRDS(chain,paste0("hdp_chain_",n,".Rdata"))
 
-message(paste0("Posterior sampling chain number", n, " completed. Successfully saved chain .Rdata for subsequent step. \n"))
+message(paste0("Posterior sampling chain number", n, " completed. Successfully saved chain .Rdata in /HDP_chains for subsequent step. \n"))

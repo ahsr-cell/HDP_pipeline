@@ -1,0 +1,2 @@
+2025-07-29 15:28:00	-	gloomy_archimedes	-	1f56196d2c663db66a47f0341e9ced16	24ae04f8-a2bd-4b17-af9d-e622b26b2294	nextflow run test.sh
+2025-07-30 16:00:15	2s	boring_watson	OK	bc384e66c62ee77f21c9cdba65660f6c	6a814018-568e-41f5-8d7a-5e97b37b232e	nextflow run /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf

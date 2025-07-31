@@ -8,7 +8,7 @@ process HDP_combine {
     val threshold
     
     output:
-    path "deNovo_extractedsigs", emit: deNovo_signaturesdir
+    path "HDP_ExtractedSigs", emit: deNovo_signaturesdir
     path "deNovo_signatures/HDP_deNovoSignatures.txt", emit: deNovo_extractedsigs
 
     script:

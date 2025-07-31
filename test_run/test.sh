@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-#BSUB -J HDP_pipeline_test1[1-20]
+#BSUB -J HDP_pipeline_test1
 #BSUB -o %J.out
 #BSUB -e %J.err
 #BSUB -u ar39@sanger.ac.uk
@@ -31,7 +31,6 @@ nextflow run ${main_script} \
      --posterior_iterations 10 \
      --mutational_matrix ${mutational_matrix} \
      --outdir ${outdir} \
-     --n_iter $LSB_JOBINDEX \
      -resume \
      -profile singularity \
      -c ${config_file}

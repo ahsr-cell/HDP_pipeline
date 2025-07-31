@@ -9,7 +9,6 @@ process HDP_flat {
     val burnin_iterations 
     val posterior 
     val posterior_space
-    val n_iter
     val threshold
 
     output:
@@ -17,6 +16,6 @@ process HDP_flat {
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_flat.R -prior ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${n_iter} -t ${threshold} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_flat.R -prior ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${chain_index} -t ${threshold} ${mutational_matrix}
     """
 }
