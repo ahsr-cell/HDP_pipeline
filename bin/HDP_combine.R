@@ -62,6 +62,7 @@ if (!file.exists(sub_dir)){
   } else {
     u.work.dir <- file.path(main_dir,sub_dir)
     message(paste0("Work directory is ",u.work.dir))
+  }
 
 if(any(unlist(lapply(chlist,is.null)))) chlist=chlist[-which(unlist(lapply(chlist,is.null)))]
 
@@ -137,6 +138,40 @@ mean_assignment <- as.data.frame(comp_dp_distn(mut_example_multi)$mean)
 write.table(mean_assignment, "mean_assignment_hdp.txt")
 
 mean_sigs <- as.data.frame(t(comp_categ_distn(mut_example_multi)$mean))
-write.table(mean_sigs, "HDP_deNovoSignatures.txt")
+
+tinuc_sort <- c("A[C>A]A","A[C>A]C","A[C>A]G","A[C>A]T","C[C>A]A","C[C>A]C","C[C>A]G",
+                "C[C>A]T","G[C>A]A","G[C>A]C","G[C>A]G","G[C>A]T","T[C>A]A","T[C>A]C",
+                "T[C>A]G","T[C>A]T","A[C>G]A","A[C>G]C","A[C>G]G","A[C>G]T","C[C>G]A",
+                "C[C>G]C","C[C>G]G","C[C>G]T","G[C>G]A","G[C>G]C","G[C>G]G","G[C>G]T",
+                "T[C>G]A","T[C>G]C","T[C>G]G","T[C>G]T","A[C>T]A","A[C>T]C","A[C>T]G",
+                "A[C>T]T","C[C>T]A","C[C>T]C","C[C>T]G","C[C>T]T","G[C>T]A","G[C>T]C",
+                "G[C>T]G","G[C>T]T","T[C>T]A","T[C>T]C","T[C>T]G","T[C>T]T","A[T>A]A",
+                "A[T>A]C","A[T>A]G","A[T>A]T","C[T>A]A","C[T>A]C","C[T>A]G","C[T>A]T",
+                "G[T>A]A","G[T>A]C","G[T>A]G","G[T>A]T","T[T>A]A","T[T>A]C","T[T>A]G",
+                "T[T>A]T","A[T>C]A","A[T>C]C","A[T>C]G","A[T>C]T","C[T>C]A","C[T>C]C",
+                "C[T>C]G","C[T>C]T","G[T>C]A","G[T>C]C","G[T>C]G","G[T>C]T","T[T>C]A",
+                "T[T>C]C","T[T>C]G","T[T>C]T","A[T>G]A","A[T>G]C","A[T>G]G","A[T>G]T",
+                "C[T>G]A","C[T>G]C","C[T>G]G","C[T>G]T","G[T>G]A","G[T>G]C","G[T>G]G",
+                "G[T>G]T","T[T>G]A","T[T>G]C","T[T>G]G","T[T>G]T")
+
+rownames(mean_sigs) <- tinuc_sort
+
+tri_nuc_cOrder <- c("A[C>A]A", "A[C>A]C", "A[C>A]G", "A[C>A]T", "A[C>G]A", "A[C>G]C", "A[C>G]G", "A[C>G]T", "A[C>T]A", "A[C>T]C", "A[C>T]G", "A[C>T]T", "A[T>A]A", "A[T>A]C", "A[T>A]G", "A[T>A]T", "A[T>C]A", "A[T>C]C", "A[T>C]G", "A[T>C]T", "A[T>G]A", "A[T>G]C", "A[T>G]G", "A[T>G]T", "C[C>A]A", "C[C>A]C", "C[C>A]G", "C[C>A]T", "C[C>G]A", "C[C>G]C", "C[C>G]G", "C[C>G]T", "C[C>T]A", "C[C>T]C", "C[C>T]G", "C[C>T]T", "C[T>A]A", "C[T>A]C", "C[T>A]G", "C[T>A]T", "C[T>C]A", "C[T>C]C", "C[T>C]G", "C[T>C]T", "C[T>G]A", "C[T>G]C", "C[T>G]G", "C[T>G]T", "G[C>A]A", "G[C>A]C", "G[C>A]G", "G[C>A]T", "G[C>G]A", "G[C>G]C", "G[C>G]G", "G[C>G]T", "G[C>T]A", "G[C>T]C", "G[C>T]G", "G[C>T]T", "G[T>A]A", "G[T>A]C", "G[T>A]G", "G[T>A]T", "G[T>C]A", "G[T>C]C", "G[T>C]G", "G[T>C]T", "G[T>G]A", "G[T>G]C", "G[T>G]G", "G[T>G]T", "T[C>A]A", "T[C>A]C", "T[C>A]G", "T[C>A]T", "T[C>G]A", "T[C>G]C", "T[C>G]G", "T[C>G]T", "T[C>T]A", "T[C>T]C", "T[C>T]G", "T[C>T]T", "T[T>A]A", "T[T>A]C", "T[T>A]G", "T[T>A]T", "T[T>C]A", "T[T>C]C", "T[T>C]G", "T[T>C]T", "T[T>G]A", "T[T>G]C", "T[T>G]G", "T[T>G]T")
+
+mean_sigs <- as.data.frame(mean_sigs)[unlist(tri_nuc_cOrder),]
+
+mean_sigs <- rownames_to_column(mean_sigs,"MutationType")
+
+write.table(mean_sigs, file = paste0(u.work.dir,"/HDP_deNovoSignatures.txt"), sep = "\t",
+            quote = FALSE, row.names = FALSE, col.names = TRUE)
+
+mean_sigs_SigPa <- mean_sigs
+
+mut_context <- "SBS"
+
+colnames(mean_sigs_SigPa) = c('MutationType', paste0(mut_context, LETTERS[1:ncol(mean_sigs_SigPa) - 1]))
+
+write.table(mean_sigs_SigPa, file = paste0(u.work.dir,"/HDP_deNovoSigs_sigPADecomp.txt"), 
+            quote = FALSE, row.names = FALSE, sep = '\t')
 
 message(paste("Extracted de novo signatures matrices generation completed. Output found in /HDP_ExtractedSigs. \n"))

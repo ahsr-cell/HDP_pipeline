@@ -107,7 +107,7 @@ if (ncol(mutations) == 1) {
 
 if (ncol(mutations) > 96 | nrow(mutations) == 96) {
   message("Input mutation matrix detected with rows as mutation type. Conducting data wrangling to make compatible with HDP pipeline.")
-  mutations <- mutations <- tibble::rownames_to_column(mutations, "MutationType")
+  mutations <- tibble::rownames_to_column(mutations, "MutationType")
   mutations <- t(mutations)
   colnames(mutations) <- as.character(mutations[1, ])
   mutations <- as.data.frame(mutations[-1,])

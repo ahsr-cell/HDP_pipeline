@@ -2,14 +2,15 @@ process HDP_combine {
     publishDir "${params.outdir}", mode: "copy", overwrite: true
 
     input:
-    path HDP_chains
     path mutational_matrix
     path hierarchy_matrix
+    path HDP_chains
     val threshold
     
     output:
     path "HDP_ExtractedSigs", emit: deNovo_signaturesdir
-    path "deNovo_signatures/HDP_deNovoSignatures.txt", emit: deNovo_extractedsigs
+    path "HDP_ExtractedSigs/HDP_deNovoSignatures.txt", emit: deNovo_extractedsigs
+    path "HDP_ExtractedSigs/HDP_deNovoSigs_sigPADecomp.txt", emit: deNovo_extsigs_sigPA
 
     script:
     """
