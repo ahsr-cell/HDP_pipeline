@@ -39,7 +39,8 @@ workflow {
               params.mutational_matrix,
               params.hierarchy_matrix,
               HDP_double.out.HDP_chains,
-              params.threshold
+              params.threshold,
+              params.mutation_context
              )
              if (params.plotting == true) {
                  if (params.decompose == true) {
@@ -93,7 +94,8 @@ workflow {
               params.mutational_matrix,
               params.hierarchy_matrix,
               HDP_double.out.HDP_chains,
-              params.threshold   
+              params.threshold,
+              params.mutation_context
              )
              SigPA_Extracted(
                  HDP_combine.out.deNovo_extsigs_sigPA,
@@ -125,7 +127,8 @@ workflow {
                  params.mutational_matrix,
                  params.hierarchy_matrix,
                  HDP_single.out.HDP_chains,
-                 params.threshold   
+                 params.threshold,
+                 params.mutation_context
              )
              if (params.plotting == true) {
                  if (params.decompose == true) {
@@ -177,7 +180,8 @@ workflow {
                  params.mutational_matrix,
                  params.hierarchy_matrix,
                  HDP_single.out.HDP_chains,
-                 params.threshold   
+                 params.threshold,
+                 params.mutation_context
              )
              SigPA_Extracted(
                  HDP_combine.out.deNovo_extsigs_sigPA,
@@ -208,7 +212,8 @@ workflow {
                  params.mutational_matrix,
                  params.hierarchy_matrix,
                  HDP_flat.out.HDP_chains,
-                 params.threshold   
+                 params.threshold,
+                 params.mutation_context
              )
              if (params.plotting == true) {
                  if (params.decompose == true) {
@@ -260,7 +265,8 @@ workflow {
                  params.mutational_matrix,
                  params.hierarchy_matrix,
                  HDP_flat.out.HDP_chains,
-                 params.threshold
+                 params.threshold,
+                 params.mutation_context
              )
              SigPA_Extracted(
                  HDP_combine.out.deNovo_extsigs_sigPA,

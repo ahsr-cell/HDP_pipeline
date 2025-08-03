@@ -24,6 +24,7 @@ parser$add_argument("-h_chains", "--HDP_chains", type = 'character', default = "
 
 parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
+parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), SBS288, SBS1536, DBS78, or ID83.")
 
 #Parse arguments
 args <- parser$parse_args()
@@ -42,7 +43,21 @@ if (!exists("threshold")) {
   threshold <- args$threshold
 }
 
+if (!is.null("args$mutational_context")) {
+  mut_context <- args$mutational_context
+}
+
 lower_threshold=threshold
+
+if (mut_context == 'SBS96' | mut_context == 'SBS288' | mut_context == 'SBS1536') {
+  u.mc <- 'SBS'
+}
+if (mut_context == 'DBS78') {
+  u.mc = 'DBS'
+}
+if (mut_context == 'ID83') {
+    u.mc = 'ID'
+}
 
 chlist <- vector("list", 20)
 for (i in 1:20){
@@ -167,7 +182,7 @@ write.table(mean_sigs, file = paste0(u.work.dir,"/HDP_deNovoSignatures.txt"), se
 
 mean_sigs_SigPa <- mean_sigs
 
-mut_context <- "SBS"
+mut_context <- u_mut
 
 colnames(mean_sigs_SigPa) = c('MutationType', paste0(mut_context, LETTERS[1:ncol(mean_sigs_SigPa) - 1]))
 

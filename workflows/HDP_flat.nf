@@ -10,6 +10,7 @@ process HDP_flat {
     val posterior 
     val posterior_space
     val threshold
+    val chain_index
 
     output:
     path "HDP_chains", emit: HDP_chains

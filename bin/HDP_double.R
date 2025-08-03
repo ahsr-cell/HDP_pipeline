@@ -33,7 +33,7 @@ parser$add_argument("-b", "--burnin_iterations", type = 'double', default = "300
 
 parser$add_argument("-o", "--posterior", type = 'double', default = "100", help = "Specify number of posterior samples to collect. Default set to 100.", required=FALSE) 
 
-parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "1000", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
+parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
 
 parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), SBS288, SBS1536, DBS78, or ID83.", required = TRUE)
 

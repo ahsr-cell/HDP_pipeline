@@ -1,88 +1,87 @@
-Jul-29 15:27:59.849 [main] DEBUG nextflow.cli.Launcher - $> nextflow run test.sh
-Jul-29 15:27:59.975 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.04.4
-Jul-29 15:28:00.015 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/nfs/users/nfs_a/ar39/.nextflow/plugins; core-plugins: nf-amazon@2.15.0,nf-azure@1.16.0,nf-cloudcache@0.4.3,nf-codecommit@0.2.3,nf-console@1.2.1,nf-google@1.21.0,nf-k8s@1.0.0,nf-tower@1.11.3,nf-wave@1.12.1
-Jul-29 15:28:00.053 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
-Jul-29 15:28:00.054 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
-Jul-29 15:28:00.059 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
-Jul-29 15:28:00.077 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
-Jul-29 15:28:00.168 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
-Jul-29 15:28:00.193 [main] DEBUG nextflow.cli.CmdRun - Launching `test.sh` [gloomy_archimedes] DSL2 - revision: 1f56196d2c
-Jul-29 15:28:00.196 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
-Jul-29 15:28:00.197 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
-Jul-29 15:28:00.318 [main] DEBUG nextflow.Session - Session UUID: 24ae04f8-a2bd-4b17-af9d-e622b26b2294
-Jul-29 15:28:00.319 [main] DEBUG nextflow.Session - Run name: gloomy_archimedes
-Jul-29 15:28:00.320 [main] DEBUG nextflow.Session - Executor pool size: 8
-Jul-29 15:28:00.334 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
-Jul-29 15:28:00.347 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
-Jul-29 15:28:00.416 [main] DEBUG nextflow.cli.CmdRun - 
+Aug-03 09:08:19.611 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf --hierarchy_matrix /lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_Manuscript_sample_key.csv --hierarchy_parameter1 sample_type ' '
+Aug-03 09:08:19.817 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.04.4
+Aug-03 09:08:19.882 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/nfs/users/nfs_a/ar39/.nextflow/plugins; core-plugins: nf-amazon@2.15.0,nf-azure@1.16.0,nf-cloudcache@0.4.3,nf-codecommit@0.2.3,nf-console@1.2.1,nf-google@1.21.0,nf-k8s@1.0.0,nf-tower@1.11.3,nf-wave@1.12.1
+Aug-03 09:08:19.926 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Aug-03 09:08:19.928 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Aug-03 09:08:19.932 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Aug-03 09:08:19.953 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Aug-03 09:08:19.981 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
+Aug-03 09:08:19.986 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
+Aug-03 09:08:20.053 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /nfs/users/nfs_a/ar39/.nextflow/secrets/store.json
+Aug-03 09:08:20.058 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@74fef3f7] - activable => nextflow.secret.LocalSecretsProvider@74fef3f7
+Aug-03 09:08:20.075 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Aug-03 09:08:20.982 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Aug-03 09:08:21.012 [main] DEBUG nextflow.cli.CmdRun - Launching `/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf` [ridiculous_kilby] DSL2 - revision: 104fb48410
+Aug-03 09:08:21.015 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Aug-03 09:08:21.015 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Aug-03 09:08:21.101 [main] DEBUG nextflow.Session - Session UUID: 65d8232b-8414-4b33-9fa1-6514db904344
+Aug-03 09:08:21.102 [main] DEBUG nextflow.Session - Run name: ridiculous_kilby
+Aug-03 09:08:21.102 [main] DEBUG nextflow.Session - Executor pool size: 20
+Aug-03 09:08:21.114 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Aug-03 09:08:21.120 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=60; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Aug-03 09:08:21.173 [main] DEBUG nextflow.cli.CmdRun - 
   Version: 25.04.4 build 5950
   Created: 16-06-2025 14:23 UTC (15:23 BST)
   System: Linux 5.15.0-143-generic
   Runtime: Groovy 4.0.26 on OpenJDK 64-Bit Server VM 17.0.8.1+1
   Encoding: UTF-8 (UTF-8)
-  Process: 2722525@node-14-08 [10.160.64.45]
-  CPUs: 8 - Mem: 2 TB (774 GB) - Swap: 67.4 GB (67.3 GB)
-Jul-29 15:28:00.461 [main] DEBUG nextflow.Session - Work-dir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work [lustre]
-Jul-29 15:28:00.463 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/bin
-Jul-29 15:28:00.489 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
-Jul-29 15:28:00.502 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
-Jul-29 15:28:00.511 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
-Jul-29 15:28:00.545 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
-Jul-29 15:28:00.557 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
-Jul-29 15:28:00.654 [main] DEBUG nextflow.Session - Session start
-Jul-29 15:28:00.895 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
-Jul-29 15:28:00.907 [main] ERROR nextflow.cli.Launcher - Script compilation error
-- file : /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/test.sh
-- cause: Unexpected character: '#' @ line 3, column 1.
-   #BSUB -J HDP_pipeline_test1[1-20]
-   ^
-
-1 error
-
-nextflow.exception.ScriptCompilationException: Script compilation error
-- file : /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/test.sh
-- cause: Unexpected character: '#' @ line 3, column 1.
-   #BSUB -J HDP_pipeline_test1[1-20]
-   ^
-
-1 error
-
-	at nextflow.script.parser.v1.ScriptLoaderV1.parse0(ScriptLoaderV1.groovy:204)
-	at nextflow.script.parser.v1.ScriptLoaderV1.parse(ScriptLoaderV1.groovy:215)
-	at nextflow.script.parser.v1.ScriptLoaderV1.parse(ScriptLoaderV1.groovy)
-	at nextflow.script.ScriptRunner.parseScript(ScriptRunner.groovy:232)
-	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:137)
+  Process: 2039903@node-14-25 [10.160.64.62]
+  CPUs: 20 - Mem: 2 TB (1.1 TB) - Swap: 67.4 GB (67.3 GB)
+Aug-03 09:08:21.209 [main] DEBUG nextflow.Session - Work-dir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work [lustre]
+Aug-03 09:08:21.266 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Aug-03 09:08:21.284 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Aug-03 09:08:21.290 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Aug-03 09:08:21.330 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Aug-03 09:08:21.343 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 21; maxThreads: 1000
+Aug-03 09:08:21.964 [main] DEBUG nextflow.Session - Session start
+Aug-03 09:08:22.344 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Aug-03 09:08:22.905 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_826c052cf85ab42b: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_double.nf
+  Script_53bf6d04c7db39c9: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_flat.nf
+  Script_4d2f391c9b528c6d: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/SigProfilerPlotting.nf
+  Script_7824b24b0e04f420: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/SigProfilerAssignment.nf
+  Script_af4bef68a684f5b9: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_single.nf
+  Script_982c76893e08341b: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_combine.nf
+  Script_9e8ee812145ca94f: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf
+Aug-03 09:08:22.906 [main] DEBUG nextflow.Session - Session aborted -- Cause: A process input channel evaluates to null -- Invalid declaration `path mutational_matrix`
+Aug-03 09:08:22.924 [main] ERROR nextflow.cli.Launcher - A process input channel evaluates to null -- Invalid declaration `path mutational_matrix`
+java.lang.IllegalArgumentException: A process input channel evaluates to null -- Invalid declaration `path mutational_matrix`
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.params.BaseInParam.checkFromNotNull(BaseInParam.groovy:155)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.params.BaseInParam.setFrom(BaseInParam.groovy:159)
+	at nextflow.script.ProcessDef.run(ProcessDef.groovy:180)
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
+	at nextflow.script.ComponentDef.invoke_o(ComponentDef.groovy:40)
+	at nextflow.script.WorkflowBinding.invokeMethod(WorkflowBinding.groovy:105)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokePogoMethod(InvokerHelper.java:651)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokeMethod(InvokerHelper.java:628)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeOnDelegationObjects(ClosureMetaClass.java:392)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:331)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1007)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at Script_9e8ee812145ca94f$_runScript_closure1$_closure2.doCall(Script_9e8ee812145ca94f:205)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:280)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1007)
+	at groovy.lang.Closure.call(Closure.java:433)
+	at groovy.lang.Closure.call(Closure.java:412)
+	at nextflow.script.WorkflowDef.run0(WorkflowDef.groovy:205)
+	at nextflow.script.WorkflowDef.run(WorkflowDef.groovy:189)
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run0(BaseScript.groovy:182)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:193)
+	at nextflow.script.parser.v1.ScriptLoaderV1.runScript(ScriptLoaderV1.groovy:246)
+	at nextflow.script.parser.v1.ScriptLoaderV1.runScript(ScriptLoaderV1.groovy)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:246)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:139)
 	at nextflow.cli.CmdRun.run(CmdRun.groovy:379)
 	at nextflow.cli.Launcher.run(Launcher.groovy:513)
 	at nextflow.cli.Launcher.main(Launcher.groovy:673)
-Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
-Script_88786fdb5a1e4033: 3: Unexpected character: '#' @ line 3, column 1.
-   #BSUB -J HDP_pipeline_test1[1-20]
-   ^
-
-1 error
-
-	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:292)
-	at org.codehaus.groovy.control.ErrorCollector.addFatalError(ErrorCollector.java:148)
-	at org.apache.groovy.parser.antlr4.AstBuilder.collectSyntaxError(AstBuilder.java:4730)
-	at org.apache.groovy.parser.antlr4.AstBuilder.createParsingFailedException(AstBuilder.java:4713)
-	at org.apache.groovy.parser.antlr4.AstBuilder.convertException(AstBuilder.java:254)
-	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:228)
-	at org.apache.groovy.parser.antlr4.AstBuilder.buildAST(AstBuilder.java:262)
-	at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin.buildAST(Antlr4ParserPlugin.java:58)
-	at org.codehaus.groovy.control.SourceUnit.buildAST(SourceUnit.java:256)
-	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:133)
-	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1845)
-	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
-	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:663)
-	at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:365)
-	at groovy.lang.GroovyClassLoader.lambda$parseClass$2(GroovyClassLoader.java:314)
-	at org.codehaus.groovy.runtime.memoize.StampedCommonCache.compute(StampedCommonCache.java:163)
-	at org.codehaus.groovy.runtime.memoize.StampedCommonCache.getAndPut(StampedCommonCache.java:154)
-	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:314)
-	at groovy.lang.GroovyShell.parseClass(GroovyShell.java:572)
-	at groovy.lang.GroovyShell.parse(GroovyShell.java:585)
-	at groovy.lang.GroovyShell.parse(GroovyShell.java:639)
-	at groovy.lang.GroovyShell.parse(GroovyShell.java:643)
-	at nextflow.script.parser.v1.ScriptLoaderV1.parse0(ScriptLoaderV1.groovy:183)
-	... 7 common frames omitted

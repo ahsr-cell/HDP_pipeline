@@ -6,6 +6,7 @@ process HDP_combine {
     path hierarchy_matrix
     path HDP_chains
     val threshold
+    val mutation_context
     
     output:
     path "HDP_ExtractedSigs", emit: deNovo_signaturesdir
@@ -14,6 +15,6 @@ process HDP_combine {
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_combine.R ${mutational_matrix} --hierarchy_matrix ${hierarchy_matrix} --HDP_chains ${HDP_chains} -t ${threshold}
+    Rscript --vanilla ${projectDir}/bin/HDP_combine.R ${mutational_matrix} --hierarchy_matrix ${hierarchy_matrix} --HDP_chains ${HDP_chains} -t ${threshold} -c ${mutation_context}
     """
 }
