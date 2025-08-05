@@ -16,20 +16,21 @@ config_file=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipelin
 main_script=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf
 mutational_matrix=/lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_GEC_Manuscript_Subset_v1.SBS96.txt
 hierarchy_matrix=/lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_Manuscript_sample_key.csv
-hierarchy_parameter1=sample_type
-mutational_context=SBS96
+#hierarchy_parameter1="sample_type"
+mutation_context=SBS96
 outdir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/1_tests/HDP_tests/
 
 nextflow run ${main_script} \
+     --mutational_matrix ${mutational_matrix} \
      --hierarchy_matrix ${hierarchy_matrix} \
-     --hierarchy_parameter1 ${hierarchy_parameter1} \ 
-     --mutational_context ${mutational_context} \
+     --hierarchy_parameter1 sample_type \
+     --mutation_context ${mutation_context} \
      --analysis_type analysis \
+     --hierarchy single \
      --burnin_iterations 50 \
      --burnin_multiplier 10 \
      --posterior 10 \
      --posterior_iterations 10 \
-     --mutational_matrix ${mutational_matrix} \
      --outdir ${outdir} \
      -resume \
      -profile singularity \

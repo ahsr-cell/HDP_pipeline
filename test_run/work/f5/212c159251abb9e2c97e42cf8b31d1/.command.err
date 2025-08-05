@@ -1,0 +1,19 @@
+Welcome to HDP mutational signature extraction pipeline. For any questions, please consort the original GitHub/vignette: (https://github.com/nicolaroberts/hdp/blob/master/vignettes/mutation_signatures.Rmd), or the Stratton group. 
+
+Analysis run selected. Please note that this is intended to be run on a HPC as it requires 20 threads. 
+
+Setting up HDP posterior sampling chain  5  of 20. 
+
+Chain 5: Importing user datasets. 
+
+Input mutation matrix format detected with mutation type as rownames/in rows. Conducting data wrangling to make input matrix compatible with HDP pipeline. 
+
+Chain 5: mutation matrix successfully imported. 
+
+Chain 5: hierarchy matrix successfully imported. 
+
+Chain 5: prior matrix provided. Extracting prior signatures to incorporate into HDP structure. 
+
+Error in read.table(prior_matrix, header = T, stringsAsFactors = F, sep = "\t") : 
+  'file' must be a character string or connection
+Execution halted

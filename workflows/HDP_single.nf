@@ -17,7 +17,9 @@ process HDP_single {
     path "HDP_chains", emit: HDP_chains
 
     script:
+    def filter = prior_matrix.name != 'NO_FILE' ? "-prior ${prior_matrix}" : ''
+    
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_single.R -hierarchy ${hierarchy_matrix} -hp1 ${hierarchy_parameter1} -prior ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${chain_index} -t ${threshold} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_single.R --hierarchy_matrix ${hierarchy_matrix} --hierarchy_parameter1 ${hierarchy_parameter1} ${filter} --analysis_type ${analysis_type} --burnin_iterations ${burnin_iterations} --posterior ${posterior} --posterior_iterations ${posterior_space} --threshold ${threshold} --chain_index ${chain_index} ${mutational_matrix}
     """
 }

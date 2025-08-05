@@ -33,8 +33,6 @@ parser$add_argument("-o", "--posterior", type = 'double', default = "100", help 
 
 parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
 
-parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), SBS288, SBS1536, DBS78, or ID83.", required = TRUE)
-
 parser$add_argument("-n", "--chain_index", type = 'character', help = "Chain index")
 
 parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
@@ -58,14 +56,6 @@ if (!is.null("args$hierarchy_parameter1")) {
 if (!is.null("args$prior_matrix")) {
   prior_matrix <- args$prior_matrix
 } 
-
-if (!is.null("args$mutational_context")) {
-  mut_context <- args$mutational_context  
-}
-
-if (!exists("mut_context")) {
-  stop(sprintf("Mutational signature context not specified. Specify using -c or --mutational_context; Use -h for further information."))
-}
 
 if (!exists("chain_index")) {
   chain_index <- args$chain_index
@@ -93,16 +83,6 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   }
 } else {
   message(paste0("Testing run selected. Executing run with minimal HDP settings. \n"))
-}
-
-if (mut_context == 'SBS96' | mut_context == 'SBS288' | mut_context == 'SBS1536') {
-  u.mc <- 'SBS'
-}
-if (mut_context == 'DBS78') {
-  u.mc = 'DBS'
-}
-if (mut_context == 'ID83') {
-    u.mc = 'ID'
 }
 
 n <- as.numeric(chain_index)

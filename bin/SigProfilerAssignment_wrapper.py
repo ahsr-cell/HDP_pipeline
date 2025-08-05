@@ -6,13 +6,13 @@ import argparse
 import sys
 
 def get_arguments():
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Get user defined SigProfilerAssignment inputs/options')
     parser.add_argument('--mutational_matrix', required = True, 
-                        help="")
+                        help="Specify path to mutation matrix")
     parser.add_argument('--deNovoSignatures_matrix', required = True,
                         help="Specify path to mSigHdp de novo signature matrix")
     parser.add_argument('--output_directory',required=True,
-                        help='Specify path to mSigHdp to output directory')
+                        help='Specify path to SigPa to output directory')
     return parser
 
 def sigPA_decompose(mutational_matrix, deNovoSignatures_matrix,output_directory):

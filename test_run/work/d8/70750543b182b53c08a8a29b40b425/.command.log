@@ -1,0 +1,107 @@
+Welcome to HDP mutational signature extraction pipeline. For any questions, please consort the original GitHub/vignette: (https://github.com/nicolaroberts/hdp/blob/master/vignettes/mutation_signatures.Rmd), or the Stratton group. 
+
+Analysis run selected. Please note that this is intended to be run on a HPC as it requires 20 threads. 
+
+Setting up HDP posterior sampling chain  17  of 20. 
+
+Chain 17: Importing user datasets. 
+
+Input mutation matrix format detected with mutation type as rownames/in rows. Conducting data wrangling to make input matrix compatible with HDP pipeline. 
+
+Chain 17: mutation matrix successfully imported. 
+
+Chain 17: hierarchy matrix successfully imported. 
+
+Chain 17: prior matrix provided. Extracting prior signatures to incorporate into HDP structure. 
+
+Error in read.table(prior_matrix, header = T, stringsAsFactors = F, sep = "\t") : 
+  'file' must be a character string or connection
+Execution halted
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@node-13-27>
+Subject: Job 62669: <nf-HDP_single_(17)> in cluster <farm22> Exited
+
+Job <nf-HDP_single_(17)> was submitted from host <node-12-5-1> by user <ar39> in cluster <farm22> at Mon Aug  4 13:40:12 2025
+Job was executed on host(s) <node-13-27>, in queue <small>, as user <ar39> in cluster <farm22> at Mon Aug  4 13:40:46 2025
+</nfs/users/nfs_a/ar39> was used as the home directory.
+</lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/d8/70750543b182b53c08a8a29b40b425> was used as the working directory.
+Started at Mon Aug  4 13:40:46 2025
+Terminated at Mon Aug  4 13:40:50 2025
+Results reported at Mon Aug  4 13:40:50 2025
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -o /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/d8/70750543b182b53c08a8a29b40b425/.command.log
+#BSUB -q small
+#BSUB -M 8192
+#BSUB -R "select[mem>=8192] rusage[mem=8192]"
+#BSUB -J nf-HDP_single_(17)
+NXF_CHDIR=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/d8/70750543b182b53c08a8a29b40b425
+### ---
+### name: 'HDP_single (17)'
+### container: '/lustre/scratch125/casm/teams/team267/projects/DockerImages/hdp_amd64_0.0.2.sif'
+### outputs:
+### - 'HDP_chains'
+### ...
+set -e
+set -u
+NXF_DEBUG=${NXF_DEBUG:=0}; [[ $NXF_DEBUG > 1 ]] && set -x
+NXF_ENTRY=${1:-nxf_main}
+
+nxf_container_env() {
+cat << EOF
+export PATH="\$PATH:/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/bin"
+EOF
+}
+
+nxf_sleep() {
+  sleep $1 2>/dev/null || sleep 1;
+}
+
+nxf_date() {
+    local ts=$(date +%s%3N);
+    if [[ ${#ts} == 10 ]]; then echo ${ts}000
+    elif [[ $ts == *%3N ]]; then echo ${ts/\%3N/000}
+    elif [[ $ts == *3N ]]; then echo ${ts/3N/000}
+    elif [[ ${#ts} == 13 ]]; then echo $ts
+    else echo "Unexpected timestamp value: $ts"; exit 1
+    fi
+}
+
+nxf_env() {
+    echo '============= task environment ============='
+    env | sort | sed "s/\(.*\)AWS\(.*\)=\(.\{6\}\).*/\1AWS\2=\3xxxxxxxxxxxxx/"
+    echo '============= task output =================='
+}
+
+nxf_kill() {
+    declare -a children
+    while read P PP;do
+        children[$PP]+=" $P"
+    done < <(ps -e -o pid= -o ppid=)
+
+
+(... more ...)
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   3.21 sec.
+    Max Memory :                                 127 MB
+    Average Memory :                             85.00 MB
+    Total Requested Memory :                     8192.00 MB
+    Delta Memory :                               8065.00 MB
+    Max Swap :                                   -
+    Max Processes :                              12
+    Max Threads :                                26
+    Run time :                                   4 sec.
+    Turnaround time :                            38 sec.
+
+The output (if any) is above this job summary.
+
