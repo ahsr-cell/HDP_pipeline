@@ -16,7 +16,6 @@ config_file=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipelin
 main_script=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf
 mutational_matrix=/lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_GEC_Manuscript_Subset_v1.SBS96.txt
 hierarchy_matrix=/lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_Manuscript_sample_key.csv
-#hierarchy_parameter1="sample_type"
 mutation_context=SBS96
 outdir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/1_tests/HDP_tests/
 

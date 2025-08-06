@@ -90,6 +90,18 @@ n <- as.numeric(chain_index)
 ##### Setting up HDP
 message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
 
+message(paste0("Creating output subdirectory for run"))  
+main_dir <- getwd()
+sub_dir <- paste0("HDP_chains")
+if (!file.exists(sub_dir)){
+  dir.create(file.path(main_dir, sub_dir))
+  u.work.dir <- file.path(main_dir,sub_dir)
+  u.work.dir
+} else {
+  u.work.dir <- file.path(main_dir,sub_dir)
+  message(paste0("Work directory is ",u.work.dir))
+}
+
 message("Chain ", n, ": Importing user datasets. \n")
 
 ### Import mutation matrix and conduct necessary data wrangling 
@@ -120,104 +132,93 @@ if (ncol(key_table) == 1 ) {
   }
 message(paste0("Chain ",n,": hierarchy matrix successfully imported. \n"))
 
+hp1i <- which(colnames(key_table)==hp1)
+
+freq <- table(key_table[,hp1i])
+
 if (exists("prior_matrix")) {
-  message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate into HDP structure. \n"))
+  if (file.size(prior_matrix)==0) {
+    
+    message(paste0("Chain ", n,": Hierarchy parameters successfully extracted. No prior matrix provided. Initialising HDP structure for single tier hierarchy. \n"))
 
-  ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
-  if (ncol(ref) == 1 ) {
-    ref <- read.table(prior_matrix, header=T, sep = ",")
-  }
+    #with Just type as parent (1 hierarchy)
+    hdp_mut <- hdp_init(ppindex = c(0, rep(1,length(freq)),rep(2:(length(freq)+1), times=freq)), # index of parental node
+                      cpindex = c(1, rep(2,length(freq)),rep(3:(length(freq)+2), times=freq)), # index of the CP to use
+                      hh = rep(1, 96), # prior is uniform over 96 categories
+                      alphaa = rep(1,length(freq)+2), # shape hyperparameters for 2 CPs
+                      alphab = rep(1,length(freq)+2))  # rate hyperparameters for 2 CPs
 
-  rownames(ref) <- ref[,1]
-  ref <- ref[,-1]
-  ref <- ref[tinuc_sort,]
+    hdp_mut <- hdp_setdata(hdp_mut, 
+                        dpindex = (length(freq)+2):numdp(hdp_mut), # index of nodes to add data to
+                        mutations)
 
-  prior_sigs = as.matrix(ref)
+    hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
 
-  message(paste0("Chain ", n,": prior matrix imported and signatures extracted. Adjusting and intialising HDP structure. \n"))  
-
-  # number of prior signatures to condition on (8)
-  nps <- ncol(prior_sigs)
-
-  #If requiring a minimum number of mutations:
-  sample_remove=rownames(mutations)[rowSums(mutations)<lower_threshold]
-  mutations=mutations[!rownames(mutations)%in%sample_remove,]
-  key_table=key_table[!key_table$Sample%in%sample_remove,]
-
-  #Set Hierarchy
-  hp1i <- which(colnames(key_table)==hp1)
-
-  freq <- table(key_table[,hp1i])
-
-  hdp_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
-                            prior_pseudoc = rep(1000, nps), # pseudocount weights
-                            hh=rep(1, 96), # uniform prior over 96 categories
-                            alphaa=c(1, 1), # shape hyperparams for 2 CPs
-                            alphab=c(1, 1)) # rate hyperparams for 2 CPs
-  #hdp_prior
-  numdp(hdp_prior)
-  pseudoDP(hdp_prior)
-  conparam(hdp_prior)
-  ppindex(hdp_prior)
-  cpindex(hdp_prior)
-  dpstate(hdp_prior) # 2 for active node, 1 for frozen, 0 for heldout
-
-  # make two more CPs available for the data we will add
-  hdp_prior <- hdp_addconparam(hdp_prior,
-                             alphaa = rep(1,length(freq)+2), # shape hyperparams for x new CPs
-                             alphab = rep(1,length(freq)+2)) # rate hyperparams for x new CPs
-
-  hdp_prior <- hdp_adddp(hdp_prior,
-                       numdp = nrow(mutations) + 1,
-                       ppindex = c(1, rep(1+nps+1:(length(freq)), times=freq)),
-                       cpindex = c(3, rep(4:(length(freq)+3), times=freq)))
-
-  # assign the data to the relevant DP nodes
-  hdp_prior <- hdp_setdata(hdp_prior,
-                         dpindex = (1 + nps + 1) + 1:nrow(mutations), 
-                         mutations) # mutation counts in all GCTs
-
-
-  hdp_activated <- dp_activate(hdp_prior, 
-                             dpindex = (1+nps+1)+0:nrow(mutations), 
-                             initcc = nps+5,
-                             seed = n * 1000)
-  
-  message(paste0("Chain ", n,": HDP structure initialised with priors and single hierarchy. \n"))
-} else {
-  hp1i <- which(colnames(key_table)==hp1)
-
-  freq <- table(key_table[,hp1i])
-  
-  message(paste0("Chain ", n,": Hierarchy parameters successfully extracted. No prior matrix provided. Initialising HDP structure for single tier hierarchy. \n"))
-
-  #with Just type as parent (1 hierarchy)
-  hdp_mut <- hdp_init(ppindex = c(0, rep(1,length(freq)),rep(2:(length(freq)+1), times=freq)), # index of parental node
-                    cpindex = c(1, rep(2,length(freq)),rep(3:(length(freq)+2), times=freq)), # index of the CP to use
-                    hh = rep(1, 96), # prior is uniform over 96 categories
-                    alphaa = rep(1,length(freq)+2), # shape hyperparameters for 2 CPs
-                    alphab = rep(1,length(freq)+2))  # rate hyperparameters for 2 CPs
-
-  hdp_mut <- hdp_setdata(hdp_mut, 
-                       dpindex = (length(freq)+2):numdp(hdp_mut), # index of nodes to add data to
-                       mutations)
-
-  hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
-
-  message(paste0("Chain ", n,": Successfully initialised HDP structure with single tier hierarchy. \n"))
-}
-
-  message(paste0("Creating output subdirectory for run"))  
-  main_dir <- getwd()
-  sub_dir <- paste0("HDP_chains")
-  if (!file.exists(sub_dir)){
-    dir.create(file.path(main_dir, sub_dir))
-    u.work.dir <- file.path(main_dir,sub_dir)
-    u.work.dir
+    message(paste0("Chain ", n,": Successfully initialised HDP structure with single tier hierarchy. \n"))
   } else {
-    u.work.dir <- file.path(main_dir,sub_dir)
-    message(paste0("Work directory is ",u.work.dir))
+    message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate into HDP structure. \n"))
+
+    ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
+    if (ncol(ref) == 1 ) {
+      ref <- read.table(prior_matrix, header=T, sep = ",")
+    }
+
+    rownames(ref) <- ref[,1]
+    ref <- ref[,-1]
+    ref <- ref[tinuc_sort,]
+
+    prior_sigs = as.matrix(ref)
+
+    message(paste0("Chain ", n,": prior matrix imported and signatures extracted. Adjusting and intialising HDP structure. \n"))  
+
+    # number of prior signatures to condition on (8)
+    nps <- ncol(prior_sigs)
+
+    #If requiring a minimum number of mutations:
+    sample_remove=rownames(mutations)[rowSums(mutations)<lower_threshold]
+    mutations=mutations[!rownames(mutations)%in%sample_remove,]
+    key_table=key_table[!key_table$Sample%in%sample_remove,]
+
+    #Set Hierarchy
+
+    hdp_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
+                              prior_pseudoc = rep(1000, nps), # pseudocount weights
+                              hh=rep(1, 96), # uniform prior over 96 categories
+                              alphaa=c(1, 1), # shape hyperparams for 2 CPs
+                              alphab=c(1, 1)) # rate hyperparams for 2 CPs
+    #hdp_prior
+    numdp(hdp_prior)
+    pseudoDP(hdp_prior)
+    conparam(hdp_prior)
+    ppindex(hdp_prior)
+    cpindex(hdp_prior)
+    dpstate(hdp_prior) # 2 for active node, 1 for frozen, 0 for heldout
+
+    # make two more CPs available for the data we will add
+    hdp_prior <- hdp_addconparam(hdp_prior,
+                              alphaa = rep(1,length(freq)+2), # shape hyperparams for x new CPs
+                              alphab = rep(1,length(freq)+2)) # rate hyperparams for x new CPs
+
+    hdp_prior <- hdp_adddp(hdp_prior,
+                        numdp = nrow(mutations) + 1,
+                        ppindex = c(1, rep(1+nps+1:(length(freq)), times=freq)),
+                        cpindex = c(3, rep(4:(length(freq)+3), times=freq)))
+
+    # assign the data to the relevant DP nodes
+    hdp_prior <- hdp_setdata(hdp_prior,
+                          dpindex = (1 + nps + 1) + 1:nrow(mutations), 
+                          mutations) # mutation counts in all GCTs
+
+
+    hdp_activated <- dp_activate(hdp_prior, 
+                              dpindex = (1+nps+1)+0:nrow(mutations), 
+                              initcc = nps+5,
+                              seed = n * 1000)
+
+    message(paste0("Chain ", n,": HDP structure initialised with priors and single hierarchy. \n"))
   }
+  
+}
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   message(paste0("Chain ",n,": Executing posterior sampling chain ", n, " with analysis run settings: ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space," iterations between each. \n"))

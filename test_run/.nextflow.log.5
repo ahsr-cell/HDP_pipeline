@@ -1,72 +1,74 @@
-Aug-04 10:53:21.420 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf --mutational_matrix /lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_GEC_Manuscript_Subset_v1.SBS96.txt --hierarchy_matrix /lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_Manuscript_sample_key.csv --hierarchy_parameter1 sample_type --mutation_context SBS96 --analysis_type analysis --hierarchy single --burnin_iterations 50 --burnin_multiplier 10 --posterior 10 --posterior_iterations 10 --outdir /lustre/scratch125/casm/teams/team267/projects/Pipelines/1_tests/HDP_tests/ -resume -profile singularity -c /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
-Aug-04 10:53:21.533 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.04.4
-Aug-04 10:53:21.558 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/nfs/users/nfs_a/ar39/.nextflow/plugins; core-plugins: nf-amazon@2.15.0,nf-azure@1.16.0,nf-cloudcache@0.4.3,nf-codecommit@0.2.3,nf-console@1.2.1,nf-google@1.21.0,nf-k8s@1.0.0,nf-tower@1.11.3,nf-wave@1.12.1
-Aug-04 10:53:21.580 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
-Aug-04 10:53:21.581 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
-Aug-04 10:53:21.585 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
-Aug-04 10:53:21.598 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
-Aug-04 10:53:21.621 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
-Aug-04 10:53:21.625 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
-Aug-04 10:53:21.627 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
-Aug-04 10:53:21.628 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
-Aug-04 10:53:21.659 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /nfs/users/nfs_a/ar39/.nextflow/secrets/store.json
-Aug-04 10:53:21.662 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6ecd665] - activable => nextflow.secret.LocalSecretsProvider@6ecd665
-Aug-04 10:53:21.677 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
-Aug-04 10:53:22.345 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
-Aug-04 10:53:22.501 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [gitpod, debug, shifter, test, charliecloud, apptainer, singularity, arm, wave, test_full, docker, podman]
-Aug-04 10:53:22.540 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
-Aug-04 10:53:22.558 [main] DEBUG nextflow.cli.CmdRun - Launching `/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf` [tiny_solvay] DSL2 - revision: f05d1534a6
-Aug-04 10:53:22.560 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
-Aug-04 10:53:22.560 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
-Aug-04 10:53:22.618 [main] DEBUG nextflow.Session - Session UUID: ea1dbf54-c42d-471d-85ea-af7befeb5139
-Aug-04 10:53:22.619 [main] DEBUG nextflow.Session - Run name: tiny_solvay
-Aug-04 10:53:22.620 [main] DEBUG nextflow.Session - Executor pool size: 8
-Aug-04 10:53:22.628 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
-Aug-04 10:53:22.634 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
-Aug-04 10:53:22.661 [main] DEBUG nextflow.cli.CmdRun - 
+Aug-04 12:28:24.767 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf --mutational_matrix /lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_GEC_Manuscript_Subset_v1.SBS96.txt --hierarchy_matrix /lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_Manuscript_sample_key.csv --hierarchy_parameter1 sample_type --mutation_context SBS96 --analysis_type analysis --hierarchy single --burnin_iterations 50 --burnin_multiplier 10 --posterior 10 --posterior_iterations 10 --outdir /lustre/scratch125/casm/teams/team267/projects/Pipelines/1_tests/HDP_tests/ -resume -profile singularity -c /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
+Aug-04 12:28:24.877 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.04.4
+Aug-04 12:28:24.898 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/nfs/users/nfs_a/ar39/.nextflow/plugins; core-plugins: nf-amazon@2.15.0,nf-azure@1.16.0,nf-cloudcache@0.4.3,nf-codecommit@0.2.3,nf-console@1.2.1,nf-google@1.21.0,nf-k8s@1.0.0,nf-tower@1.11.3,nf-wave@1.12.1
+Aug-04 12:28:24.921 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Aug-04 12:28:24.922 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Aug-04 12:28:24.926 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Aug-04 12:28:24.939 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Aug-04 12:28:24.965 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
+Aug-04 12:28:24.969 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
+Aug-04 12:28:24.971 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
+Aug-04 12:28:24.972 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
+Aug-04 12:28:25.001 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /nfs/users/nfs_a/ar39/.nextflow/secrets/store.json
+Aug-04 12:28:25.005 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6ecd665] - activable => nextflow.secret.LocalSecretsProvider@6ecd665
+Aug-04 12:28:25.019 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
+Aug-04 12:28:25.801 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
+Aug-04 12:28:25.960 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [gitpod, debug, shifter, test, charliecloud, apptainer, singularity, arm, wave, test_full, docker, podman]
+Aug-04 12:28:25.999 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Aug-04 12:28:26.024 [main] DEBUG nextflow.cli.CmdRun - Launching `/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf` [cranky_lagrange] DSL2 - revision: f05d1534a6
+Aug-04 12:28:26.026 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Aug-04 12:28:26.026 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Aug-04 12:28:26.080 [main] DEBUG nextflow.Session - Session UUID: ea1dbf54-c42d-471d-85ea-af7befeb5139
+Aug-04 12:28:26.080 [main] DEBUG nextflow.Session - Run name: cranky_lagrange
+Aug-04 12:28:26.081 [main] DEBUG nextflow.Session - Executor pool size: 8
+Aug-04 12:28:26.089 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Aug-04 12:28:26.095 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Aug-04 12:28:26.122 [main] DEBUG nextflow.cli.CmdRun - 
   Version: 25.04.4 build 5950
   Created: 16-06-2025 14:23 UTC (15:23 BST)
   System: Linux 5.15.0-140-generic
   Runtime: Groovy 4.0.26 on OpenJDK 64-Bit Server VM 17.0.8.1+1
   Encoding: UTF-8 (UTF-8)
-  Process: 845095@node-12-5-1 [10.160.12.48]
-  CPUs: 8 - Mem: 754.5 GB (210.3 GB) - Swap: 67.5 GB (67.4 GB)
-Aug-04 10:53:22.697 [main] DEBUG nextflow.Session - Work-dir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work [lustre]
-Aug-04 10:53:22.731 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
-Aug-04 10:53:22.741 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
-Aug-04 10:53:22.746 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
-Aug-04 10:53:22.774 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
-Aug-04 10:53:22.783 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
-Aug-04 10:53:22.847 [main] DEBUG nextflow.Session - Session start
-Aug-04 10:53:23.135 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
-Aug-04 10:53:23.574 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:HDP_single` matches process HDP_single
-Aug-04 10:53:23.589 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
-Aug-04 10:53:23.589 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
-Aug-04 10:53:23.600 [main] DEBUG nextflow.executor.Executor - [warm up] executor > lsf
-Aug-04 10:53:23.606 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'lsf' > capacity: 4000; pollInterval: 5s; dumpInterval: 5m 
-Aug-04 10:53:23.608 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: lsf)
-Aug-04 10:53:23.609 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 10 submissions per 1 seconds
-Aug-04 10:53:23.612 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'lsf' > queue-stat-interval: 1m
-Aug-04 10:53:23.617 [main] DEBUG nextflow.executor.LsfExecutor - [LSF] Detected lsf.conf LSF_UNIT_FOR_LIMITS=MB
-Aug-04 10:53:23.649 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'HDP_single': maxForks=0; fair=false; array=0
-Aug-04 10:53:23.724 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
-Aug-04 10:53:23.724 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
-Aug-04 10:53:23.725 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'HDP_combine': maxForks=0; fair=false; array=0
-Aug-04 10:53:23.736 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:SigProfilerPlotting` matches process SigPlt_Extracted
-Aug-04 10:53:23.739 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
-Aug-04 10:53:23.739 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
-Aug-04 10:53:23.740 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'SigPlt_Extracted': maxForks=0; fair=false; array=0
-Aug-04 10:53:23.745 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:SigProfilerAssignment` matches process SigPA_Extracted
-Aug-04 10:53:23.747 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
-Aug-04 10:53:23.747 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
-Aug-04 10:53:23.748 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'SigPA_Extracted': maxForks=0; fair=false; array=0
-Aug-04 10:53:23.751 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: SigProfilerAssignment, HDP_combine, SigPlt_Extracted, HDP_double, HDP_single, SigProfilerPlotting, SigPA_Extracted, HDP_flat
-Aug-04 10:53:23.754 [main] DEBUG nextflow.Session - Igniting dataflow network (5)
-Aug-04 10:53:23.755 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > HDP_single
-Aug-04 10:53:23.756 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > HDP_combine
-Aug-04 10:53:23.756 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SigPlt_Extracted
-Aug-04 10:53:23.757 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SigPA_Extracted
-Aug-04 10:53:23.757 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Process: 1320694@node-12-5-1 [10.160.12.48]
+  CPUs: 8 - Mem: 754.5 GB (203.5 GB) - Swap: 67.5 GB (67.4 GB)
+Aug-04 12:28:26.162 [main] DEBUG nextflow.Session - Work-dir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work [lustre]
+Aug-04 12:28:26.211 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Aug-04 12:28:26.225 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Aug-04 12:28:26.232 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Aug-04 12:28:26.266 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Aug-04 12:28:26.275 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+Aug-04 12:28:26.340 [main] DEBUG nextflow.Session - Session start
+Aug-04 12:28:26.774 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Aug-04 12:28:27.265 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:HDP_single` matches process HDP_single
+Aug-04 12:28:27.278 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
+Aug-04 12:28:27.278 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
+Aug-04 12:28:27.288 [main] DEBUG nextflow.executor.Executor - [warm up] executor > lsf
+Aug-04 12:28:27.293 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'lsf' > capacity: 4000; pollInterval: 5s; dumpInterval: 5m 
+Aug-04 12:28:27.295 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: lsf)
+Aug-04 12:28:27.296 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 10 submissions per 1 seconds
+Aug-04 12:28:27.299 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'lsf' > queue-stat-interval: 1m
+Aug-04 12:28:27.304 [main] DEBUG nextflow.executor.LsfExecutor - [LSF] Detected lsf.conf LSF_UNIT_FOR_LIMITS=MB
+Aug-04 12:28:27.338 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'HDP_single': maxForks=0; fair=false; array=0
+Aug-04 12:28:27.397 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:HDP_combine` matches process HDP_combine
+Aug-04 12:28:27.400 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
+Aug-04 12:28:27.400 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
+Aug-04 12:28:27.402 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'HDP_combine': maxForks=0; fair=false; array=0
+Aug-04 12:28:27.412 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:SigProfilerPlotting` matches process SigPlt_Extracted
+Aug-04 12:28:27.415 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
+Aug-04 12:28:27.415 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
+Aug-04 12:28:27.416 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'SigPlt_Extracted': maxForks=0; fair=false; array=0
+Aug-04 12:28:27.422 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:SigProfilerAssignment` matches process SigPA_Extracted
+Aug-04 12:28:27.424 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
+Aug-04 12:28:27.424 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
+Aug-04 12:28:27.425 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'SigPA_Extracted': maxForks=0; fair=false; array=0
+Aug-04 12:28:27.428 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: SigProfilerAssignment, HDP_combine, SigPlt_Extracted, HDP_double, HDP_single, SigPA_Extracted, SigProfilerPlotting, HDP_flat
+Aug-04 12:28:27.438 [main] WARN  nextflow.Session - There's no process matching config selector: HDP_combinee -- Did you mean: HDP_combine?
+Aug-04 12:28:27.441 [main] DEBUG nextflow.Session - Igniting dataflow network (5)
+Aug-04 12:28:27.443 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > HDP_single
+Aug-04 12:28:27.443 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > HDP_combine
+Aug-04 12:28:27.444 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SigPlt_Extracted
+Aug-04 12:28:27.444 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SigPA_Extracted
+Aug-04 12:28:27.445 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
   Script_826c052cf85ab42b: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_double.nf
   Script_53bf6d04c7db39c9: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_flat.nf
   Script_7824b24b0e04f420: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/SigProfilerAssignment.nf
@@ -74,12 +76,12 @@ Aug-04 10:53:23.757 [main] DEBUG nextflow.script.ScriptRunner - Parsed script fi
   Script_9cf5271ac3502d8c: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_single.nf
   Script_b86eead4e0f6ea26: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf
   Script_b0d8e8a91cd93fcc: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/SigProfilerPlotting.nf
-Aug-04 10:53:23.758 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
-Aug-04 10:53:23.758 [main] DEBUG nextflow.Session - Session await
-Aug-04 10:53:23.849 [Actor Thread 9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (8); work-dir=null
+Aug-04 12:28:27.445 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Aug-04 12:28:27.445 [main] DEBUG nextflow.Session - Session await
+Aug-04 12:28:27.524 [Actor Thread 7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (3); work-dir=null
   error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
-Aug-04 10:53:23.879 [Actor Thread 9] ERROR nextflow.processor.TaskProcessor - Error executing process > 'HDP_single (8)'
+Aug-04 12:28:27.567 [Actor Thread 7] ERROR nextflow.processor.TaskProcessor - Error executing process > 'HDP_single (3)'
 
 Caused by:
   Not a valid path value: 'sample_type'
@@ -90,35 +92,35 @@ Container:
   /lustre/scratch125/casm/teams/team267/projects/DockerImages/hdp_amd64_0.0.2.sif
 
 Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
-Aug-04 10:53:23.882 [Actor Thread 9] INFO  nextflow.Session - Execution cancelled -- Finishing pending tasks before exit
-Aug-04 10:53:23.886 [main] DEBUG nextflow.Session - Session await > all processes finished
-Aug-04 10:53:23.888 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: lsf) - terminating tasks monitor poll loop
-Aug-04 10:53:23.889 [main] DEBUG nextflow.Session - Session await > all barriers passed
-Aug-04 10:53:23.891 [Actor Thread 1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+Aug-04 12:28:27.570 [Actor Thread 7] INFO  nextflow.Session - Execution cancelled -- Finishing pending tasks before exit
+Aug-04 12:28:27.577 [main] DEBUG nextflow.Session - Session await > all processes finished
+Aug-04 12:28:27.579 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: lsf) - terminating tasks monitor poll loop
+Aug-04 12:28:27.579 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Aug-04 12:28:27.581 [Actor Thread 1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
   task: name=HDP_single; work-dir=null
   error [java.lang.IllegalStateException]: Cannot obtain the semaphore to fork operator's body.
-Aug-04 10:53:23.892 [Actor Thread 7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (3); work-dir=null
-  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
-Aug-04 10:53:23.894 [Actor Thread 3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (7); work-dir=null
-  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
-Aug-04 10:53:23.894 [Actor Thread 8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (2); work-dir=null
-  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
-Aug-04 10:53:23.895 [Actor Thread 2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (5); work-dir=null
-  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
-Aug-04 10:53:23.896 [Actor Thread 5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (4); work-dir=null
-  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
-Aug-04 10:53:23.896 [Actor Thread 6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+Aug-04 12:28:27.582 [Actor Thread 6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
   task: name=HDP_single (1); work-dir=null
   error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
-Aug-04 10:53:23.897 [Actor Thread 4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+Aug-04 12:28:27.583 [Actor Thread 4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (7); work-dir=null
+  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
+Aug-04 12:28:27.584 [Actor Thread 5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (4); work-dir=null
+  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
+Aug-04 12:28:27.585 [Actor Thread 8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (2); work-dir=null
+  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
+Aug-04 12:28:27.586 [Actor Thread 9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (8); work-dir=null
+  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
+Aug-04 12:28:27.586 [Actor Thread 3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
   task: name=HDP_single (6); work-dir=null
   error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
-Aug-04 10:53:23.899 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=0; peakCpus=0; peakMemory=0; ]
-Aug-04 10:53:24.104 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
-Aug-04 10:53:24.153 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
-Aug-04 10:53:24.154 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
+Aug-04 12:28:27.587 [Actor Thread 2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (5); work-dir=null
+  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'sample_type'
+Aug-04 12:28:27.587 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=0; peakCpus=0; peakMemory=0; ]
+Aug-04 12:28:27.797 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Aug-04 12:28:27.848 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+Aug-04 12:28:27.848 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
