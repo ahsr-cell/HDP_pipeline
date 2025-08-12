@@ -1,0 +1,23 @@
+process HDP_double_noprior {
+    publishDir "${params.outdir}", mode: "copy", overwrite: true
+
+    input:
+    path mutational_matrix
+    path hierarchy_matrix
+    val analysis_type 
+    val hierarchy_parameter1
+    val hierarchy_parameter2
+    val burnin_iterations 
+    val posterior 
+    val posterior_space
+    val threshold
+    val chain_index
+
+    output:
+    path "HDP_chains", emit: HDP_chains
+
+    script:
+    """
+    Rscript --vanilla ${projectDir}/bin/HDP_double_noprior.R -hierarchy ${hierarchy_matrix} -hp1 ${hierarchy_parameter1} -hp2 ${hierarchy_parameter1} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${chain_index} -t ${threshold} ${mutational_matrix}
+    """
+}

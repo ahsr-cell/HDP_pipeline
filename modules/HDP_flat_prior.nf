@@ -1,4 +1,4 @@
-process HDP_flat {
+process HDP_flat_prior {
     publishDir "${params.outdir}", mode: "copy", overwrite: true
 
     input:
@@ -16,8 +16,7 @@ process HDP_flat {
     path "HDP_chains", emit: HDP_chains
 
     script:
-    def filter = prior_matrix.name != 'NO_FILE' ? "-prior ${prior_matrix}" : ''
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_flat.R ${filter} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -t ${threshold} -n ${chain_index} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_flat_prior.R --prior_matrix ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -t ${threshold} -n ${chain_index} ${mutational_matrix}
     """
 }

@@ -23,8 +23,6 @@ parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help 
 
 parser$add_argument("-hp1","--hierarchy_parameter1", type = 'character', help = "Specify primary hierarchy parameter as listed in input hierarchy matrix (e.g., column name). Used to identify column.", required=FALSE)
 
-parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
-
 parser$add_argument("-a", "--analysis_type", type = "character", default = "Testing", help = "Specify type of analysis run. Options are [testing] or [analysis].", required=TRUE)
 
 parser$add_argument("-b", "--burnin_iterations", type = 'double', default = "30000", help = "Specify number of burn-in iterations. Default set to 30000.", required=FALSE) 
@@ -52,10 +50,6 @@ if (!is.null("args$hierarchy_matrix")) {
 if (!is.null("args$hierarchy_parameter1")) {
   hp1 <- args$hierarchy_parameter1
 }
-
-if (!is.null("args$prior_matrix")) {
-  prior_matrix <- args$prior_matrix
-} 
 
 if (!exists("chain_index")) {
   chain_index <- args$chain_index
@@ -90,7 +84,7 @@ n <- as.numeric(chain_index)
 ##### Setting up HDP
 message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
 
-message(paste0("Creating output subdirectory for run"))  
+message(paste0("Creating output subdirectory for run \n"))  
 main_dir <- getwd()
 sub_dir <- paste0("HDP_chains")
 if (!file.exists(sub_dir)){
@@ -136,93 +130,28 @@ hp1i <- which(colnames(key_table)==hp1)
 
 freq <- table(key_table[,hp1i])
 
-if (exists("prior_matrix")) {
-  if (file.size(prior_matrix)==0) {
-    
-    message(paste0("Chain ", n,": Hierarchy parameters successfully extracted. No prior matrix provided. Initialising HDP structure for single tier hierarchy. \n"))
+message(paste0("Chain ", n,": Hierarchy parameters successfully extracted. No prior matrix provided. Initialising HDP structure for single tier hierarchy. \n"))
 
-    #with Just type as parent (1 hierarchy)
-    hdp_mut <- hdp_init(ppindex = c(0, rep(1,length(freq)),rep(2:(length(freq)+1), times=freq)), # index of parental node
+#with Just type as parent (1 hierarchy)
+hdp_mut <- hdp_init(ppindex = c(0, rep(1,length(freq)),rep(2:(length(freq)+1), times=freq)), # index of parental node
                       cpindex = c(1, rep(2,length(freq)),rep(3:(length(freq)+2), times=freq)), # index of the CP to use
                       hh = rep(1, 96), # prior is uniform over 96 categories
                       alphaa = rep(1,length(freq)+2), # shape hyperparameters for 2 CPs
                       alphab = rep(1,length(freq)+2))  # rate hyperparameters for 2 CPs
 
-    hdp_mut <- hdp_setdata(hdp_mut, 
+hdp_mut <- hdp_setdata(hdp_mut, 
                         dpindex = (length(freq)+2):numdp(hdp_mut), # index of nodes to add data to
                         mutations)
 
-    hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
+hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
 
-    message(paste0("Chain ", n,": Successfully initialised HDP structure with single tier hierarchy. \n"))
-  } else {
-    message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate into HDP structure. \n"))
-
-    ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
-    if (ncol(ref) == 1 ) {
-      ref <- read.table(prior_matrix, header=T, sep = ",")
-    }
-
-    rownames(ref) <- ref[,1]
-    ref <- ref[,-1]
-    ref <- ref[tinuc_sort,]
-
-    prior_sigs = as.matrix(ref)
-
-    message(paste0("Chain ", n,": prior matrix imported and signatures extracted. Adjusting and intialising HDP structure. \n"))  
-
-    # number of prior signatures to condition on (8)
-    nps <- ncol(prior_sigs)
-
-    #If requiring a minimum number of mutations:
-    sample_remove=rownames(mutations)[rowSums(mutations)<lower_threshold]
-    mutations=mutations[!rownames(mutations)%in%sample_remove,]
-    key_table=key_table[!key_table$Sample%in%sample_remove,]
-
-    #Set Hierarchy
-
-    hdp_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
-                              prior_pseudoc = rep(1000, nps), # pseudocount weights
-                              hh=rep(1, 96), # uniform prior over 96 categories
-                              alphaa=c(1, 1), # shape hyperparams for 2 CPs
-                              alphab=c(1, 1)) # rate hyperparams for 2 CPs
-    #hdp_prior
-    numdp(hdp_prior)
-    pseudoDP(hdp_prior)
-    conparam(hdp_prior)
-    ppindex(hdp_prior)
-    cpindex(hdp_prior)
-    dpstate(hdp_prior) # 2 for active node, 1 for frozen, 0 for heldout
-
-    # make two more CPs available for the data we will add
-    hdp_prior <- hdp_addconparam(hdp_prior,
-                              alphaa = rep(1,length(freq)+2), # shape hyperparams for x new CPs
-                              alphab = rep(1,length(freq)+2)) # rate hyperparams for x new CPs
-
-    hdp_prior <- hdp_adddp(hdp_prior,
-                        numdp = nrow(mutations) + 1,
-                        ppindex = c(1, rep(1+nps+1:(length(freq)), times=freq)),
-                        cpindex = c(3, rep(4:(length(freq)+3), times=freq)))
-
-    # assign the data to the relevant DP nodes
-    hdp_prior <- hdp_setdata(hdp_prior,
-                          dpindex = (1 + nps + 1) + 1:nrow(mutations), 
-                          mutations) # mutation counts in all GCTs
-
-
-    hdp_activated <- dp_activate(hdp_prior, 
-                              dpindex = (1+nps+1)+0:nrow(mutations), 
-                              initcc = nps+5,
-                              seed = n * 1000)
-
-    message(paste0("Chain ", n,": HDP structure initialised with priors and single hierarchy. \n"))
-  }
-  
-}
+message(paste0("Chain ", n,": Successfully initialised HDP structure with single tier hierarchy. \n"))
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
-  message(paste0("Chain ",n,": Executing posterior sampling chain ", n, " with analysis run settings: ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space," iterations between each. \n"))
-  chain=hdp_posterior(hdp_activated,
+
+    message(paste0("Chain ",n,": Executing posterior sampling chain ", n, " with analysis run settings: ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space," iterations between each. \n"))
+    
+    chain=hdp_posterior(hdp_activated,
                     burnin=u_burnin,
                     n=u_post,
                     seed=n*1000,
@@ -231,8 +160,10 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
 }
 
 if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {
-  message(paste0("Executing posterior sampling chain number, ", n, ". Running with test run settings: 100 burn-in iterations, collecting 10 posterior samples off each chain with 10 iterations between each. \n"))
-  chain=hdp_posterior(hdp_activated,
+
+    message(paste0("Executing posterior sampling chain number, ", n, ". Running with test run settings: 100 burn-in iterations, collecting 10 posterior samples off each chain with 10 iterations between each. \n"))
+    
+    chain=hdp_posterior(hdp_activated,
                     burnin=100,
                     n=10,
                     seed=n*1000,

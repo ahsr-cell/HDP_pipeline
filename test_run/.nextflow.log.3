@@ -1,241 +1,254 @@
-Aug-04 13:36:27.205 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf --mutational_matrix /lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_GEC_Manuscript_Subset_v1.SBS96.txt --hierarchy_matrix /lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_Manuscript_sample_key.csv --hierarchy_parameter1 sample_type --mutation_context SBS96 --analysis_type analysis --hierarchy single --burnin_iterations 50 --burnin_multiplier 10 --posterior 10 --posterior_iterations 10 --outdir /lustre/scratch125/casm/teams/team267/projects/Pipelines/1_tests/HDP_tests/ -resume -profile singularity -c /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
-Aug-04 13:36:27.327 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.04.4
-Aug-04 13:36:27.351 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/nfs/users/nfs_a/ar39/.nextflow/plugins; core-plugins: nf-amazon@2.15.0,nf-azure@1.16.0,nf-cloudcache@0.4.3,nf-codecommit@0.2.3,nf-console@1.2.1,nf-google@1.21.0,nf-k8s@1.0.0,nf-tower@1.11.3,nf-wave@1.12.1
-Aug-04 13:36:27.375 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
-Aug-04 13:36:27.376 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
-Aug-04 13:36:27.379 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
-Aug-04 13:36:27.393 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
-Aug-04 13:36:27.417 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
-Aug-04 13:36:27.421 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
-Aug-04 13:36:27.423 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
-Aug-04 13:36:27.424 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
-Aug-04 13:36:27.455 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /nfs/users/nfs_a/ar39/.nextflow/secrets/store.json
-Aug-04 13:36:27.459 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6ecd665] - activable => nextflow.secret.LocalSecretsProvider@6ecd665
-Aug-04 13:36:27.474 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
-Aug-04 13:36:28.419 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
-Aug-04 13:36:28.649 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [gitpod, debug, shifter, test, charliecloud, apptainer, singularity, arm, wave, test_full, docker, podman]
-Aug-04 13:36:28.710 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
-Aug-04 13:36:28.736 [main] DEBUG nextflow.cli.CmdRun - Launching `/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf` [elegant_newton] DSL2 - revision: e582748500
-Aug-04 13:36:28.738 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
-Aug-04 13:36:28.739 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
-Aug-04 13:36:28.812 [main] DEBUG nextflow.Session - Session UUID: ea1dbf54-c42d-471d-85ea-af7befeb5139
-Aug-04 13:36:28.813 [main] DEBUG nextflow.Session - Run name: elegant_newton
-Aug-04 13:36:28.813 [main] DEBUG nextflow.Session - Executor pool size: 8
-Aug-04 13:36:28.825 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
-Aug-04 13:36:28.833 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
-Aug-04 13:36:28.870 [main] DEBUG nextflow.cli.CmdRun - 
+Aug-08 15:18:07.201 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf --mutational_matrix /lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_GEC_Manuscript_Subset_v1.SBS96.txt --hierarchy_matrix /lustre/scratch125/casm/teams/team267/users/ar39/0_Projects/0_mSigHdp/0_memorytests/0_data/1_Testing/EAC_Manuscript_sample_key.csv --hierarchy_parameter1 sample_type --mutation_context SBS96 --analysis_type analysis --hierarchy single --burnin_iterations 50 --burnin_multiplier 10 --posterior 10 --posterior_iterations 10 --outdir /lustre/scratch125/casm/teams/team267/projects/Pipelines/1_tests/HDP_tests/ -resume -profile singularity -c /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
+Aug-08 15:18:07.383 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.04.4
+Aug-08 15:18:07.413 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/nfs/users/nfs_a/ar39/.nextflow/plugins; core-plugins: nf-amazon@2.15.0,nf-azure@1.16.0,nf-cloudcache@0.4.3,nf-codecommit@0.2.3,nf-console@1.2.1,nf-google@1.21.0,nf-k8s@1.0.0,nf-tower@1.11.3,nf-wave@1.12.1
+Aug-08 15:18:07.445 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Aug-08 15:18:07.446 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Aug-08 15:18:07.449 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Aug-08 15:18:07.465 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Aug-08 15:18:07.507 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
+Aug-08 15:18:07.514 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
+Aug-08 15:18:07.517 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/nextflow.config
+Aug-08 15:18:07.518 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/conf/sanger_lsf.config
+Aug-08 15:18:07.558 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /nfs/users/nfs_a/ar39/.nextflow/secrets/store.json
+Aug-08 15:18:07.563 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6ecd665] - activable => nextflow.secret.LocalSecretsProvider@6ecd665
+Aug-08 15:18:07.584 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
+Aug-08 15:18:08.537 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
+Aug-08 15:18:08.747 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [gitpod, debug, shifter, test, charliecloud, apptainer, singularity, arm, wave, test_full, docker, podman]
+Aug-08 15:18:08.798 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Aug-08 15:18:08.818 [main] DEBUG nextflow.cli.CmdRun - Launching `/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf` [condescending_chandrasekhar] DSL2 - revision: ccd1ab21e3
+Aug-08 15:18:08.820 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Aug-08 15:18:08.821 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Aug-08 15:18:08.879 [main] DEBUG nextflow.Session - Session UUID: ea1dbf54-c42d-471d-85ea-af7befeb5139
+Aug-08 15:18:08.880 [main] DEBUG nextflow.Session - Run name: condescending_chandrasekhar
+Aug-08 15:18:08.881 [main] DEBUG nextflow.Session - Executor pool size: 8
+Aug-08 15:18:08.890 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Aug-08 15:18:08.897 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Aug-08 15:18:08.936 [main] DEBUG nextflow.cli.CmdRun - 
   Version: 25.04.4 build 5950
   Created: 16-06-2025 14:23 UTC (15:23 BST)
   System: Linux 5.15.0-140-generic
   Runtime: Groovy 4.0.26 on OpenJDK 64-Bit Server VM 17.0.8.1+1
   Encoding: UTF-8 (UTF-8)
-  Process: 1684960@node-12-5-1 [10.160.12.48]
-  CPUs: 8 - Mem: 754.5 GB (97.1 GB) - Swap: 67.5 GB (67.4 GB)
-Aug-04 13:36:28.925 [main] DEBUG nextflow.Session - Work-dir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work [lustre]
-Aug-04 13:36:28.979 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
-Aug-04 13:36:28.994 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
-Aug-04 13:36:29.003 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
-Aug-04 13:36:29.042 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
-Aug-04 13:36:29.055 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
-Aug-04 13:36:29.149 [main] DEBUG nextflow.Session - Session start
-Aug-04 13:36:29.645 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
-Aug-04 13:36:30.204 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:HDP_single` matches process HDP_single
-Aug-04 13:36:30.218 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
-Aug-04 13:36:30.218 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
-Aug-04 13:36:30.229 [main] DEBUG nextflow.executor.Executor - [warm up] executor > lsf
-Aug-04 13:36:30.234 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'lsf' > capacity: 4000; pollInterval: 5s; dumpInterval: 5m 
-Aug-04 13:36:30.236 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: lsf)
-Aug-04 13:36:30.238 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 10 submissions per 1 seconds
-Aug-04 13:36:30.241 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'lsf' > queue-stat-interval: 1m
-Aug-04 13:36:30.245 [main] DEBUG nextflow.executor.LsfExecutor - [LSF] Detected lsf.conf LSF_UNIT_FOR_LIMITS=MB
-Aug-04 13:36:30.271 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'HDP_single': maxForks=0; fair=false; array=0
-Aug-04 13:36:30.333 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:HDP_combine` matches process HDP_combine
-Aug-04 13:36:30.336 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
-Aug-04 13:36:30.336 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
-Aug-04 13:36:30.337 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'HDP_combine': maxForks=0; fair=false; array=0
-Aug-04 13:36:30.349 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:SigProfilerPlotting` matches process SigPlt_Extracted
-Aug-04 13:36:30.352 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
-Aug-04 13:36:30.352 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
-Aug-04 13:36:30.353 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'SigPlt_Extracted': maxForks=0; fair=false; array=0
-Aug-04 13:36:30.360 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:SigProfilerAssignment` matches process SigPA_Extracted
-Aug-04 13:36:30.363 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
-Aug-04 13:36:30.363 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
-Aug-04 13:36:30.364 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'SigPA_Extracted': maxForks=0; fair=false; array=0
-Aug-04 13:36:30.369 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: SigProfilerAssignment, HDP_combine, SigPlt_Extracted, HDP_double, HDP_single, SigProfilerPlotting, SigPA_Extracted, HDP_flat
-Aug-04 13:36:30.380 [main] WARN  nextflow.Session - There's no process matching config selector: HDP_combinee -- Did you mean: HDP_combine?
-Aug-04 13:36:30.385 [main] DEBUG nextflow.Session - Igniting dataflow network (5)
-Aug-04 13:36:30.386 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > HDP_single
-Aug-04 13:36:30.387 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > HDP_combine
-Aug-04 13:36:30.387 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SigPlt_Extracted
-Aug-04 13:36:30.388 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SigPA_Extracted
-Aug-04 13:36:30.389 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
-  Script_826c052cf85ab42b: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_double.nf
-  Script_7548b3b75f01a4c9: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf
-  Script_53bf6d04c7db39c9: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_flat.nf
+  Process: 66650@node-14-18 [10.160.64.55]
+  CPUs: 8 - Mem: 2 TB (512.1 GB) - Swap: 3.4 GB (375.7 MB)
+Aug-08 15:18:09.023 [main] DEBUG nextflow.Session - Work-dir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work [lustre]
+Aug-08 15:18:09.077 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Aug-08 15:18:09.090 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Aug-08 15:18:09.098 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Aug-08 15:18:09.129 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Aug-08 15:18:09.140 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+Aug-08 15:18:09.266 [main] DEBUG nextflow.Session - Session start
+Aug-08 15:18:09.683 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Aug-08 15:18:10.381 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:HDP_single` matches process HDP_single
+Aug-08 15:18:10.412 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
+Aug-08 15:18:10.413 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
+Aug-08 15:18:10.427 [main] DEBUG nextflow.executor.Executor - [warm up] executor > lsf
+Aug-08 15:18:10.434 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'lsf' > capacity: 4000; pollInterval: 5s; dumpInterval: 5m 
+Aug-08 15:18:10.437 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: lsf)
+Aug-08 15:18:10.438 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 10 submissions per 1 seconds
+Aug-08 15:18:10.442 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'lsf' > queue-stat-interval: 1m
+Aug-08 15:18:10.448 [main] DEBUG nextflow.executor.LsfExecutor - [LSF] Detected lsf.conf LSF_UNIT_FOR_LIMITS=MB
+Aug-08 15:18:10.480 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'HDP_single': maxForks=0; fair=false; array=0
+Aug-08 15:18:10.559 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:HDP_combine` matches process HDP_combine
+Aug-08 15:18:10.563 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
+Aug-08 15:18:10.563 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
+Aug-08 15:18:10.565 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'HDP_combine': maxForks=0; fair=false; array=0
+Aug-08 15:18:10.581 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:SigProfilerPlotting` matches process SigPlt_Extracted
+Aug-08 15:18:10.586 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
+Aug-08 15:18:10.587 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
+Aug-08 15:18:10.588 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'SigPlt_Extracted': maxForks=0; fair=false; array=0
+Aug-08 15:18:10.596 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:SigProfilerAssignment` matches process SigPA_Extracted
+Aug-08 15:18:10.599 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: lsf
+Aug-08 15:18:10.600 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'lsf'
+Aug-08 15:18:10.601 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'SigPA_Extracted': maxForks=0; fair=false; array=0
+Aug-08 15:18:10.606 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: SigProfilerAssignment, HDP_combine, SigPlt_Extracted, HDP_double, HDP_single, SigProfilerPlotting, SigPA_Extracted, HDP_flat
+Aug-08 15:18:10.612 [main] DEBUG nextflow.Session - Igniting dataflow network (5)
+Aug-08 15:18:10.613 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > HDP_single
+Aug-08 15:18:10.614 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > HDP_combine
+Aug-08 15:18:10.615 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SigPlt_Extracted
+Aug-08 15:18:10.623 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SigPA_Extracted
+Aug-08 15:18:10.628 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_e5541e2caf1b3860: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_flat.nf
   Script_5c618a10e41a7a2d: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_combine.nf
   Script_7824b24b0e04f420: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/SigProfilerAssignment.nf
+  Script_665a18f3bf01adb3: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/main.nf
   Script_f253207711890b69: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_single.nf
   Script_b0d8e8a91cd93fcc: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/SigProfilerPlotting.nf
-Aug-04 13:36:30.389 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
-Aug-04 13:36:30.389 [main] DEBUG nextflow.Session - Session await
-Aug-04 13:36:31.043 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (2) > jobId: 60790; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/43/d1bdbd51862d56ad469fcc2a4a874a
-Aug-04 13:36:31.044 [Task submitter] INFO  nextflow.Session - [43/d1bdbd] Submitted process > HDP_single (2)
-Aug-04 13:36:31.266 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (3) > jobId: 60793; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/87/9c96a9e32b5ac5d4887b4df26e3532
-Aug-04 13:36:31.266 [Task submitter] INFO  nextflow.Session - [87/9c96a9] Submitted process > HDP_single (3)
-Aug-04 13:36:31.457 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (7) > jobId: 60796; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/36/91bc761184a3d27d4926f5cb7c3e17
-Aug-04 13:36:31.457 [Task submitter] INFO  nextflow.Session - [36/91bc76] Submitted process > HDP_single (7)
-Aug-04 13:36:31.695 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (4) > jobId: 60800; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/11/3562cc17db27453d466b56e8389ca2
-Aug-04 13:36:31.696 [Task submitter] INFO  nextflow.Session - [11/3562cc] Submitted process > HDP_single (4)
-Aug-04 13:36:31.939 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (1) > jobId: 60804; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/48/bdd95fba9fc17d11d1cdd8da5c404c
-Aug-04 13:36:31.939 [Task submitter] INFO  nextflow.Session - [48/bdd95f] Submitted process > HDP_single (1)
-Aug-04 13:36:32.132 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (6) > jobId: 60806; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/55/550296b0692adad740cc5e5d69b36b
-Aug-04 13:36:32.133 [Task submitter] INFO  nextflow.Session - [55/550296] Submitted process > HDP_single (6)
-Aug-04 13:36:32.318 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (5) > jobId: 60810; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f5/212c159251abb9e2c97e42cf8b31d1
-Aug-04 13:36:32.319 [Task submitter] INFO  nextflow.Session - [f5/212c15] Submitted process > HDP_single (5)
-Aug-04 13:36:32.519 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (8) > jobId: 60814; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/16/fd709bbf181bebf45be9605e41a63a
-Aug-04 13:36:32.519 [Task submitter] INFO  nextflow.Session - [16/fd709b] Submitted process > HDP_single (8)
-Aug-04 13:36:32.703 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (9) > jobId: 60817; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/73/fd97841b607cc8e48ff364aacda505
-Aug-04 13:36:32.703 [Task submitter] INFO  nextflow.Session - [73/fd9784] Submitted process > HDP_single (9)
-Aug-04 13:36:32.893 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (10) > jobId: 60820; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/b0/679efc1a2cce1a37e1419520c11a5d
-Aug-04 13:36:32.894 [Task submitter] INFO  nextflow.Session - [b0/679efc] Submitted process > HDP_single (10)
-Aug-04 13:36:33.089 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (11) > jobId: 60823; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/6d/7a85efe103ae5b3dfcde34245c9667
-Aug-04 13:36:33.090 [Task submitter] INFO  nextflow.Session - [6d/7a85ef] Submitted process > HDP_single (11)
-Aug-04 13:36:33.298 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (12) > jobId: 60826; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/bd/90eb505468ec64c4ec16c54f2c6e2a
-Aug-04 13:36:33.298 [Task submitter] INFO  nextflow.Session - [bd/90eb50] Submitted process > HDP_single (12)
-Aug-04 13:36:33.487 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (13) > jobId: 60830; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/28/49283bc0a9593c28ac1275cc6f46ff
-Aug-04 13:36:33.487 [Task submitter] INFO  nextflow.Session - [28/49283b] Submitted process > HDP_single (13)
-Aug-04 13:36:33.716 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (15) > jobId: 60834; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/14/9267b7a829acd1498eacdcf76e7bc2
-Aug-04 13:36:33.716 [Task submitter] INFO  nextflow.Session - [14/9267b7] Submitted process > HDP_single (15)
-Aug-04 13:36:33.907 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (14) > jobId: 60838; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/dc/6a390fcbf6d34ab9b973006f682e3f
-Aug-04 13:36:33.908 [Task submitter] INFO  nextflow.Session - [dc/6a390f] Submitted process > HDP_single (14)
-Aug-04 13:36:34.096 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (17) > jobId: 60841; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/d8/70750543b182b53c08a8a29b40b425
-Aug-04 13:36:34.097 [Task submitter] INFO  nextflow.Session - [d8/707505] Submitted process > HDP_single (17)
-Aug-04 13:36:34.395 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (18) > jobId: 60845; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/5e/4969e8fb37e50e9fbfb1d74e1382cf
-Aug-04 13:36:34.396 [Task submitter] INFO  nextflow.Session - [5e/4969e8] Submitted process > HDP_single (18)
-Aug-04 13:36:34.603 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (19) > jobId: 60849; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f4/e3f0966bd2fb3bebef3d29f223fbb9
-Aug-04 13:36:34.603 [Task submitter] INFO  nextflow.Session - [f4/e3f096] Submitted process > HDP_single (19)
-Aug-04 13:36:34.793 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (20) > jobId: 60852; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/8a/7f39cca16809975734ad6f8bcec993
-Aug-04 13:36:34.793 [Task submitter] INFO  nextflow.Session - [8a/7f39cc] Submitted process > HDP_single (20)
-Aug-04 13:36:34.979 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (16) > jobId: 60856; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/2a/8ab19c54665565d498b83b87598948
-Aug-04 13:36:34.980 [Task submitter] INFO  nextflow.Session - [2a/8ab19c] Submitted process > HDP_single (16)
-Aug-04 13:37:35.255 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60793; id: 3; name: HDP_single (3); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/87/9c96a9e32b5ac5d4887b4df26e3532 started: 1754311045264; exited: 2025-08-04T12:37:31Z; ]
-Aug-04 13:37:35.257 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
-Aug-04 13:37:35.268 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60796; id: 7; name: HDP_single (7); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/36/91bc761184a3d27d4926f5cb7c3e17 started: 1754311045268; exited: 2025-08-04T12:37:31Z; ]
-Aug-04 13:37:35.278 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (3); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/87/9c96a9e32b5ac5d4887b4df26e3532
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (3)` terminated with an error exit status (1)
-Aug-04 13:37:35.334 [TaskFinalizer-1] ERROR nextflow.processor.TaskProcessor - Error executing process > 'HDP_single (3)'
+  Script_57cab45c7441dd0c: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/workflows/HDP_double.nf
+Aug-08 15:18:10.628 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Aug-08 15:18:10.628 [main] DEBUG nextflow.Session - Session await
+Aug-08 15:18:11.597 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (4) > jobId: 101117; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/9a/c2aa8b538370f3666439441dfd4789
+Aug-08 15:18:11.599 [Task submitter] INFO  nextflow.Session - [9a/c2aa8b] Submitted process > HDP_single (4)
+Aug-08 15:18:11.991 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (5) > jobId: 101122; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f9/eb664276da0b61883af7aa6b6e99e8
+Aug-08 15:18:11.992 [Task submitter] INFO  nextflow.Session - [f9/eb6642] Submitted process > HDP_single (5)
+Aug-08 15:18:12.295 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (1) > jobId: 101124; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/14/ea2c54db98bf97a6dcfc768d0b5f1e
+Aug-08 15:18:12.297 [Task submitter] INFO  nextflow.Session - [14/ea2c54] Submitted process > HDP_single (1)
+Aug-08 15:18:12.567 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (7) > jobId: 101127; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/ff/c3d4b6bd340ea55117628c1e39b0ba
+Aug-08 15:18:12.568 [Task submitter] INFO  nextflow.Session - [ff/c3d4b6] Submitted process > HDP_single (7)
+Aug-08 15:18:12.839 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (3) > jobId: 101130; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/c4/778fee7ae2ac683f7b1443be62d669
+Aug-08 15:18:12.852 [Task submitter] INFO  nextflow.Session - [c4/778fee] Submitted process > HDP_single (3)
+Aug-08 15:18:13.455 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (8) > jobId: 101133; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/42/119b5ca4533f5c0b87bd262d32a319
+Aug-08 15:18:13.456 [Task submitter] INFO  nextflow.Session - [42/119b5c] Submitted process > HDP_single (8)
+Aug-08 15:18:13.752 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (6) > jobId: 101135; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/bf/93646fff5cbdaf6e1cfb85c132706c
+Aug-08 15:18:13.752 [Task submitter] INFO  nextflow.Session - [bf/93646f] Submitted process > HDP_single (6)
+Aug-08 15:18:14.018 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (2) > jobId: 101136; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/90/9392305f8425fee36cb90e9587550e
+Aug-08 15:18:14.018 [Task submitter] INFO  nextflow.Session - [90/939230] Submitted process > HDP_single (2)
+Aug-08 15:18:14.280 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (9) > jobId: 101137; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/86/68cad7794eacf586a8fecbb3d23461
+Aug-08 15:18:14.283 [Task submitter] INFO  nextflow.Session - [86/68cad7] Submitted process > HDP_single (9)
+Aug-08 15:18:14.931 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (11) > jobId: 101139; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/e5/50c736f6f2d0b27dd8d76344f453c7
+Aug-08 15:18:14.932 [Task submitter] INFO  nextflow.Session - [e5/50c736] Submitted process > HDP_single (11)
+Aug-08 15:18:15.210 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (14) > jobId: 101140; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/2c/1a2579ddd3d53f0639d09942c1a794
+Aug-08 15:18:15.211 [Task submitter] INFO  nextflow.Session - [2c/1a2579] Submitted process > HDP_single (14)
+Aug-08 15:18:15.697 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (16) > jobId: 101141; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/d4/601b51a915db434ba0f134bd213a04
+Aug-08 15:18:15.699 [Task submitter] INFO  nextflow.Session - [d4/601b51] Submitted process > HDP_single (16)
+Aug-08 15:18:15.991 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (12) > jobId: 101145; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f8/5fe49491a808cc6f4496288e3f49dc
+Aug-08 15:18:15.993 [Task submitter] INFO  nextflow.Session - [f8/5fe494] Submitted process > HDP_single (12)
+Aug-08 15:18:16.278 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (10) > jobId: 101147; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/40/8397b35d50e72470c9b7fb7c83fe0e
+Aug-08 15:18:16.279 [Task submitter] INFO  nextflow.Session - [40/8397b3] Submitted process > HDP_single (10)
+Aug-08 15:18:16.679 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (13) > jobId: 101149; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/1f/a1f60d9505ea782193fdceb8e12418
+Aug-08 15:18:16.681 [Task submitter] INFO  nextflow.Session - [1f/a1f60d] Submitted process > HDP_single (13)
+Aug-08 15:18:16.974 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (17) > jobId: 101153; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/65/642a889b9cbadbd27877465d4700fe
+Aug-08 15:18:16.974 [Task submitter] INFO  nextflow.Session - [65/642a88] Submitted process > HDP_single (17)
+Aug-08 15:18:17.226 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (15) > jobId: 101155; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/cd/d9423c83cfc59dec9365ae54da0403
+Aug-08 15:18:17.228 [Task submitter] INFO  nextflow.Session - [cd/d9423c] Submitted process > HDP_single (15)
+Aug-08 15:18:17.477 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (18) > jobId: 101158; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/93/f7935abce9bfb6d93c8c10500663e6
+Aug-08 15:18:17.478 [Task submitter] INFO  nextflow.Session - [93/f7935a] Submitted process > HDP_single (18)
+Aug-08 15:18:17.756 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (19) > jobId: 101159; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/b8/f532af48e77f926594df4f33902144
+Aug-08 15:18:17.757 [Task submitter] INFO  nextflow.Session - [b8/f532af] Submitted process > HDP_single (19)
+Aug-08 15:18:18.425 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [LSF] submitted process HDP_single (20) > jobId: 101160; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/34/370824ebb3fbc155be1e53f5e4d574
+Aug-08 15:18:18.427 [Task submitter] INFO  nextflow.Session - [34/370824] Submitted process > HDP_single (20)
+Aug-08 15:18:25.461 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101117; id: 4; name: HDP_single (4); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/9a/c2aa8b538370f3666439441dfd4789 started: 1754662695453; exited: 2025-08-08T14:18:25Z; ]
+Aug-08 15:18:25.463 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Aug-08 15:18:25.475 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101122; id: 5; name: HDP_single (5); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f9/eb664276da0b61883af7aa6b6e99e8 started: 1754662695502; exited: 2025-08-08T14:18:25Z; ]
+Aug-08 15:18:25.494 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (4); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/9a/c2aa8b538370f3666439441dfd4789
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (4)` terminated with an error exit status (1)
+Aug-08 15:18:25.499 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101127; id: 7; name: HDP_single (7); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/ff/c3d4b6bd340ea55117628c1e39b0ba started: 1754662695509; exited: 2025-08-08T14:18:23Z; ]
+Aug-08 15:18:25.511 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101130; id: 3; name: HDP_single (3); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/c4/778fee7ae2ac683f7b1443be62d669 started: 1754662695513; exited: 2025-08-08T14:18:23Z; ]
+Aug-08 15:18:25.519 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101135; id: 6; name: HDP_single (6); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/bf/93646fff5cbdaf6e1cfb85c132706c started: 1754662700462; exited: 2025-08-08T14:18:25Z; ]
+Aug-08 15:18:25.525 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101136; id: 2; name: HDP_single (2); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/90/9392305f8425fee36cb90e9587550e started: 1754662700466; exited: 2025-08-08T14:18:25Z; ]
+Aug-08 15:18:25.535 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101145; id: 12; name: HDP_single (12); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f8/5fe49491a808cc6f4496288e3f49dc started: 1754662700482; exited: 2025-08-08T14:18:20Z; ]
+Aug-08 15:18:25.546 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101158; id: 18; name: HDP_single (18); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/93/f7935abce9bfb6d93c8c10500663e6 started: 1754662700501; exited: 2025-08-08T14:18:21Z; ]
+Aug-08 15:18:25.551 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101159; id: 19; name: HDP_single (19); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/b8/f532af48e77f926594df4f33902144 started: 1754662700504; exited: 2025-08-08T14:18:22Z; ]
+Aug-08 15:18:25.557 [TaskFinalizer-1] ERROR nextflow.processor.TaskProcessor - Error executing process > 'HDP_single (4)'
 
 Caused by:
-  Process `HDP_single (3)` terminated with an error exit status (1)
+  Process `HDP_single (4)` terminated with an error exit status (1)
 
 
 Command executed:
 
-  Rscript --vanilla /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/bin/HDP_single.R --hierarchy_matrix EAC_Manuscript_sample_key.csv --hierarchy_parameter1 sample_type  --analysis_type analysis --burnin_iterations 50 --posterior 10 --posterior_iterations 200 --threshold 0 --chain_index 3 EAC_GEC_Manuscript_Subset_v1.SBS96.txt
+  Rscript --vanilla /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/bin/HDP_single.R --hierarchy_matrix EAC_Manuscript_sample_key.csv --hierarchy_parameter1 sample_type  --analysis_type analysis --burnin_iterations 50 --posterior 10 --posterior_iterations 200 --threshold 0 --chain_index 4 EAC_GEC_Manuscript_Subset_v1.SBS96.txt
 
 Command exit status:
   1
 
 Command output:
-  (empty)
+  [1] "HDP_chains"
+  NULL
 
 Command error:
   Welcome to HDP mutational signature extraction pipeline. For any questions, please consort the original GitHub/vignette: (https://github.com/nicolaroberts/hdp/blob/master/vignettes/mutation_signatures.Rmd), or the Stratton group. 
   
   Analysis run selected. Please note that this is intended to be run on a HPC as it requires 20 threads. 
   
-  Error: object 'mut_context' not found
+  Setting up HDP posterior sampling chain  4  of 20. 
+  
+  Creating output subdirectory for run 
+  
+  Chain 4: Importing user datasets. 
+  
+  Input mutation matrix format detected with mutation type as rownames/in rows. Conducting data wrangling to make input matrix compatible with HDP pipeline. 
+  
+  Chain 4: mutation matrix successfully imported. 
+  
+  Chain 4: hierarchy matrix successfully imported. 
+  
+  Error in file.info(..., extra_cols = FALSE) : invalid filename argument
+  Calls: file.size -> file.info
   Execution halted
 
 Work dir:
-  /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/87/9c96a9e32b5ac5d4887b4df26e3532
+  /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/9a/c2aa8b538370f3666439441dfd4789
 
 Container:
   /lustre/scratch125/casm/teams/team267/projects/DockerImages/hdp_amd64_0.0.2.sif
 
-Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
-Aug-04 13:37:35.336 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (7); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/36/91bc761184a3d27d4926f5cb7c3e17
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (7)` terminated with an error exit status (1)
-Aug-04 13:37:35.343 [TaskFinalizer-1] INFO  nextflow.Session - Execution cancelled -- Finishing pending tasks before exit
-Aug-04 13:37:35.352 [main] DEBUG nextflow.Session - Session await > all processes finished
-Aug-04 13:37:40.357 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60790; id: 2; name: HDP_single (2); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/43/d1bdbd51862d56ad469fcc2a4a874a started: 1754311045251; exited: 2025-08-04T12:37:35Z; ]
-Aug-04 13:37:40.360 [TaskFinalizer-3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (2); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/43/d1bdbd51862d56ad469fcc2a4a874a
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (2)` terminated with an error exit status (1)
-Aug-04 13:37:45.359 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60806; id: 6; name: HDP_single (6); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/55/550296b0692adad740cc5e5d69b36b started: 1754311060366; exited: 2025-08-04T12:37:42Z; ]
-Aug-04 13:37:45.361 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (6); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/55/550296b0692adad740cc5e5d69b36b
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (6)` terminated with an error exit status (1)
-Aug-04 13:37:50.359 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60800; id: 4; name: HDP_single (4); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/11/3562cc17db27453d466b56e8389ca2 started: 1754311060359; exited: 2025-08-04T12:37:46Z; ]
-Aug-04 13:37:50.362 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (4); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/11/3562cc17db27453d466b56e8389ca2
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (4)` terminated with an error exit status (1)
-Aug-04 13:37:55.360 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60810; id: 5; name: HDP_single (5); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f5/212c159251abb9e2c97e42cf8b31d1 started: 1754311065361; exited: 2025-08-04T12:37:53Z; ]
-Aug-04 13:37:55.362 [TaskFinalizer-6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (5); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f5/212c159251abb9e2c97e42cf8b31d1
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (5)` terminated with an error exit status (1)
-Aug-04 13:37:55.364 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60814; id: 8; name: HDP_single (8); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/16/fd709bbf181bebf45be9605e41a63a started: 1754311070362; exited: 2025-08-04T12:37:52Z; ]
-Aug-04 13:37:55.367 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (8); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/16/fd709bbf181bebf45be9605e41a63a
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (8)` terminated with an error exit status (1)
-Aug-04 13:38:00.361 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60823; id: 11; name: HDP_single (11); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/6d/7a85efe103ae5b3dfcde34245c9667 started: 1754311075366; exited: 2025-08-04T12:37:58Z; ]
-Aug-04 13:38:00.364 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (11); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/6d/7a85efe103ae5b3dfcde34245c9667
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (11)` terminated with an error exit status (1)
-Aug-04 13:38:00.366 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60826; id: 12; name: HDP_single (12); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/bd/90eb505468ec64c4ec16c54f2c6e2a started: 1754311075370; exited: 2025-08-04T12:37:57Z; ]
-Aug-04 13:38:00.369 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (12); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/bd/90eb505468ec64c4ec16c54f2c6e2a
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (12)` terminated with an error exit status (1)
-Aug-04 13:38:05.366 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60830; id: 13; name: HDP_single (13); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/28/49283bc0a9593c28ac1275cc6f46ff started: 1754311080368; exited: 2025-08-04T12:38:02Z; ]
-Aug-04 13:38:05.368 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (13); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/28/49283bc0a9593c28ac1275cc6f46ff
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (13)` terminated with an error exit status (1)
-Aug-04 13:38:05.370 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60834; id: 15; name: HDP_single (15); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/14/9267b7a829acd1498eacdcf76e7bc2 started: 1754311080371; exited: 2025-08-04T12:38:02Z; ]
-Aug-04 13:38:05.371 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (15); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/14/9267b7a829acd1498eacdcf76e7bc2
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (15)` terminated with an error exit status (1)
-Aug-04 13:38:10.359 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60804; id: 1; name: HDP_single (1); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/48/bdd95fba9fc17d11d1cdd8da5c404c started: 1754311060363; exited: 2025-08-04T12:38:09Z; ]
-Aug-04 13:38:10.361 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (1); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/48/bdd95fba9fc17d11d1cdd8da5c404c
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (1)` terminated with an error exit status (1)
-Aug-04 13:38:10.364 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60838; id: 14; name: HDP_single (14); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/dc/6a390fcbf6d34ab9b973006f682e3f started: 1754311085371; exited: 2025-08-04T12:38:07Z; ]
-Aug-04 13:38:10.367 [TaskFinalizer-3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (14); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/dc/6a390fcbf6d34ab9b973006f682e3f
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (14)` terminated with an error exit status (1)
-Aug-04 13:38:10.372 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60841; id: 17; name: HDP_single (17); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/d8/70750543b182b53c08a8a29b40b425 started: 1754311090366; exited: 2025-08-04T12:38:08Z; ]
-Aug-04 13:38:10.374 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (17); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/d8/70750543b182b53c08a8a29b40b425
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (17)` terminated with an error exit status (1)
-Aug-04 13:38:10.378 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60845; id: 18; name: HDP_single (18); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/5e/4969e8fb37e50e9fbfb1d74e1382cf started: 1754311090373; exited: 2025-08-04T12:38:10Z; ]
-Aug-04 13:38:10.380 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (18); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/5e/4969e8fb37e50e9fbfb1d74e1382cf
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (18)` terminated with an error exit status (1)
-Aug-04 13:38:15.362 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60849; id: 19; name: HDP_single (19); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f4/e3f0966bd2fb3bebef3d29f223fbb9 started: 1754311090379; exited: 2025-08-04T12:38:12Z; ]
-Aug-04 13:38:15.366 [TaskFinalizer-6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (19); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f4/e3f0966bd2fb3bebef3d29f223fbb9
+Tip: you can replicate the issue by changing to the process work dir and entering the command `bash .command.run`
+Aug-08 15:18:25.560 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (19); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/b8/f532af48e77f926594df4f33902144
   error [nextflow.exception.ProcessFailedException]: Process `HDP_single (19)` terminated with an error exit status (1)
-Aug-04 13:38:20.362 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60856; id: 16; name: HDP_single (16); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/2a/8ab19c54665565d498b83b87598948 started: 1754311095367; exited: 2025-08-04T12:38:17Z; ]
-Aug-04 13:38:20.365 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (16); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/2a/8ab19c54665565d498b83b87598948
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (16)` terminated with an error exit status (1)
-Aug-04 13:38:25.363 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60852; id: 20; name: HDP_single (20); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/8a/7f39cca16809975734ad6f8bcec993 started: 1754311095364; exited: 2025-08-04T12:38:20Z; ]
-Aug-04 13:38:25.365 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (20); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/8a/7f39cca16809975734ad6f8bcec993
-  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (20)` terminated with an error exit status (1)
-Aug-04 13:39:05.367 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60817; id: 9; name: HDP_single (9); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/73/fd97841b607cc8e48ff364aacda505 started: 1754311085357; exited: 2025-08-04T12:39:02Z; ]
-Aug-04 13:39:05.370 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (9); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/73/fd97841b607cc8e48ff364aacda505
+Aug-08 15:18:25.561 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (18); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/93/f7935abce9bfb6d93c8c10500663e6
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (18)` terminated with an error exit status (1)
+Aug-08 15:18:25.563 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (12); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f8/5fe49491a808cc6f4496288e3f49dc
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (12)` terminated with an error exit status (1)
+Aug-08 15:18:25.565 [TaskFinalizer-6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (2); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/90/9392305f8425fee36cb90e9587550e
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (2)` terminated with an error exit status (1)
+Aug-08 15:18:25.566 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (6); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/bf/93646fff5cbdaf6e1cfb85c132706c
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (6)` terminated with an error exit status (1)
+Aug-08 15:18:25.567 [TaskFinalizer-1] INFO  nextflow.Session - Execution cancelled -- Finishing pending tasks before exit
+Aug-08 15:18:25.568 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (3); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/c4/778fee7ae2ac683f7b1443be62d669
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (3)` terminated with an error exit status (1)
+Aug-08 15:18:25.580 [TaskFinalizer-3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (7); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/ff/c3d4b6bd340ea55117628c1e39b0ba
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (7)` terminated with an error exit status (1)
+Aug-08 15:18:25.581 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (5); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/f9/eb664276da0b61883af7aa6b6e99e8
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (5)` terminated with an error exit status (1)
+Aug-08 15:18:25.586 [main] DEBUG nextflow.Session - Session await > all processes finished
+Aug-08 15:18:30.599 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101133; id: 8; name: HDP_single (8); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/42/119b5ca4533f5c0b87bd262d32a319 started: 1754662700458; exited: 2025-08-08T14:18:30Z; ]
+Aug-08 15:18:30.603 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (8); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/42/119b5ca4533f5c0b87bd262d32a319
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (8)` terminated with an error exit status (1)
+Aug-08 15:18:30.606 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101137; id: 9; name: HDP_single (9); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/86/68cad7794eacf586a8fecbb3d23461 started: 1754662700469; exited: 2025-08-08T14:18:28Z; ]
+Aug-08 15:18:30.609 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (9); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/86/68cad7794eacf586a8fecbb3d23461
   error [nextflow.exception.ProcessFailedException]: Process `HDP_single (9)` terminated with an error exit status (1)
-Aug-04 13:39:05.372 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 60820; id: 10; name: HDP_single (10); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/b0/679efc1a2cce1a37e1419520c11a5d started: 1754311085360; exited: 2025-08-04T12:39:01Z; ]
-Aug-04 13:39:05.372 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: lsf) - terminating tasks monitor poll loop
-Aug-04 13:39:05.373 [main] DEBUG nextflow.Session - Session await > all barriers passed
-Aug-04 13:39:05.374 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=HDP_single (10); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/b0/679efc1a2cce1a37e1419520c11a5d
+Aug-08 15:18:30.610 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101139; id: 11; name: HDP_single (11); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/e5/50c736f6f2d0b27dd8d76344f453c7 started: 1754662700473; exited: 2025-08-08T14:18:28Z; ]
+Aug-08 15:18:30.612 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (11); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/e5/50c736f6f2d0b27dd8d76344f453c7
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (11)` terminated with an error exit status (1)
+Aug-08 15:18:30.614 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101140; id: 14; name: HDP_single (14); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/2c/1a2579ddd3d53f0639d09942c1a794 started: 1754662700476; exited: 2025-08-08T14:18:28Z; ]
+Aug-08 15:18:30.617 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (14); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/2c/1a2579ddd3d53f0639d09942c1a794
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (14)` terminated with an error exit status (1)
+Aug-08 15:18:30.624 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101147; id: 10; name: HDP_single (10); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/40/8397b35d50e72470c9b7fb7c83fe0e started: 1754662700492; exited: 2025-08-08T14:18:29Z; ]
+Aug-08 15:18:30.628 [TaskFinalizer-6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (10); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/40/8397b35d50e72470c9b7fb7c83fe0e
   error [nextflow.exception.ProcessFailedException]: Process `HDP_single (10)` terminated with an error exit status (1)
-Aug-04 13:39:05.378 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'TaskFinalizer' shutdown completed (hard=false)
-Aug-04 13:39:05.386 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=20; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=4m 20s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=5; peakCpus=5; peakMemory=40 GB; ]
-Aug-04 13:39:05.468 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
-Aug-04 13:39:05.485 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
-Aug-04 13:39:05.485 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
+Aug-08 15:18:30.629 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101153; id: 17; name: HDP_single (17); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/65/642a889b9cbadbd27877465d4700fe started: 1754662700496; exited: 2025-08-08T14:18:27Z; ]
+Aug-08 15:18:30.632 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (17); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/65/642a889b9cbadbd27877465d4700fe
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (17)` terminated with an error exit status (1)
+Aug-08 15:18:30.634 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101155; id: 15; name: HDP_single (15); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/cd/d9423c83cfc59dec9365ae54da0403 started: 1754662700498; exited: 2025-08-08T14:18:29Z; ]
+Aug-08 15:18:30.636 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (15); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/cd/d9423c83cfc59dec9365ae54da0403
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (15)` terminated with an error exit status (1)
+Aug-08 15:18:30.640 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101160; id: 20; name: HDP_single (20); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/34/370824ebb3fbc155be1e53f5e4d574 started: 1754662700507; exited: 2025-08-08T14:18:28Z; ]
+Aug-08 15:18:30.641 [TaskFinalizer-3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (20); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/34/370824ebb3fbc155be1e53f5e4d574
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (20)` terminated with an error exit status (1)
+Aug-08 15:18:35.596 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101141; id: 16; name: HDP_single (16); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/d4/601b51a915db434ba0f134bd213a04 started: 1754662700479; exited: 2025-08-08T14:18:33Z; ]
+Aug-08 15:18:35.600 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (16); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/d4/601b51a915db434ba0f134bd213a04
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (16)` terminated with an error exit status (1)
+Aug-08 15:18:35.602 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101149; id: 13; name: HDP_single (13); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/1f/a1f60d9505ea782193fdceb8e12418 started: 1754662705538; exited: 2025-08-08T14:18:35Z; ]
+Aug-08 15:18:35.604 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (13); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/1f/a1f60d9505ea782193fdceb8e12418
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (13)` terminated with an error exit status (1)
+Aug-08 15:18:40.596 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 101124; id: 1; name: HDP_single (1); status: COMPLETED; exit: 1; error: -; workDir: /lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/14/ea2c54db98bf97a6dcfc768d0b5f1e started: 1754662695506; exited: 2025-08-08T14:18:38Z; ]
+Aug-08 15:18:40.598 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: lsf) - terminating tasks monitor poll loop
+Aug-08 15:18:40.598 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Aug-08 15:18:40.599 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=HDP_single (1); work-dir=/lustre/scratch125/casm/teams/team267/projects/Pipelines/HDP_pipeline/test_run/work/14/ea2c54db98bf97a6dcfc768d0b5f1e
+  error [nextflow.exception.ProcessFailedException]: Process `HDP_single (1)` terminated with an error exit status (1)
+Aug-08 15:18:40.603 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'TaskFinalizer' shutdown completed (hard=false)
+Aug-08 15:18:40.614 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=20; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=3m 17s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=20; peakCpus=20; peakMemory=160 GB; ]
+Aug-08 15:18:40.681 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Aug-08 15:18:40.721 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+Aug-08 15:18:40.722 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
