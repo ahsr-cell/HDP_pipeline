@@ -5,11 +5,11 @@ process HDP_double_prior {
     path mutational_matrix
     path hierarchy_matrix
     path prior_matrix
-    val analysis_type 
+    val analysis_type
     val hierarchy_parameter1
     val hierarchy_parameter2
     val burnin_iterations 
-    val posterior 
+    val posterior
     val posterior_space
     val threshold
     val chain_index
