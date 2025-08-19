@@ -145,14 +145,19 @@ freq <- table(key_table[,hp1i])
 message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate into HDP structure. \n"))
 
 ref = read.table(prior_matrix, header = T, stringsAsFactors = F, sep = '\t')
-if (ncol(ref) == 1 ) {
-
+if (ncol(ref) == 1) {
   ref <- read.table(prior_matrix, header=T, sep = ",")
 }
 
-rownames(ref) <- ref[,1]
-ref <- ref[,-1]
-ref <- ref[tinuc_sort,]
+if ("MutationType" %in% colnames(ref)) {
+  ref <- tibble::column_to_rownames(ref, "MutationType")
+} else {
+  stop(sprintf("Error: Input prior matrix does not provide mutations under a column labelled as 'MutationType'. Please conduct the necessary data wrangling to ensure your prior matrix is compatible with the pipeline. Stopping HDP pipeline."))
+}
+
+#rownames(ref) <- ref[,1]
+#ref <- ref[,-1]
+#ref <- ref[tinuc_sort,]
 
 prior_sigs = as.matrix(ref)
 
