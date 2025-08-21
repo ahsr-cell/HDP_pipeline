@@ -3,7 +3,6 @@ process HDP_flat_prior {
 
     input:
     path mutational_matrix
-    path hierarchy_matrix
     path prior_matrix
     val analysis_type 
     val burnin_iterations 

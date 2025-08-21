@@ -3,8 +3,8 @@ process HDP_combine {
 
     input:
     path mutational_matrix
-    path hierarchy_matrix
     path HDP_chains
+    val numchains
     val threshold
     val mutation_context
     
@@ -15,6 +15,6 @@ process HDP_combine {
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_combine.R ${mutational_matrix} --hierarchy_matrix ${hierarchy_matrix} --HDP_chains ${HDP_chains} -t ${threshold} -c ${mutation_context}
+    Rscript --vanilla ${projectDir}/bin/HDP_combine.R ${mutational_matrix} --HDP_chains ${HDP_chains} --number_chains ${numchains} -t ${threshold} -c ${mutation_context}
     """
 }

@@ -18,9 +18,11 @@ parser = ArgumentParser(prog = 'HDP', description='Hdp pipeline')
 #Command line arguments
 parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input mutational matrix.") 
 
-parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
+#parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE) 
 
 parser$add_argument("-h_chains", "--HDP_chains", type = 'character', default = "0", help = "Specify path to HDP chains.")
+
+parser$add_argument("-num_chains", "--number_chains", type = 'character', default = "0", help = "Specify total number of HDP chains.")
 
 parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
@@ -31,12 +33,16 @@ args <- parser$parse_args()
 
 mutation_matrix <- args$mutation_matrix
 
-if (!is.null("args$hierarchy_matrix")) {
-  hierarchy_matrix <- args$hierarchy_matrix
-}
+#if (!is.null("args$hierarchy_matrix")) {
+#  hierarchy_matrix <- args$hierarchy_matrix
+#}
 
 if (!is.null("args$HDP_chains")) {
   HDP_chain_path <- args$HDP_chains
+}
+
+if (!is.null("args$number_chains")) {
+  numofchains <- args$number_chains
 }
 
 if (!exists("threshold")) {
@@ -59,8 +65,8 @@ if (mut_context == 'ID83') {
     u.mc = 'ID'
 }
 
-chlist <- vector("list", 20)
-for (i in 1:20){
+chlist <- vector("list", as.integer(numofchains))
+for (i in 1:as.integer(numofchains)){
   if (file.exists(paste0(HDP_chain_path, "hdp_chain_", i, ".Rdata"))) {
     chlist[[i]] <- readRDS(paste0(HDP_chainp_path, "hdp_chain_", i, ".Rdata"))
   }
@@ -128,26 +134,26 @@ mutations=read.table(mutation_matrix, header = TRUE, check.names = FALSE, sep = 
 if (ncol(mutation_matrix) == 1) {
   mutations <- read.table(mutation_matrix, header = TRUE, sep = ",")
 }
-key_table=read.table(hierarchy_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "")
-if (ncol(key_table) == 1) {
-  key_table <- read.table(hierarchy_matrix, header = TRUE, sep = ",")
-}
+#key_table=read.table(hierarchy_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "")
+#if (ncol(key_table) == 1) {
+#  key_table <- read.table(hierarchy_matrix, header = TRUE, sep = ",")
+#}
 #If requiring a minimum number of mutations:
 sample_remove <- rownames(mutations)[rowSums(mutations) < lower_threshold]
 mutations <- mutations[!rownames(mutations) %in% sample_remove, ]
-key_table <- key_table[!key_table$Sample %in% sample_remove, ]
+#key_table <- key_table[!key_table$Sample %in% sample_remove, ]
 
-freq <- table(key_table$Patient)
+#freq <- table(key_table$Patient)
 
-pdf("signature_attribution.pdf",width=10,height=8)
-plot_dp_comp_exposure(mut_example_multi, dpindices=(length(freq)+2):length(mut_example_multi@comp_dp_counts), incl_nonsig = T, ylab_exp = 'Signature exposure', leg.title = 'Signature', col=mycolors, incl_numdata_plot=F)
-dev.off()
+#pdf("signature_attribution.pdf",width=10,height=8)
+#plot_dp_comp_exposure(mut_example_multi, dpindices=(length(freq)+2):length(mut_example_multi@comp_dp_counts), incl_nonsig = T, ylab_exp = 'Signature exposure', leg.title = 'Signature', col=mycolors, incl_numdata_plot=F)
+#dev.off()
 
 message(paste("QC plots completed. Generating matrices containing raw profiles and attributions of extracted de novo signatures. \n"))
 dp_distn <- comp_dp_distn(mut_example_multi)
 ndp <- nrow(dp_distn$mean)
 ncomp <- ncol(dp_distn$mean)
-mean_assignment <- t(dp_distn$mean[length(freq)+1+1:nrow(mutations),drop=FALSE])
+#mean_assignment <- t(dp_distn$mean[length(freq)+1+1:nrow(mutations),drop=FALSE])
 
 mean_assignment <- as.data.frame(comp_dp_distn(mut_example_multi)$mean)
 write.table(mean_assignment, "mean_assignment_hdp.txt")

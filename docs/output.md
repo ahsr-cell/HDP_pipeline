@@ -34,10 +34,6 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
     - `pkl/`
       - `SBS96.pkl`
     - `SBS_96_plots_deNovoSignatures.pdf`
-  - `LowConfidenceSignatures/`
-    - `pkl/`
-      - `SBS96.pkl`
-    - `SBS_96_plots_LowConfidenceSignatures.pdf`
 
 ### SigProfilerAssignment output
 - `SigProfilerDecomposition/`
