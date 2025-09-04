@@ -67,11 +67,13 @@ if (mut_context == 'ID83') {
 
 chlist <- vector("list", as.integer(numofchains))
 for (i in 1:as.integer(numofchains)){
-  if (file.exists(paste0(HDP_chain_path, "hdp_chain_", i, ".Rdata"))) {
-    chlist[[i]] <- readRDS(paste0(HDP_chainp_path, "hdp_chain_", i, ".Rdata"))
+  if (file.exists(paste0(getwd(),"/",HDP_chain_path,"/hdp_chain_", i, ".Rdata"))) {
+    chlist[[i]] <- readRDS(paste0(getwd(),"/",HDP_chain_path,"/hdp_chain_", i, ".Rdata"))
+    message(paste0("HDP chain",i,"found and successfully imported. \n"))
+  } else {
+    print("HDP chain file not found")
   }
 }
-message(paste("Successfully imported HDP chains. Generating QC plots. \n"))
 
 message(paste0("Creating output subdirectory for run"))  
 main_dir <- getwd()

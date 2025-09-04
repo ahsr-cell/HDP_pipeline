@@ -70,18 +70,6 @@ n <- as.numeric(chain_index)
 ##### Setting up HDP
 message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
 
-message(paste0("Creating output subdirectory for run"))  
-  main_dir <- getwd()
-  sub_dir <- paste0("HDP_chains")
-  if (!file.exists(sub_dir)){
-    dir.create(file.path(main_dir, sub_dir))
-    u.work.dir <- file.path(main_dir,sub_dir)
-    u.work.dir
-  } else {
-    u.work.dir <- file.path(main_dir,sub_dir)
-    message(paste0("Work directory is ",u.work.dir))
-  }
-
 message("Chain ", n, ": Importing user datasets. \n")
 
 ### Import mutation matrix and conduct necessary data wrangling
@@ -126,6 +114,20 @@ hdp_mut <- hdp_setdata(hdp_mut,
 
 hdp_activated <- dp_activate(hdp_mut, 1:numdp(hdp_mut), initcc=10,seed=n*300)
 
+#message(paste0("Creating output subdirectory for run"))  
+#  main_dir <- getwd()
+#  sub_dir <- paste0("HDP_chains")
+#  if (!file.exists(sub_dir)){
+#    dir.create(file.path(main_dir, sub_dir))
+#    u.work.dir <- file.path(main_dir,sub_dir)
+#    u.work.dir
+#  } else {
+#    u.work.dir <- file.path(main_dir,sub_dir)
+#  }
+#setwd(u.work.dir)
+
+message(paste0("Work directory is ",getwd()))
+
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
 
   message(paste0("Chain ",n,": Executing posterior sampling chain ", n, " with analysis run settings: ",u_burnin," burn-in iterations, collecting ",u_post," posterior samples off each chain with ",u_post_space," iterations between each. \n"))
@@ -151,4 +153,4 @@ if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_typ
 
 saveRDS(chain,paste0("hdp_chain_",n,".Rdata"))
 
-message(paste0("Posterior sampling chain number", n, " completed. Successfully saved chain .Rdata in /HDP_chains for subsequent step. \n"))
+message(paste0("Posterior sampling chain number ", n, " completed. Successfully saved chain .Rdata in /HDP_chains for subsequent step. \n"))
