@@ -84,17 +84,17 @@ n <- as.numeric(chain_index)
 ##### Setting up HDP
 message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
 
-message(paste0("Creating output subdirectory for run \n"))  
-main_dir <- getwd()
-sub_dir <- paste0("HDP_chains")
-if (!file.exists(sub_dir)){
-  dir.create(file.path(main_dir, sub_dir))
-  u.work.dir <- file.path(main_dir,sub_dir)
-  u.work.dir
-} else {
-  u.work.dir <- file.path(main_dir,sub_dir)
-  message(paste0("Work directory is ",u.work.dir))
-}
+#message(paste0("Creating output subdirectory for run \n"))  
+#main_dir <- getwd()
+#sub_dir <- paste0("HDP_chains")
+#if (!file.exists(sub_dir)){
+#  dir.create(file.path(main_dir, sub_dir))
+#  u.work.dir <- file.path(main_dir,sub_dir)
+#  u.work.dir
+#} else {
+#  u.work.dir <- file.path(main_dir,sub_dir)
+#  message(paste0("Work directory is ",u.work.dir))
+#}
 
 message("Chain ", n, ": Importing user datasets. \n")
 

@@ -76,17 +76,17 @@ n <- as.numeric(chain_index)
 ##### Setting up HDP
 message(paste("Setting up HDP posterior sampling chain ", n, " of 20. \n"))
 
-message(paste0("Creating output subdirectory for run"))  
-  main_dir <- getwd()
-  sub_dir <- paste0("HDP_chains")
-  if (!file.exists(sub_dir)){
-    dir.create(file.path(main_dir, sub_dir))
-    u.work.dir <- file.path(main_dir,sub_dir)
-    u.work.dir
-  } else {
-    u.work.dir <- file.path(main_dir,sub_dir)
-    message(paste0("Work directory is ",u.work.dir))
-  }
+#message(paste0("Creating output subdirectory for run"))  
+#  main_dir <- getwd()
+#  sub_dir <- paste0("HDP_chains")
+#  if (!file.exists(sub_dir)){
+#    dir.create(file.path(main_dir, sub_dir))
+#    u.work.dir <- file.path(main_dir,sub_dir)
+#    u.work.dir
+#  } else {
+#    u.work.dir <- file.path(main_dir,sub_dir)
+#    message(paste0("Work directory is ",u.work.dir))
+#  }
 
 message("Chain ", n, ": Importing user datasets. \n")
 
@@ -121,11 +121,11 @@ if (ncol(ref) == 1 ) {
   ref <- read.table(prior_matrix, header=T, sep = ",")
 }
 
-if ("MutationType" %in% colnames(ref)) {
-  ref <- tibble::column_to_rownames(ref, "MutationType")
-} else {
-  stop(sprintf("Error: Input prior matrix does not provide mutations under a column labelled as 'MutationType'. Please conduct the necessary data wrangling to ensure your prior matrix is compatible with the pipeline. Stopping HDP pipeline."))
-}
+#if ("MutationType" %in% colnames(ref)) {
+#  ref <- tibble::column_to_rownames(ref, "MutationType")
+#} else {
+#  stop(sprintf("Error: Input prior matrix does not provide mutations under a column labelled as 'MutationType'. Please conduct the necessary data wrangling to ensure your prior matrix is compatible with the pipeline. Stopping HDP pipeline."))
+#}
 
 #rownames(ref) <- ref[,1]
 #ref <- ref[,-1]

@@ -1,5 +1,5 @@
 process HDP_flat_prior {
-    publishDir "${params.outdir}", mode: "copy", overwrite: true
+    publishDir "${params.outdir}/HDP_chains", mode: "copy"
 
     input:
     path mutational_matrix
@@ -12,7 +12,8 @@ process HDP_flat_prior {
     val chain_index
 
     output:
-    path "HDP_chains", emit: HDP_chains
+    // path "HDP_chains", emit: HDP_chains
+    path "hdp_chain_*.Rdata"
 
     script:
     """

@@ -37,13 +37,41 @@ workflow {
              params.threshold,
              Channel.of(1..params.numchains)
              )
+
+             HDP_collected = HDP_double_prior.out.collect().map { file("HDP_chains") }
+            
              HDP_combine(
-              params.mutational_matrix,
-              params.hierarchy_matrix,
-              HDP_double_prior.out.HDP_chains,
-              params.threshold,
-              params.mutation_context
+                 params.mutational_matrix,
+                 params.hierarchy_matrix,
+                 HDP_collected,
+                 params.threshold,
+                 params.mutation_context
              )
+             
+             if (params.plotting == true) {
+                 if (params.decompose == true) {
+                 SigPlt_Extracted(
+                    params.mutation_context,
+                    HDP_combine.out.deNovo_extractedsigs
+                 )
+                 SigPA_Extracted(
+                 HDP_combine.out.deNovo_extsigs_sigPA,
+                 params.mutational_matrix
+             )
+             } else {
+                 SigPlt_Extracted(
+                    params.mutation_context,
+                    HDP_combine.out.deNovo_extractedsigs
+                 )
+             }             
+         } else {
+             if (params.decompose == true) {
+             SigPA_Extracted(
+                 HDP_combine.out.deNovo_extsigs_sigPA,
+                 params.mutational_matrix
+             )
+             }
+         }
         } else {
             HDP_double_noprior(
              params.mutational_matrix,
@@ -57,13 +85,41 @@ workflow {
              params.threshold,
              Channel.of(1..params.numchains)
              )
+
+             HDP_collected = HDP_double_noprior.out.collect().map { file("HDP_chains") }
+            
              HDP_combine(
-              params.mutational_matrix,
-              params.hierarchy_matrix,
-              HDP_double_noprior.out.HDP_chains,
-              params.threshold,
-              params.mutation_context
+                 params.mutational_matrix,
+                 params.hierarchy_matrix,
+                 HDP_collected,
+                 params.threshold,
+                 params.mutation_context
              )
+
+             if (params.plotting == true) {
+                 if (params.decompose == true) {
+                 SigPlt_Extracted(
+                    params.mutation_context,
+                    HDP_combine.out.deNovo_extractedsigs
+                 )
+                 SigPA_Extracted(
+                 HDP_combine.out.deNovo_extsigs_sigPA,
+                 params.mutational_matrix
+             )
+             } else {
+                 SigPlt_Extracted(
+                    params.mutation_context,
+                    HDP_combine.out.deNovo_extractedsigs
+                 )
+             }             
+         } else {
+             if (params.decompose == true) {
+             SigPA_Extracted(
+                 HDP_combine.out.deNovo_extsigs_sigPA,
+                 params.mutational_matrix
+             )
+             }
+         }
         }
      }
      if (params.hierarchy == "single") {
@@ -80,13 +136,17 @@ workflow {
              params.threshold,
              Channel.of(1..params.numchains)
              )
+
+             HDP_collected = HDP_single_prior.out.collect().map { file("HDP_chains") }
+            
              HDP_combine(
                  params.mutational_matrix,
                  params.hierarchy_matrix,
-                 HDP_single_prior.out.HDP_chains,
+                 HDP_collected,
                  params.threshold,
                  params.mutation_context
              )
+
              if (params.plotting == true) {
                  if (params.decompose == true) {
                  SigPlt_Extracted(
@@ -123,13 +183,17 @@ workflow {
              params.threshold,
              Channel.of(1..params.numchains)
              )
+
+             HDP_collected = HDP_single_noprior.out.collect().map { file("HDP_chains") }
+            
              HDP_combine(
                  params.mutational_matrix,
                  params.hierarchy_matrix,
-                 HDP_single_noprior.out.HDP_chains,
-                 params.threshold,
+                 HDP_collected,
+                 params.thresold,
                  params.mutation_context
              )
+
              if (params.plotting == true) {
                  if (params.decompose == true) {
                  SigPlt_Extracted(
@@ -168,13 +232,17 @@ workflow {
              params.threshold,
              Channel.of(1..params.numchains)
              )
+
+             HDP_collected = HDP_flat_prior.out.collect().map { file("HDP_chains") }
+            
              HDP_combine(
                  params.mutational_matrix,
-                //  params.hierarchy_matrix,
-                 HDP_flat_prior.out.HDP_chains,
+                 // params.hierarchy_matrix,
+                 HDP_collected,
                  params.threshold,
                  params.mutation_context
              )
+
              if (params.plotting == true) {
                  if (params.decompose == true) {
                  SigPlt_Extracted(
