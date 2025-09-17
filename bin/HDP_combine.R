@@ -62,18 +62,31 @@ if (mut_context == 'DBS78') {
   u.mc = 'DBS'
 }
 if (mut_context == 'ID83') {
-    u.mc = 'ID'
+  u.mc = 'ID'
 }
 
 chlist <- vector("list", as.integer(numofchains))
 for (i in 1:as.integer(numofchains)){
   if (file.exists(paste0(getwd(),"/",HDP_chain_path,"/hdp_chain_", i, ".Rdata"))) {
     chlist[[i]] <- readRDS(paste0(getwd(),"/",HDP_chain_path,"/hdp_chain_", i, ".Rdata"))
-    message(paste0("HDP chain",i,"found and successfully imported. \n"))
+    message(paste0("HDP chain ",i," found and successfully imported. \n"))
   } else {
     print("HDP chain file not found")
   }
 }
+
+mutations=read.table(mutation_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "", row.names=1)
+if (ncol(mutations) == 1) {
+  mutations <- read.table(mutation_matrix, header = TRUE, sep = ",")
+}
+#key_table=read.table(hierarchy_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "")
+#if (ncol(key_table) == 1) {
+#  key_table <- read.table(hierarchy_matrix, header = TRUE, sep = ",")
+#}
+#If requiring a minimum number of mutations:
+sample_remove <- rownames(mutations)[rowSums(mutations) < lower_threshold]
+mutations <- mutations[!rownames(mutations) %in% sample_remove, ]
+#key_table <- key_table[!key_table$Sample %in% sample_remove, ]
 
 message(paste0("Creating output subdirectory for run"))  
 main_dir <- getwd()
@@ -86,13 +99,14 @@ if (!file.exists(sub_dir)){
     u.work.dir <- file.path(main_dir,sub_dir)
     message(paste0("Work directory is ",u.work.dir))
   }
+setwd(u.work.dir)
 
 if(any(unlist(lapply(chlist,is.null)))) chlist=chlist[-which(unlist(lapply(chlist,is.null)))]
 
 mut_example_multi <- hdp_multi_chain(chlist)
 pdf("QC_plots_chain.pdf")
 par(mfrow=c(2,2), mar=c(4, 4, 2, 1))
-p1 <- lapply(chains(mut_example_multi), plot_lik, bty="L", start=1000)
+p1 <- lapply(chains(mut_example_multi), plot_lik, bty="L", start=100)
 p2 <- lapply(chains(mut_example_multi), plot_numcluster, bty="L")
 p3 <- lapply(chains(mut_example_multi), plot_data_assigned, bty="L")
 dev.off()
@@ -131,19 +145,6 @@ plot_dp_comp_exposure(mut_example_multi,
                       col=mycolors,
                       incl_nonsig=TRUE, cex.names=0.8,
                       ylab_exp = 'Signature exposure', leg.title = 'Signature')
-
-mutations=read.table(mutation_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "", row.names=1)
-if (ncol(mutation_matrix) == 1) {
-  mutations <- read.table(mutation_matrix, header = TRUE, sep = ",")
-}
-#key_table=read.table(hierarchy_matrix, header = TRUE, check.names = FALSE, sep = "\t", quote = "")
-#if (ncol(key_table) == 1) {
-#  key_table <- read.table(hierarchy_matrix, header = TRUE, sep = ",")
-#}
-#If requiring a minimum number of mutations:
-sample_remove <- rownames(mutations)[rowSums(mutations) < lower_threshold]
-mutations <- mutations[!rownames(mutations) %in% sample_remove, ]
-#key_table <- key_table[!key_table$Sample %in% sample_remove, ]
 
 #freq <- table(key_table$Patient)
 
@@ -189,8 +190,6 @@ write.table(mean_sigs, file = paste0(u.work.dir,"/HDP_deNovoSignatures.txt"), se
             quote = FALSE, row.names = FALSE, col.names = TRUE)
 
 mean_sigs_SigPa <- mean_sigs
-
-mut_context <- u_mut
 
 colnames(mean_sigs_SigPa) = c('MutationType', paste0(mut_context, LETTERS[1:ncol(mean_sigs_SigPa) - 1]))
 

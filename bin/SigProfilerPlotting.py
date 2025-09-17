@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sigProfilerPlotting as sigPlt
 import argparse
@@ -15,7 +15,7 @@ def get_arguments():
                         help="Specify output directory")
     return parser
 
-def sigPlt_plotting(mutation_context, deNovoSignatures_matrix,output_directory):
+def sigPlt_plotting(mutation_context, deNovoSignatures_matrix, output_directory):
   print('Using SigProfilerPlotting to visualise mSigHdp results')
   project = "SigProfilerPlots"
   output_path = output_directory

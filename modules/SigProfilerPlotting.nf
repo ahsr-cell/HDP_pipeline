@@ -1,6 +1,6 @@
 process SigProfilerPlotting {
 
-    publishDir "${params.outdir}", mode: "copy", overwrite: true
+    publishDir "${params.outdir}/Signature_Spectra/", mode: "copy"
 
     input: 
     val mutation_context
@@ -11,6 +11,10 @@ process SigProfilerPlotting {
 
     script:
     """
-    SigProfilerPlotting.py --mutation_context ${mutation_context} --deNovoSignatures_matrix ${deNovoSignatures_matrix} --output_directory Signature_Spectra/
+    export MPLCONFIGDIR=${workDir}
+    rm -rf Signature_Spectra
+    mkdir Signature_Spectra
+
+    SigProfilerPlotting.py --mutation_context ${mutation_context} --deNovoSignatures_matrix ${deNovoSignatures_matrix} --output_directory /Signature_Spectra/
     """
 }

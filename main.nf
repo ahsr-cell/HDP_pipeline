@@ -38,7 +38,7 @@ workflow {
              Channel.of(1..params.numchains)
              )
 
-             HDP_collected = HDP_double_prior.out.collect().map { file("HDP_chains") }
+             HDP_collected = HDP_double_prior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
              HDP_combine(
                  params.mutational_matrix,
@@ -86,7 +86,7 @@ workflow {
              Channel.of(1..params.numchains)
              )
 
-             HDP_collected = HDP_double_noprior.out.collect().map { file("HDP_chains") }
+             HDP_collected = HDP_double_noprior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
              HDP_combine(
                  params.mutational_matrix,
@@ -137,7 +137,7 @@ workflow {
              Channel.of(1..params.numchains)
              )
 
-             HDP_collected = HDP_single_prior.out.collect().map { file("HDP_chains") }
+             HDP_collected = HDP_single_prior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
              HDP_combine(
                  params.mutational_matrix,
@@ -184,7 +184,7 @@ workflow {
              Channel.of(1..params.numchains)
              )
 
-             HDP_collected = HDP_single_noprior.out.collect().map { file("HDP_chains") }
+             HDP_collected = HDP_single_noprior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
              HDP_combine(
                  params.mutational_matrix,
@@ -233,7 +233,7 @@ workflow {
              Channel.of(1..params.numchains)
              )
 
-             HDP_collected = HDP_flat_prior.out.collect().map { file("HDP_chains") }
+             HDP_collected = HDP_flat_prior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
              HDP_combine(
                  params.mutational_matrix,
@@ -278,7 +278,7 @@ workflow {
              Channel.of(1..params.numchains)
              )
              
-            HDP_collected = HDP_flat_noprior.out.collect().map { file("HDP_chains") }
+            HDP_collected = HDP_flat_noprior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
              HDP_combine(
                  params.mutational_matrix,

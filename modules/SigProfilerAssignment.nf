@@ -11,6 +11,10 @@ process SigProfilerAssignment {
 
     script:
     """
+    export MPLCONFIGDIR=${workDir}
+    rm -rf SigProfilerDecomposition
+    mkdir SigProfilerDecomposition
+
     SigProfilerAssignment_wrapper.py --mutational_matrix ${mutational_matrix} --deNovoSignatures_matrix ${deNovoSignatures_matrix} --output_directory SigProfilerDecomposition/
     """
 }
