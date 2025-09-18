@@ -2,6 +2,7 @@
 
 nextflow.enable.dsl=2
 
+include { MutMatrix_resourcereqs } from './modules/MutMatrix_resourcereqs.nf' 
 include { HDP_flat_prior } from './modules/HDP_flat_prior.nf'
 include { HDP_flat_noprior } from './modules/HDP_flat_noprior.nf'
 include { HDP_single_prior } from './modules/HDP_single_prior.nf'
@@ -22,6 +23,19 @@ workflow {
     //
     // WORKFLOW: Full suite of analysis: HDP, SigProfilerPlotting, and SigProfilerAssignment
     //
+
+    MutMatrix_resourcereqs(
+        params.mutational_matrix
+    )
+
+    memory_requirements = new File(MutMatrix_resourcereqs.out.memory_reqs_matrix).getText('UTF-8')
+    // memory_requirements = MutMatrix_resourcereqs.out.memory_reqs_matrix.getText('UTF-8')
+
+    memory_requirements_ch = Channel.of(memory_requirements)
+                        .splitCsv( header: true )
+                        .map { row -> tuple( row.Sample_number, row.Mutation_burden, row.Memory_required )
+                        }
+    
      if (params.hierarchy == "double") {
         if (params.prior == true) {
             HDP_double_prior(
@@ -35,7 +49,8 @@ workflow {
              params.posterior,
              params.posterior_space,
              params.threshold,
-             Channel.of(1..params.numchains)
+             Channel.of(1..params.numchains),
+             memory_requirements_ch
              )
 
              HDP_collected = HDP_double_prior.out.collect().map { file("${params.outdir}/HDP_chains") }
@@ -83,7 +98,8 @@ workflow {
              params.posterior,
              params.posterior_space,
              params.threshold,
-             Channel.of(1..params.numchains)
+             Channel.of(1..params.numchains),
+             memory_requirements_ch
              )
 
              HDP_collected = HDP_double_noprior.out.collect().map { file("${params.outdir}/HDP_chains") }
@@ -134,7 +150,8 @@ workflow {
              params.posterior,
              params.posterior_space,
              params.threshold,
-             Channel.of(1..params.numchains)
+             Channel.of(1..params.numchains),
+             memory_requirements_ch
              )
 
              HDP_collected = HDP_single_prior.out.collect().map { file("${params.outdir}/HDP_chains") }
@@ -181,7 +198,8 @@ workflow {
              params.posterior,
              params.posterior_space,
              params.threshold,
-             Channel.of(1..params.numchains)
+             Channel.of(1..params.numchains),
+             memory_requirements_ch
              )
 
              HDP_collected = HDP_single_noprior.out.collect().map { file("${params.outdir}/HDP_chains") }
@@ -230,7 +248,8 @@ workflow {
              params.posterior,
              params.posterior_space,
              params.threshold,
-             Channel.of(1..params.numchains)
+             Channel.of(1..params.numchains),
+             memory_requirements_ch
              )
 
              HDP_collected = HDP_flat_prior.out.collect().map { file("${params.outdir}/HDP_chains") }
@@ -275,7 +294,8 @@ workflow {
              params.posterior,
              params.posterior_space,
              params.threshold,
-             Channel.of(1..params.numchains)
+             Channel.of(1..params.numchains),
+             memory_requirements_ch
              )
              
             HDP_collected = HDP_flat_noprior.out.collect().map { file("${params.outdir}/HDP_chains") }

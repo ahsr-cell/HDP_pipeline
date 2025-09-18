@@ -1,6 +1,6 @@
 process SigProfilerPlotting {
 
-    publishDir "${params.outdir}/Signature_Spectra/", mode: "copy"
+    publishDir "${params.outdir}", mode: "copy"
 
     input: 
     val mutation_context

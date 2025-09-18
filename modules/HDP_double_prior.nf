@@ -13,6 +13,7 @@ process HDP_double_prior {
     val posterior_space
     val threshold
     val chain_index
+    tuple val(Sample_number), val(Mutation_burden), val(Memory_required)
 
     output:
     // path "HDP_chains", emit: HDP_chains
