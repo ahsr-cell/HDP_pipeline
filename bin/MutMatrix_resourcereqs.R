@@ -92,9 +92,9 @@ message(paste0("Output directory is ",u.work.dir))
 
 ### Generate dataframe of results
 memory_requirements_df <- data.frame(
-  Sample_number = sample_number,
-  Mutation_burden = mutation_burden,
-  Memory_required = memory_required
+  Sample_number = round(as.integer(sample_number), digits = 2),
+  Mutation_burden = round(as.integer(mutation_burden),digits = 2),
+  Memory_required = round(as.integer(memory_required), digits = 2)
 )
 
 ### Export dataframe as CSV, saving into directory

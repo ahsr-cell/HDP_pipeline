@@ -28,10 +28,7 @@ workflow {
         params.mutational_matrix
     )
 
-    memory_requirements = new File(MutMatrix_resourcereqs.out.memory_reqs_matrix).getText('UTF-8')
-    // memory_requirements = MutMatrix_resourcereqs.out.memory_reqs_matrix.getText('UTF-8')
-
-    memory_requirements_ch = Channel.of(memory_requirements)
+    memory_requirements_ch = MutMatrix_resourcereqs.out.memory_reqs_matrix
                         .splitCsv( header: true )
                         .map { row -> tuple( row.Sample_number, row.Mutation_burden, row.Memory_required )
                         }

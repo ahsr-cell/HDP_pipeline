@@ -119,14 +119,50 @@ pdf("muts_attributed.pdf")
 plot_comp_size(mut_example_multi, bty = "L")
 dev.off()
 
-trinuc_context <- sapply(strsplit(colnames(mut_count), '\\.'), `[`, 4)
-group_factor <- as.factor(rep(c("C>A", "C>G", "C>T", "T>A", "T>C", "T>G"),
-                              each=16))
-mut_colours = c("dodgerblue", "black", "red", "grey70", "olivedrab3", "plum2")
+#trinuc_context <- sapply(strsplit(colnames(mut_count), '\\.'), `[`, 4)
+#group_factor <- as.factor(rep(c("C>A", "C>G", "C>T", "T>A", "T>C", "T>G"), each=16))
+#mut_colours = c("dodgerblue", "black", "red", "grey70", "olivedrab3", "plum2")
 
 #dev.new(width=12,height=4)
 #par(mfrow=c(3,4))
 
+if (mut_context == 'SBS96') {
+  context <- sapply(strsplit(colnames(mut_count), '\\.'), `[`, 4)
+  group_factor <- as.factor(rep(c("C>A", "C>G", "C>T", "T>A", "T>C", "T>G"),
+                                each=16))
+  mut_colours = c("dodgerblue", "black", "red", "grey70", "olivedrab3", "plum2")
+}
+if (mut_context == 'DBS78') {
+  context <- as.factor(c("CA", "CG", "CT", "GA", "GG", "GT", "TA", "TG", "TT", "CA", "CC", 
+                         "CG", "GA", "GC", "TA", "AA", "AG", "AT", "GA", "GG", "GT", "TA", 
+                         "TG", "TT", "AT", "GC", "GT", "TA", "TC", "TT", "AA", "AC", "AG", 
+                         "GA", "GC", "GG", "TA", "TC", "TG", "AA", "AG", "AT", "CA", "CG", 
+                         "TA", "AT", "CG", "CT", "GC", "GG", "GT", "AA", "AG", "AT", "CA", 
+                         "CG", "CT", "GA", "GG", "GT", "AA", "AC", "AT", "CA", "CC", "CT", 
+                         "GA", "GC", "GT", "AA", "AC", "AG", "CA", "CC", "CG", "GA", "GC", 
+                         "GG"))
+  group_factor <- as.factor(rep(c("AC>NN", "AT>NN", "CC>NN", "CG>NN", "CT>NN", 
+                                  "GC>NN", "TA>NN", "TC>NN", "TG>NN", "TT>NN"),
+                                c(9,6,9,6,9,6,6,9,9,9)))
+  mut_colours = c("#06bcee", "#0e64cf", "#a3cf60", "#086700", "#fe9798", "#e42a25",
+                  "#fdb265","#fd8004", "#cb98fa","#4a0198")  
+}
+if (mut_context == 'ID83') {
+  context <- as.factor(c("1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+", 
+                         "0", "1", "2", "3", "4", "5+", "0", "1", "2", "3", "4", "5+",
+                         "1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+",
+                         "1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+",
+                         "0", "1", "2", "3", "4", "5+", "0", "1", "2", "3", "4", "5+",
+                         "0", "1", "2", "3", "4", "5+", "0", "1", "2", "3", "4", "5+",
+                         "1", "1", "2", "1", "2", "3", "1", "2", "3", "4", "5+"
+                         ))
+  group_factor <- as.factor(rep(c("C", "T", "C", "T", "2","3","4","5+", 
+                                  "2", "3", "4", "5+", "2","3","4","5+"),
+                                c(6,6,6,6,6,6,6,6,6,6,6,6,1,2,3,5)))
+  mut_colours = c("#fdbe70", "#f78200", "#acdc8e", "#34a12e", "#fcc9b3", "#fd8969",
+                  "#ee4634","#bc1818", "#d0dff0","#94c2e2", "#4f94c8","#1568ad",
+                  "#c0bec8", "#b4b4db", "#8683ba","#604099")
+}
 
 for (i in 0:mut_example_multi@numcomp){
   pdf(paste0("hdp_component_", i, ".pdf"), width = 12, height = 4)
@@ -159,30 +195,24 @@ ncomp <- ncol(dp_distn$mean)
 #mean_assignment <- t(dp_distn$mean[length(freq)+1+1:nrow(mutations),drop=FALSE])
 
 mean_assignment <- as.data.frame(comp_dp_distn(mut_example_multi)$mean)
+
 write.table(mean_assignment, "mean_assignment_hdp.txt")
 
 mean_sigs <- as.data.frame(t(comp_categ_distn(mut_example_multi)$mean))
 
-tinuc_sort <- c("A[C>A]A","A[C>A]C","A[C>A]G","A[C>A]T","C[C>A]A","C[C>A]C","C[C>A]G",
-                "C[C>A]T","G[C>A]A","G[C>A]C","G[C>A]G","G[C>A]T","T[C>A]A","T[C>A]C",
-                "T[C>A]G","T[C>A]T","A[C>G]A","A[C>G]C","A[C>G]G","A[C>G]T","C[C>G]A",
-                "C[C>G]C","C[C>G]G","C[C>G]T","G[C>G]A","G[C>G]C","G[C>G]G","G[C>G]T",
-                "T[C>G]A","T[C>G]C","T[C>G]G","T[C>G]T","A[C>T]A","A[C>T]C","A[C>T]G",
-                "A[C>T]T","C[C>T]A","C[C>T]C","C[C>T]G","C[C>T]T","G[C>T]A","G[C>T]C",
-                "G[C>T]G","G[C>T]T","T[C>T]A","T[C>T]C","T[C>T]G","T[C>T]T","A[T>A]A",
-                "A[T>A]C","A[T>A]G","A[T>A]T","C[T>A]A","C[T>A]C","C[T>A]G","C[T>A]T",
-                "G[T>A]A","G[T>A]C","G[T>A]G","G[T>A]T","T[T>A]A","T[T>A]C","T[T>A]G",
-                "T[T>A]T","A[T>C]A","A[T>C]C","A[T>C]G","A[T>C]T","C[T>C]A","C[T>C]C",
-                "C[T>C]G","C[T>C]T","G[T>C]A","G[T>C]C","G[T>C]G","G[T>C]T","T[T>C]A",
-                "T[T>C]C","T[T>C]G","T[T>C]T","A[T>G]A","A[T>G]C","A[T>G]G","A[T>G]T",
-                "C[T>G]A","C[T>G]C","C[T>G]G","C[T>G]T","G[T>G]A","G[T>G]C","G[T>G]G",
-                "G[T>G]T","T[T>G]A","T[T>G]C","T[T>G]G","T[T>G]T")
+#tinuc_sort <- c("A[C>A]A","A[C>A]C","A[C>A]G","A[C>A]T","C[C>A]A","C[C>A]C","C[C>A]G","C[C>A]T","G[C>A]A","G[C>A]C","G[C>A]G","G[C>A]T","T[C>A]A","T[C>A]C","T[C>A]G","T[C>A]T","A[C>G]A","A[C>G]C","A[C>G]G","A[C>G]T","C[C>G]A","C[C>G]C","C[C>G]G","C[C>G]T","G[C>G]A","G[C>G]C","G[C>G]G","G[C>G]T","T[C>G]A","T[C>G]C","T[C>G]G","T[C>G]T","A[C>T]A","A[C>T]C","A[C>T]G","A[C>T]T","C[C>T]A","C[C>T]C","C[C>T]G","C[C>T]T","G[C>T]A","G[C>T]C","G[C>T]G","G[C>T]T","T[C>T]A","T[C>T]C","T[C>T]G","T[C>T]T","A[T>A]A","A[T>A]C","A[T>A]G","A[T>A]T","C[T>A]A","C[T>A]C","C[T>A]G","C[T>A]T","G[T>A]A","G[T>A]C","G[T>A]G","G[T>A]T","T[T>A]A","T[T>A]C","T[T>A]G","T[T>A]T","A[T>C]A","A[T>C]C","A[T>C]G","A[T>C]T","C[T>C]A","C[T>C]C","C[T>C]G","C[T>C]T","G[T>C]A","G[T>C]C","G[T>C]G","G[T>C]T","T[T>C]A","T[T>C]C","T[T>C]G","T[T>C]T","A[T>G]A","A[T>G]C","A[T>G]G","A[T>G]T","C[T>G]A","C[T>G]C","C[T>G]G","C[T>G]T","G[T>G]A","G[T>G]C","G[T>G]G","G[T>G]T","T[T>G]A","T[T>G]C","T[T>G]G","T[T>G]T")
 
-rownames(mean_sigs) <- tinuc_sort
+#rownames(mean_sigs) <- tinuc_sort
 
-tri_nuc_cOrder <- c("A[C>A]A", "A[C>A]C", "A[C>A]G", "A[C>A]T", "A[C>G]A", "A[C>G]C", "A[C>G]G", "A[C>G]T", "A[C>T]A", "A[C>T]C", "A[C>T]G", "A[C>T]T", "A[T>A]A", "A[T>A]C", "A[T>A]G", "A[T>A]T", "A[T>C]A", "A[T>C]C", "A[T>C]G", "A[T>C]T", "A[T>G]A", "A[T>G]C", "A[T>G]G", "A[T>G]T", "C[C>A]A", "C[C>A]C", "C[C>A]G", "C[C>A]T", "C[C>G]A", "C[C>G]C", "C[C>G]G", "C[C>G]T", "C[C>T]A", "C[C>T]C", "C[C>T]G", "C[C>T]T", "C[T>A]A", "C[T>A]C", "C[T>A]G", "C[T>A]T", "C[T>C]A", "C[T>C]C", "C[T>C]G", "C[T>C]T", "C[T>G]A", "C[T>G]C", "C[T>G]G", "C[T>G]T", "G[C>A]A", "G[C>A]C", "G[C>A]G", "G[C>A]T", "G[C>G]A", "G[C>G]C", "G[C>G]G", "G[C>G]T", "G[C>T]A", "G[C>T]C", "G[C>T]G", "G[C>T]T", "G[T>A]A", "G[T>A]C", "G[T>A]G", "G[T>A]T", "G[T>C]A", "G[T>C]C", "G[T>C]G", "G[T>C]T", "G[T>G]A", "G[T>G]C", "G[T>G]G", "G[T>G]T", "T[C>A]A", "T[C>A]C", "T[C>A]G", "T[C>A]T", "T[C>G]A", "T[C>G]C", "T[C>G]G", "T[C>G]T", "T[C>T]A", "T[C>T]C", "T[C>T]G", "T[C>T]T", "T[T>A]A", "T[T>A]C", "T[T>A]G", "T[T>A]T", "T[T>C]A", "T[T>C]C", "T[T>C]G", "T[T>C]T", "T[T>G]A", "T[T>G]C", "T[T>G]G", "T[T>G]T")
+#tri_nuc_cOrder <- c("A[C>A]A", "A[C>A]C", "A[C>A]G", "A[C>A]T", "A[C>G]A", "A[C>G]C", "A[C>G]G", "A[C>G]T", "A[C>T]A", "A[C>T]C", "A[C>T]G", "A[C>T]T", "A[T>A]A", "A[T>A]C", "A[T>A]G", "A[T>A]T", "A[T>C]A", "A[T>C]C", "A[T>C]G", "A[T>C]T", "A[T>G]A", "A[T>G]C", "A[T>G]G", "A[T>G]T", "C[C>A]A", "C[C>A]C", "C[C>A]G", "C[C>A]T", "C[C>G]A", "C[C>G]C", "C[C>G]G", "C[C>G]T", "C[C>T]A", "C[C>T]C", "C[C>T]G", "C[C>T]T", "C[T>A]A", "C[T>A]C", "C[T>A]G", "C[T>A]T", "C[T>C]A", "C[T>C]C", "C[T>C]G", "C[T>C]T", "C[T>G]A", "C[T>G]C", "C[T>G]G", "C[T>G]T", "G[C>A]A", "G[C>A]C", "G[C>A]G", "G[C>A]T", "G[C>G]A", "G[C>G]C", "G[C>G]G", "G[C>G]T", "G[C>T]A", "G[C>T]C", "G[C>T]G", "G[C>T]T", "G[T>A]A", "G[T>A]C", "G[T>A]G", "G[T>A]T", "G[T>C]A", "G[T>C]C", "G[T>C]G", "G[T>C]T", "G[T>G]A", "G[T>G]C", "G[T>G]G", "G[T>G]T", "T[C>A]A", "T[C>A]C", "T[C>A]G", "T[C>A]T", "T[C>G]A", "T[C>G]C", "T[C>G]G", "T[C>G]T", "T[C>T]A", "T[C>T]C", "T[C>T]G", "T[C>T]T", "T[T>A]A", "T[T>A]C", "T[T>A]G", "T[T>A]T", "T[T>C]A", "T[T>C]C", "T[T>C]G", "T[T>C]T", "T[T>G]A", "T[T>G]C", "T[T>G]G", "T[T>G]T")
 
-mean_sigs <- as.data.frame(mean_sigs)[unlist(tri_nuc_cOrder),]
+#mean_sigs <- as.data.frame(mean_sigs)[unlist(tri_nuc_cOrder),]
+
+#mean_sigs <- rownames_to_column(mean_sigs,"MutationType")
+
+rownames(mean_sigs) <- rownames(mutations)
+
+mean_sigs <- as.data.frame(mean_sigs)[unlist(rownames(mutations)),]
 
 mean_sigs <- rownames_to_column(mean_sigs,"MutationType")
 
