@@ -21,6 +21,8 @@ parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input 
 
 parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
 
+parser$add_argument("-pseudo","--prior_pseudocount", type = 'character', default = "1000", help = "Specify pseudocount weighitng for prior signatures.", required=FALSE)
+
 parser$add_argument("-a", "--analysis_type", type = "character", default = "Testing", help = "Specify type of analysis run. Options are [testing] or [analysis].", required=TRUE)
 
 parser$add_argument("-b", "--burnin_iterations", type = 'double', default = "30000", help = "Specify number of burn-in iterations. Default set to 30000.", required=FALSE) 
@@ -43,6 +45,12 @@ if(!exists("mutation_matrix")) {
 
 if (!is.null("args$prior_matrix")) {
   prior_matrix <- args$prior_matrix
+}
+
+if (!is.null(prior_matrix)) {
+  if (!is.null(prior_pseudocount)) {
+    u_pseudocount <- args$prior_pseudocount
+  }
 }
 
 if(!exists("chain_index")) {
@@ -141,7 +149,7 @@ ppindex <- c(1, rep(1+nps+1, nrow(mutations)))
 cpindex <- c(3, rep(4, nrow(mutations)))
 
 hdp_prior <- hdp_prior_init(prior_distn = prior_sigs,
-                            prior_pseudoc = rep(1000, nps),
+                            prior_pseudoc = rep(as.integer(u_pseudocount), nps),
                             hh = rep(1, 96), # prior is uniform over 96 categories
                             alphaa = rep(1, 2), # shape hyperparameters for 2 CPs
                             alphab = rep(1, 2))  # rate hyperparameters for 2 CPs

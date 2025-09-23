@@ -5,6 +5,7 @@ process HDP_single_prior {
     path mutational_matrix
     path hierarchy_matrix
     path prior_matrix
+    val prior_pseudocount
     val analysis_type 
     val hierarchy_parameter1
     val burnin_iterations 
@@ -20,6 +21,6 @@ process HDP_single_prior {
     
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_single_prior.R --hierarchy_matrix ${hierarchy_matrix} --hierarchy_parameter1 ${hierarchy_parameter1} --prior_matrix ${prior_matrix} --analysis_type ${analysis_type} --burnin_iterations ${burnin_iterations} --posterior ${posterior} --posterior_iterations ${posterior_space} --threshold ${threshold} --chain_index ${chain_index} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_single_prior.R --hierarchy_matrix ${hierarchy_matrix} --hierarchy_parameter1 ${hierarchy_parameter1} --prior_matrix ${prior_matrix} --prior_pseudocount ${prior_pseudocount} --analysis_type ${analysis_type} --burnin_iterations ${burnin_iterations} --posterior ${posterior} --posterior_iterations ${posterior_space} --threshold ${threshold} --chain_index ${chain_index} ${mutational_matrix}
     """
 }

@@ -39,6 +39,7 @@ workflow {
              params.mutational_matrix,
              params.hierarchy_matrix,
              params.prior_matrix,
+             params.prior_pseudocount,
              params.analysis_type, 
              params.hierarchy_parameter1,
              params.hierarchy_parameter2,
@@ -140,7 +141,8 @@ workflow {
             HDP_single_prior(
              params.mutational_matrix,
              params.hierarchy_matrix,
-             params.prior_matrix,             
+             params.prior_matrix,
+             params.prior_pseudocount,             
              params.analysis_type,
              params.hierarchy_parameter1,
              params.burnin_iterations,
@@ -240,6 +242,7 @@ workflow {
             HDP_flat_prior(
              params.mutational_matrix,
              params.prior_matrix,
+             params.prior_pseudocount,
              params.analysis_type, 
              params.burnin_iterations,
              params.posterior,

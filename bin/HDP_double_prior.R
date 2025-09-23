@@ -27,6 +27,8 @@ parser$add_argument("-hp2","--hierarchy_parameter2", type = 'character', help = 
 
 parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
 
+parser$add_argument("-pseudo","--prior_pseudocount", type = 'character', default = "1000", help = "Specify pseudocount weighitng for prior signatures.", required=FALSE)
+
 parser$add_argument("-a", "--analysis_type", type = "character", default = "Testing", help = "Specify type of analysis run. Options are [testing] or [analysis].", required=TRUE)
 
 parser$add_argument("-b", "--burnin_iterations", type = 'double', default = "30000", help = "Specify number of burn-in iterations. Default set to 30000.", required=FALSE) 
@@ -61,6 +63,12 @@ if (!is.null("args$hierarchy_parameter21")) {
 
 if (!is.null("args$prior_matrix")) {
   prior_matrix <- args$prior_matrix
+}
+
+if (!is.null(prior_matrix)) {
+  if (!is.null(prior_pseudocount)) {
+    u_pseudocount <- args$prior_pseudocount
+  }
 }
 
 if (!exists("chain_index")) {
@@ -205,7 +213,7 @@ message(paste0("Chain ", n,": prior matrix imported and signatures extracted. Ad
 
 #with PID and Method as parents (2 hierarchy)
 hdp_PD_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
-                                            prior_pseudoc = rep(1000, nps), # pseudocount weights
+                                            prior_pseudoc = rep(as.integer(u_pseudocount), nps), # pseudocount weights
                                             hh=rep(1, 96), # uniform prior over 96 categories
                                             alphaa=c(1, 1), # shape hyperparams for 2 CPs
                                             alphab=c(1, 1)) # rate hyperparams for 2 CPs

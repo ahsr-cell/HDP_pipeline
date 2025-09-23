@@ -4,6 +4,7 @@ process HDP_flat_prior {
     input:
     path mutational_matrix
     path prior_matrix
+    val prior_pseudocount    
     val analysis_type 
     val burnin_iterations 
     val posterior 
@@ -18,6 +19,6 @@ process HDP_flat_prior {
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_flat_prior.R --prior_matrix ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -t ${threshold} -n ${chain_index} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_flat_prior.R --prior_matrix ${prior_matrix} --prior_pseudocount ${prior_pseudocount} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -t ${threshold} -n ${chain_index} ${mutational_matrix}
     """
 }

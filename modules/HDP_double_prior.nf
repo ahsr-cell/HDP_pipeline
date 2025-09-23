@@ -5,6 +5,7 @@ process HDP_double_prior {
     path mutational_matrix
     path hierarchy_matrix
     path prior_matrix
+    val prior_pseudocount
     val analysis_type
     val hierarchy_parameter1
     val hierarchy_parameter2
@@ -21,6 +22,6 @@ process HDP_double_prior {
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_double_prior.R -hierarchy ${hierarchy_matrix} -hp1 ${hierarchy_parameter1} -hp2 ${hierarchy_parameter1} --prior_matrix ${prior_matrix} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${chain_index} -t ${threshold} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_double_prior.R -hierarchy ${hierarchy_matrix} -hp1 ${hierarchy_parameter1} -hp2 ${hierarchy_parameter1} --prior_matrix ${prior_matrix} --prior_pseudocount ${prior_pseudocount} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${chain_index} -t ${threshold} ${mutational_matrix}
     """
 }
