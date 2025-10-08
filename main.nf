@@ -287,20 +287,32 @@ workflow {
              }
          }
         } else {
-             memory_requirements_ch.view()
-
-             Channel.of(1..params.numchains).view()
+             
+            //  Channel.of(1..params.numchains)
+            //  .combine(memory_requirements_ch)
+            //  .view()
 
              HDP_flat_noprior(
-             memory_requirements_ch,
+             Channel.of(1..params.numchains)
+             .combine(memory_requirements_ch),
              params.mutational_matrix,
              params.analysis_type, 
              params.burnin_iterations,
              params.posterior,
              params.posterior_space,
-             params.threshold,
-             Channel.of(1..params.numchains)
+             params.threshold
              )
+
+            //  HDP_flat_noprior(
+            //  memory_requirements_ch,
+            //  params.mutational_matrix,
+            //  params.analysis_type, 
+            //  params.burnin_iterations,
+            //  params.posterior,
+            //  params.posterior_space,
+            //  params.threshold,
+            //  Channel.of(1..params.numchains)
+            //  )
              
             HDP_collected = HDP_flat_noprior.out.collect().map { file("${params.outdir}/HDP_chains") }
             

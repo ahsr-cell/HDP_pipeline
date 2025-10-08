@@ -167,7 +167,7 @@ if (mut_context == 'ID83') {
 for (i in 0:mut_example_multi@numcomp){
   pdf(paste0("hdp_component_", i, ".pdf"), width = 12, height = 4)
 
-  plot_comp_distn(mut_example_multi, cat_names = trinuc_context,
+  plot_comp_distn(mut_example_multi, cat_names = context,
                   grouping = group_factor, col = mut_colours, comp = i,
                   col_nonsig = "grey80", show_group_labels = TRUE)
   dev.off()

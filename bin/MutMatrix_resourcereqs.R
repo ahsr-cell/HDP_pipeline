@@ -48,14 +48,14 @@ if ("MutationType" %in% colnames(mutation_matrix)) {
 ### Count number of samples
 #Samples will be by row
 #calculate number of rows 
-sample_number <- nrow(mutation_matrix)
+sample_number <- ncol(mutation_matrix)
 message(paste0("Input mutation matrix has ", sample_number," samples. \n"))
 
 ### Identify mutation burden
 #calculate row sums
 #sum row sums
 #divide by number of rows
-mutation_burden <- mean(rowSums(mutation_matrix))
+mutation_burden <- mean(colSums(mutation_matrix))
 message(paste0("Calculated mutation burden: ", round(mutation_burden, digits = 2),". \n"))
 
 ### Input into linear equations
@@ -94,7 +94,7 @@ message(paste0("Output directory is ",u.work.dir))
 memory_requirements_df <- data.frame(
   Sample_number = round(as.integer(sample_number), digits = 2),
   Mutation_burden = round(as.integer(mutation_burden),digits = 2),
-  Memory_required = round(as.integer(memory_required), digits = 2)
+  Memory_required = round(as.integer(memory_required/30), digits = 2)
 )
 
 ### Export dataframe as CSV, saving into directory
