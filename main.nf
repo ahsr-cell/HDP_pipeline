@@ -36,6 +36,8 @@ workflow {
      if (params.hierarchy == "double") {
         if (params.prior == true) {
             HDP_double_prior(
+             Channel.of(1..params.numchains)
+             .combine(memory_requirements_ch),
              params.mutational_matrix,
              params.hierarchy_matrix,
              params.prior_matrix,
@@ -46,10 +48,23 @@ workflow {
              params.burnin_iterations,
              params.posterior,
              params.posterior_space,
-             params.threshold,
-             Channel.of(1..params.numchains),
-             memory_requirements_ch
+             params.threshold
              )
+            // HDP_double_prior(
+            //  params.mutational_matrix,
+            //  params.hierarchy_matrix,
+            //  params.prior_matrix,
+            //  params.prior_pseudocount,
+            //  params.analysis_type, 
+            //  params.hierarchy_parameter1,
+            //  params.hierarchy_parameter2,
+            //  params.burnin_iterations,
+            //  params.posterior,
+            //  params.posterior_space,
+            //  params.threshold,
+            //  Channel.of(1..params.numchains),
+            //  memory_requirements_ch
+            //  )
 
              HDP_collected = HDP_double_prior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
@@ -87,6 +102,8 @@ workflow {
          }
         } else {
             HDP_double_noprior(
+             Channel.of(1..params.numchains)
+             .combine(memory_requirements_ch),
              params.mutational_matrix,
              params.hierarchy_matrix,
              params.analysis_type, 
@@ -95,11 +112,22 @@ workflow {
              params.burnin_iterations,
              params.posterior,
              params.posterior_space,
-             params.threshold,
-             Channel.of(1..params.numchains),
-             memory_requirements_ch
+             params.threshold
              )
-
+            // HDP_double_noprior(
+            //  params.mutational_matrix,
+            //  params.hierarchy_matrix,
+            //  params.analysis_type, 
+            //  params.hierarchy_parameter1,
+            //  params.hierarchy_parameter2,
+            //  params.burnin_iterations,
+            //  params.posterior,
+            //  params.posterior_space,
+            //  params.threshold,
+            //  Channel.of(1..params.numchains),
+            //  memory_requirements_ch
+            //  )
+    
              HDP_collected = HDP_double_noprior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
              HDP_combine(
@@ -139,6 +167,8 @@ workflow {
      if (params.hierarchy == "single") {
         if (params.prior == true) {
             HDP_single_prior(
+             Channel.of(1..params.numchains)
+             .combine(memory_requirements_ch),
              params.mutational_matrix,
              params.hierarchy_matrix,
              params.prior_matrix,
@@ -148,11 +178,22 @@ workflow {
              params.burnin_iterations,
              params.posterior,
              params.posterior_space,
-             params.threshold,
-             Channel.of(1..params.numchains),
-             memory_requirements_ch
+             params.threshold
              )
-
+            // HDP_single_prior(
+            //  params.mutational_matrix,
+            //  params.hierarchy_matrix,
+            //  params.prior_matrix,
+            //  params.prior_pseudocount,             
+            //  params.analysis_type,
+            //  params.hierarchy_parameter1,
+            //  params.burnin_iterations,
+            //  params.posterior,
+            //  params.posterior_space,
+            //  params.threshold,
+            //  Channel.of(1..params.numchains),
+            //  memory_requirements_ch
+            //  )
              HDP_collected = HDP_single_prior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
              HDP_combine(
@@ -189,6 +230,8 @@ workflow {
          }
         } else {
             HDP_single_noprior(
+             Channel.of(1..params.numchains)
+             .combine(memory_requirements_ch)
              params.mutational_matrix,
              params.hierarchy_matrix,
              params.analysis_type,
@@ -196,10 +239,21 @@ workflow {
              params.burnin_iterations,
              params.posterior,
              params.posterior_space,
-             params.threshold,
-             Channel.of(1..params.numchains),
-             memory_requirements_ch
-             )
+             params.threshold
+            )
+            
+            // HDP_single_noprior(
+            //  params.mutational_matrix,
+            //  params.hierarchy_matrix,
+            //  params.analysis_type,
+            //  params.hierarchy_parameter1,
+            //  params.burnin_iterations,
+            //  params.posterior,
+            //  params.posterior_space,
+            //  params.threshold,
+            //  Channel.of(1..params.numchains),
+            //  memory_requirements_ch
+            //  )
 
              HDP_collected = HDP_single_noprior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
@@ -240,6 +294,9 @@ workflow {
      if (params.hierarchy == "flat") {
         if (params.prior == true) {
             HDP_flat_prior(
+             Channel.of(1..params.numchains)
+             .combine(memory_requirements_ch),
+             memory_requirements_ch
              params.mutational_matrix,
              params.prior_matrix,
              params.prior_pseudocount,
@@ -247,11 +304,22 @@ workflow {
              params.burnin_iterations,
              params.posterior,
              params.posterior_space,
-             params.threshold,
-             Channel.of(1..params.numchains),
-             memory_requirements_ch
+             params.threshold
              )
 
+             
+            // HDP_flat_prior(
+            //  params.mutational_matrix,
+            //  params.prior_matrix,
+            //  params.prior_pseudocount,
+            //  params.analysis_type, 
+            //  params.burnin_iterations,
+            //  params.posterior,
+            //  params.posterior_space,
+            //  params.threshold,
+            //  Channel.of(1..params.numchains),
+            //  memory_requirements_ch
+            //  )
              HDP_collected = HDP_flat_prior.out.collect().map { file("${params.outdir}/HDP_chains") }
             
              HDP_combine(

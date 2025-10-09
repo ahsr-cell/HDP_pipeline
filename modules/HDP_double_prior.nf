@@ -2,6 +2,7 @@ process HDP_double_prior {
     publishDir "${params.outdir}/HDP_chains", mode: "copy"
 
     input:
+    tuple val(chain_index), val(Sample_number), val(Mutation_burden), val(Memory_required)
     path mutational_matrix
     path hierarchy_matrix
     path prior_matrix
@@ -13,12 +14,10 @@ process HDP_double_prior {
     val posterior
     val posterior_space
     val threshold
-    val chain_index
-    tuple val(Sample_number), val(Mutation_burden), val(Memory_required)
 
     output:
     // path "HDP_chains", emit: HDP_chains
-    path "hdp_chain_*.Rdata"
+    path "hdp_chain_${chain_index}.Rdata"
 
     script:
     """
