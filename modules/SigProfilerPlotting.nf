@@ -15,6 +15,6 @@ process SigProfilerPlotting {
     rm -rf Signature_Spectra
     mkdir Signature_Spectra
 
-    SigProfilerPlotting.py --mutation_context ${mutation_context} --deNovoSignatures_matrix ${deNovoSignatures_matrix} --output_directory /Signature_Spectra/
+    SigProfilerPlotting.py --mutation_context ${mutation_context} --deNovoSignatures_matrix ${deNovoSignatures_matrix} --output_directory Signature_Spectra/
     """
 }

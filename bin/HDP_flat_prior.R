@@ -48,7 +48,7 @@ if (!is.null("args$prior_matrix")) {
 }
 
 if (!is.null(prior_matrix)) {
-  if (!is.null(prior_pseudocount)) {
+  if (!is.null(args$prior_pseudocount)) {
     u_pseudocount <- args$prior_pseudocount
   }
 }
@@ -124,9 +124,9 @@ message("Chain ",n,": successfully imported input mutation matrix. \n")
 
 message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate into HDP structure. \n"))
 
-ref = read.table(prior_matrix, header = TRUE, stringsAsFactors = FALSE, sep = '\t')
+ref = read.table(prior_matrix, header = TRUE, stringsAsFactors = FALSE, sep = '\t', row.names = 1)
 if (ncol(ref) == 1 ) {
-  ref <- read.table(prior_matrix, header=T, sep = ",")
+  ref <- read.table(prior_matrix, header=T, sep = ",", row.names = 1)
 }
 
 #if ("MutationType" %in% colnames(ref)) {
@@ -168,7 +168,7 @@ hdp_prior <- hdp_setdata(hdp_prior,
                         mutations)
 
 hdp_activated <- dp_activate(hdp_prior,
-                              dpindex = (1+nps+1):numdp(hdp_prior), initcc=nps+5, seed=i*300)
+                              dpindex = (1+nps+1):numdp(hdp_prior), initcc=nps+5, seed=n*300)
 
 message(paste0("Chain ", n,": HDP structure initialised with priors and no hierarchy. \n"))
 

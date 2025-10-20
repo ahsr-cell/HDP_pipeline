@@ -72,6 +72,7 @@ workflow {
                  params.mutational_matrix,
                  params.hierarchy_matrix,
                  HDP_collected,
+                 params.numchains,
                  params.threshold,
                  params.mutation_context
              )
@@ -134,6 +135,7 @@ workflow {
                  params.mutational_matrix,
                  params.hierarchy_matrix,
                  HDP_collected,
+                 params.numchains,
                  params.threshold,
                  params.mutation_context
              )
@@ -200,6 +202,7 @@ workflow {
                  params.mutational_matrix,
                  params.hierarchy_matrix,
                  HDP_collected,
+                 params.numchains,
                  params.threshold,
                  params.mutation_context
              )
@@ -231,7 +234,7 @@ workflow {
         } else {
             HDP_single_noprior(
              Channel.of(1..params.numchains)
-             .combine(memory_requirements_ch)
+             .combine(memory_requirements_ch),
              params.mutational_matrix,
              params.hierarchy_matrix,
              params.analysis_type,
@@ -261,6 +264,7 @@ workflow {
                  params.mutational_matrix,
                  params.hierarchy_matrix,
                  HDP_collected,
+                 params.numchains,
                  params.thresold,
                  params.mutation_context
              )
@@ -296,7 +300,6 @@ workflow {
             HDP_flat_prior(
              Channel.of(1..params.numchains)
              .combine(memory_requirements_ch),
-             memory_requirements_ch
              params.mutational_matrix,
              params.prior_matrix,
              params.prior_pseudocount,
@@ -326,6 +329,7 @@ workflow {
                  params.mutational_matrix,
                  // params.hierarchy_matrix,
                  HDP_collected,
+                 params.numchains,
                  params.threshold,
                  params.mutation_context
              )

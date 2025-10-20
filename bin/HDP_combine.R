@@ -106,9 +106,13 @@ if(any(unlist(lapply(chlist,is.null)))) chlist=chlist[-which(unlist(lapply(chlis
 mut_example_multi <- hdp_multi_chain(chlist)
 pdf("QC_plots_chain.pdf")
 par(mfrow=c(2,2), mar=c(4, 4, 2, 1))
-p1 <- lapply(chains(mut_example_multi), plot_lik, bty="L", start=100)
+message(paste0("This is fine 1 "))  
+p1 <- lapply(chains(mut_example_multi), plot_lik, bty="L", start=1000)
+message(paste0("This is fine 2 "))
 p2 <- lapply(chains(mut_example_multi), plot_numcluster, bty="L")
+message(paste0("This is fine 3 "))
 p3 <- lapply(chains(mut_example_multi), plot_data_assigned, bty="L")
+message(paste0("This is fine 4 "))
 dev.off()
 
 mut_example_multi <- hdp_extract_components(mut_example_multi) 
@@ -173,8 +177,8 @@ for (i in 0:mut_example_multi@numcomp){
   dev.off()
 }
 
-nb.cols <- 20
-mycolors <- colorRampPalette(brewer.pal(12, "Paired"))(nb.cols)
+dp_distn <- comp_dp_distn(mut_example_multi)
+mycolors <- colorRampPalette(brewer.pal(12, "Paired"))(ncol(dp_distn$mean))
 
 plot_dp_comp_exposure(mut_example_multi,
                       dpindices=2:4, incl_numdata_plot=FALSE,

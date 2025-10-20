@@ -60,7 +60,7 @@ if (!is.null("args$prior_matrix")) {
 } 
 
 if (!is.null(prior_matrix)) {
-  if (!is.null(prior_pseudocount)) {
+  if (!is.null(args$prior_pseudocount)) {
     u_pseudocount <- args$prior_pseudocount
   }
 }
