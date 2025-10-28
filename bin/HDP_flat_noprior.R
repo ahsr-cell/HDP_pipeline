@@ -31,6 +31,8 @@ parser$add_argument("-n", "--chain_index", type = 'character', help = "Chain ind
 
 parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
+parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), DBS78, or ID83.", required = TRUE)
+
 #Parse arguments
 args <- parser$parse_args()
 
@@ -48,6 +50,20 @@ if(!exists("threshold")) {
 }
 
 lower_threshold <- threshold
+
+if (!is.null(args$mutational_context)) {
+  mut_context <- args$mutational_context  
+}
+
+if (mut_context == 'SBS96') {
+  init_hhval <- as.integer(96)
+}
+if (mut_context == 'DBS78') {
+  init_hhval = as.integer(78)
+}
+  if (mut_context == 'ID83') {
+  init_hhval = as.integer(83)
+}
 
 u_analysis_type <- args$analysis_type
 
@@ -104,7 +120,7 @@ cpindex = c(1, rep(2, nrow(mutations)))
 
 hdp_mut <- hdp_init(ppindex = ppindex, # index of parental node
                       cpindex = cpindex, # index of the CP to use
-                      hh = rep(1, 96), # prior is uniform over 96 categories
+                      hh = rep(1, init_hhval), # prior is uniform over 96 categories
                       alphaa = rep(1,length(unique(cpindex))), # shape hyperparameters for 2 CPs
                       alphab = rep(1,length(unique(cpindex))))  # rate hyperparameters for 2 CPs
 

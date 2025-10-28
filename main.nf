@@ -372,7 +372,8 @@ workflow {
              params.burnin_iterations,
              params.posterior,
              params.posterior_space,
-             params.threshold
+             params.threshold,
+             params.mutation_context
              )
 
             //  HDP_flat_noprior(
