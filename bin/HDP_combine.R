@@ -106,13 +106,9 @@ if(any(unlist(lapply(chlist,is.null)))) chlist=chlist[-which(unlist(lapply(chlis
 mut_example_multi <- hdp_multi_chain(chlist)
 pdf("QC_plots_chain.pdf")
 par(mfrow=c(2,2), mar=c(4, 4, 2, 1))
-message(paste0("This is fine 1 "))  
 p1 <- lapply(chains(mut_example_multi), plot_lik, bty="L", start=1000)
-message(paste0("This is fine 2 "))
 p2 <- lapply(chains(mut_example_multi), plot_numcluster, bty="L")
-message(paste0("This is fine 3 "))
 p3 <- lapply(chains(mut_example_multi), plot_data_assigned, bty="L")
-message(paste0("This is fine 4 "))
 dev.off()
 
 mut_example_multi <- hdp_extract_components(mut_example_multi) 
@@ -137,7 +133,7 @@ if (mut_context == 'SBS96') {
   mut_colours = c("dodgerblue", "black", "red", "grey70", "olivedrab3", "plum2")
 }
 if (mut_context == 'DBS78') {
-  context <- as.factor(c("CA", "CG", "CT", "GA", "GG", "GT", "TA", "TG", "TT", "CA", "CC", 
+  context <- as.character(c("CA", "CG", "CT", "GA", "GG", "GT", "TA", "TG", "TT", "CA", "CC", 
                          "CG", "GA", "GC", "TA", "AA", "AG", "AT", "GA", "GG", "GT", "TA", 
                          "TG", "TT", "AT", "GC", "GT", "TA", "TC", "TT", "AA", "AC", "AG", 
                          "GA", "GC", "GG", "TA", "TC", "TG", "AA", "AG", "AT", "CA", "CG", 
@@ -152,7 +148,7 @@ if (mut_context == 'DBS78') {
                   "#fdb265","#fd8004", "#cb98fa","#4a0198")  
 }
 if (mut_context == 'ID83') {
-  context <- as.factor(c("1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+", 
+  context <- as.character(c("1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+", 
                          "0", "1", "2", "3", "4", "5+", "0", "1", "2", "3", "4", "5+",
                          "1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+",
                          "1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+",
