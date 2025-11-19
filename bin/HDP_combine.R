@@ -143,29 +143,49 @@ if (mut_context == 'DBS78') {
                          "GG"))
   group_factor <- as.factor(rep(c("AC>NN", "AT>NN", "CC>NN", "CG>NN", "CT>NN", 
                                   "GC>NN", "TA>NN", "TC>NN", "TG>NN", "TT>NN"),
-                                c(9,6,9,6,9,6,6,9,9,9)))
-  mut_colours = c("#06bcee", "#0e64cf", "#a3cf60", "#086700", "#fe9798", "#e42a25",
-                  "#fdb265","#fd8004", "#cb98fa","#4a0198")  
+                                c(9,6,9,6,9,
+                                  6,6,9,9,9)))
+  mut_colours = c("deepskyblue","royalblue3","olivedrab3","darkgreen","lightpink1","firebrick1",
+                                "coral","darkorange","mediumpurple","darkorchid4")
+                                #c("#06bcee", "#0e64cf", "#a3cf60", "#086700", "#fe9798", "#e42a25",
+#                               "#fdb265","#fd8004", "#cb98fa","#4a0198")
 }
 if (mut_context == 'ID83') {
-  context <- as.character(c("1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+", 
-                         "0", "1", "2", "3", "4", "5+", "0", "1", "2", "3", "4", "5+",
-                         "1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+",
-                         "1", "2", "3", "4", "5", "6+", "1", "2", "3", "4", "5", "6+",
-                         "0", "1", "2", "3", "4", "5+", "0", "1", "2", "3", "4", "5+",
-                         "0", "1", "2", "3", "4", "5+", "0", "1", "2", "3", "4", "5+",
-                         "1", "1", "2", "1", "2", "3", "1", "2", "3", "4", "5+"
-                         ))
-  group_factor <- as.factor(rep(c("C", "T", "C", "T", "2","3","4","5+", 
-                                  "2", "3", "4", "5+", "2","3","4","5+"),
-                                c(6,6,6,6,6,6,6,6,6,6,6,6,1,2,3,5)))
-  mut_colours = c("#fdbe70", "#f78200", "#acdc8e", "#34a12e", "#fcc9b3", "#fd8969",
-                  "#ee4634","#bc1818", "#d0dff0","#94c2e2", "#4f94c8","#1568ad",
-                  "#c0bec8", "#b4b4db", "#8683ba","#604099")
+  context <- as.character(c("1", "2", "3", "4", "5", "6+", 
+                            "1", "2", "3", "4", "5", "6+", 
+                            "0", "1", "2", "3", "4", "5+", 
+                            "0", "1", "2", "3", "4", "5+",
+                            "1", "2", "3", "4", "5", "6+",
+                            "1", "2", "3", "4", "5", "6+",
+                            "1", "2", "3", "4", "5", "6+",
+                            "1", "2", "3", "4", "5", "6+",
+                            "0", "1", "2", "3", "4", "5+",
+                            "0", "1", "2", "3", "4", "5+",
+                            "0", "1", "2", "3", "4", "5+",
+                            "0", "1", "2", "3", "4", "5+",
+                            "1", "1", "2", "1", "2", "3",
+                            "1", "2", "3", "4", "5+"))
+  
+  group_factor <- as.factor(rep(c("C\u0394", "T\u0394", "C\u03B9", "T\u03B9", 
+                                  "2\u0394","3\u0394","4\u0394","5\u0394+", 
+                                  "2\u03B9", "3\u03B9", "4\u03B9", "5\u03B9+", 
+                                  "2","3","4","5+"),
+                                c(6,6,6,6,
+                                  6,6,6,6,
+                                  6,6,6,6,
+                                  1,2,3,5)))
+  mut_colours = c("tan1", "darkorange1", "darkolivegreen3", "green4", 
+                  "peachpuff1", "salmon2","tomato","firebrick", 
+                  "lightsteelblue1","lightskyblue3", "steelblue2","steelblue3",
+                  "lightgray", "lavender", "slateblue","slateblue4")
+  
+  #mut_colours = c("#fdbe70", "#f78200", "#acdc8e", "#34a12e", "#fcc9b3", "#fd8969",
+  #                "#ee4634","#bc1818", "#d0dff0","#94c2e2", "#4f94c8","#1568ad",
+  #                "#c0bec8", "#b4b4db", "#8683ba","#604099")
 }
 
 for (i in 0:mut_example_multi@numcomp){
-  pdf(paste0("hdp_component_", i, ".pdf"), width = 12, height = 4)
+  grDevices::cairo_pdf(paste0("hdp_component_", i, ".pdf"), width = 12, height = 4)
 
   plot_comp_distn(mut_example_multi, cat_names = context,
                   grouping = group_factor, col = mut_colours, comp = i,
