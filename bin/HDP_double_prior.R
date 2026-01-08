@@ -19,15 +19,16 @@ parser = ArgumentParser(prog = 'HDP', description='Hdp pipeline')
 #Command line arguments
 parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input mutational matrix.") 
 
-parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE)
+parser$add_argument("-hmat","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE)
 
 parser$add_argument("-hp1","--hierarchy_parameter1", type = 'character', help = "Specify primary hierarchy parameter as listed in input hierarchy matrix (e.g., column name). Used to identify column.", required=FALSE) 
 
 parser$add_argument("-hp2","--hierarchy_parameter2", type = 'character', help = "Specify secondary hierarchy parameter as listed in input hierarchy matrix (e.g., column name). Used to identify column.", required=FALSE)
 
-parser$add_argument("-prior","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
+parser$add_argument("-prior_mat","--prior_matrix", type = 'character', help = "If available, specify path to prior matrix.", required=FALSE)
 
-parser$add_argument("-pseudo","--prior_pseudocount", type = 'character', default = "1000", help = "Specify pseudocount weighitng for prior signatures.", required=FALSE)
+parser$add_argument("-pseudo","--prior_pseudocounts", type='character', default = "1000", help = "Specify pseudocounts weighitng for prior signatures. If mutiple, specify a list separated by commas (e.g., 1,2,3)", required=FALSE)
+#parser$add_argument("-pseudo","--prior_pseudocounts", type = 'integer', nargs='+', default = "1000", help = "Specify pseudocounts weighitng for prior signatures.", required=FALSE)
 
 parser$add_argument("-a", "--analysis_type", type = "character", default = "Testing", help = "Specify type of analysis run. Options are [testing] or [analysis].", required=TRUE)
 
@@ -37,9 +38,14 @@ parser$add_argument("-o", "--posterior", type = 'double', default = "100", help 
 
 parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
 
-parser$add_argument("-n", "--chain_index", type = 'character', help = "Chain index")
+parser$add_argument("-n", "--chain_index", type = 'double', help = "Chain index")
 
-parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
+parser$add_argument("-t", "--threshold", type = 'double', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
+
+# Function to parse multiple pseudocounts values
+pseudocount_list <- function(arg) {
+  return(as.integer(unlist(strsplit(arg,","))))
+}
 
 #Parse arguments
 args <- parser$parse_args()
@@ -49,33 +55,30 @@ if (!exists("mutation_matrix")) {
   stop(sprintf("Mutation matrix not provided. Please specify by providing path at end of command; Use -h for further information."))
 }
 
-if (!is.null("args$hierarchy_matrix")) {
+if (!is.null(args$hierarchy_matrix)) {
   hierarchy_matrix <- args$hierarchy_matrix
 }
 
-if (!is.null("args$hierarchy_parameter1")) {
+if (!is.null(args$hierarchy_parameter1)) {
   hp1 <- args$hierarchy_parameter1
 }
 
-if (!is.null("args$hierarchy_parameter21")) {
+if (!is.null(args$hierarchy_parameter2)) {
   hp2 <- args$hierarchy_parameter2
 }
 
-if (!is.null("args$prior_matrix")) {
+if (!is.null(args$prior_matrix)) {
   prior_matrix <- args$prior_matrix
-}
-
-if (!is.null(prior_matrix)) {
-  if (!is.null(args$prior_pseudocount)) {
-    u_pseudocount <- args$prior_pseudocount
+  if (!is.null(args$prior_pseudocounts)) {
+    u_pseudocounts <- pseudocount_list(args$prior_pseudocounts)
   }
 }
 
-if (!exists("chain_index")) {
+if (!is.null(args$chain_index)) {
   chain_index <- args$chain_index
 }
 
-if (!exists("threshold")) {
+if (!is.null(args$threshold)) {
   threshold <- args$threshold
 }
 
@@ -86,13 +89,13 @@ u_analysis_type <- args$analysis_type
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   message(paste0("Analysis run selected. Please note that this is intended to be run on a HPC as it requires 20 threads. \n"))
 
-  if (!is.null("args$burnin_iterations")) {
+  if (!is.null(args$burnin_iterations)) {
     u_burnin <- args$burnin_iterations
-    }
-  if (!is.null("args$posterior")) {
+  }
+  if (!is.null(args$posterior)) {
     u_post <- args$posterior
   }
-  if (!is.null("args$posterior_iterations")) {
+  if (!is.null(args$posterior_iterations)) {
     u_post_space <- args$posterior_iterations
   }
 } else {
@@ -196,6 +199,7 @@ if (ncol(ref) == 1 ) {
 
 if ("MutationType" %in% colnames(ref)) {
   ref <- tibble::column_to_rownames(ref, "MutationType")
+  prior_signatures <- colnames(ref)
 } else {
   stop(sprintf("Error: Input prior matrix does not provide mutations under a column labelled as 'MutationType'. Please conduct the necessary data wrangling to ensure your prior matrix is compatible with the pipeline. Stopping HDP pipeline."))
 }
@@ -212,11 +216,22 @@ nps <- ncol(prior_sigs)
 message(paste0("Chain ", n,": prior matrix imported and signatures extracted. Adjusting and initialising HDP structure. \n"))
 
 #with PID and Method as parents (2 hierarchy)
-hdp_PD_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
-                                            prior_pseudoc = rep(as.integer(u_pseudocount), nps), # pseudocount weights
+if (length(unique(u_pseudocounts))!=1) {
+  message(paste0("Multiple pseudocounts provided, assigning ",u_pseudocounts," to prior signatures", prior_signatures," in corresponding order."))
+  hdp_PD_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
+                                            prior_pseudoc = as.integer(u_pseudocounts), # pseudocount weights
                                             hh=rep(1, 96), # uniform prior over 96 categories
                                             alphaa=c(1, 1), # shape hyperparams for 2 CPs
                                             alphab=c(1, 1)) # rate hyperparams for 2 CPs
+}
+if (length(unique(u_pseudocounts))==1) {
+  message(paste0("Single pseudocount provided, assigning ",u_pseudocounts," pseudocounts to all prior signatures."))
+  hdp_PD_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
+                                            prior_pseudoc = rep(as.integer(u_pseudocounts), nps), # pseudocount weights
+                                            hh=rep(1, 96), # uniform prior over 96 categories
+                                            alphaa=c(1, 1), # shape hyperparams for 2 CPs
+                                            alphab=c(1, 1)) # rate hyperparams for 2 CPs
+}
 
 hdp_PD_prior <- hdp_addconparam(hdp_PD_prior,
                                             alphaa = rep(1,length(unique(dps_to_add))), # shape hyperparams for 2 new CPs

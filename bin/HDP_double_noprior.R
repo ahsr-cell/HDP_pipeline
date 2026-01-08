@@ -19,7 +19,7 @@ parser = ArgumentParser(prog = 'HDP', description='Hdp pipeline')
 #Command line arguments
 parser$add_argument("mutation_matrix", nargs = 1, help = "Specify path to input mutational matrix.") 
 
-parser$add_argument("-hierarchy","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE)
+parser$add_argument("-hmat","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE)
 
 parser$add_argument("-hp1","--hierarchy_parameter1", type = 'character', help = "Specify primary hierarchy parameter as listed in input hierarchy matrix (e.g., column name). Used to identify column.", required=FALSE) 
 
@@ -33,9 +33,9 @@ parser$add_argument("-o", "--posterior", type = 'double', default = "100", help 
 
 parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
 
-parser$add_argument("-n", "--chain_index", type = 'character', help = "Chain index")
+parser$add_argument("-n", "--chain_index", type = 'double', help = "Chain index")
 
-parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
+parser$add_argument("-t", "--threshold", type = 'double', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
 #Parse arguments
 args <- parser$parse_args()
@@ -45,23 +45,23 @@ if (!exists("mutation_matrix")) {
   stop(sprintf("Mutation matrix not provided. Please specify by providing path at end of command; Use -h for further information."))
 }
 
-if (!is.null("args$hierarchy_matrix")) {
+if (!is.null(args$hierarchy_matrix)) {
   hierarchy_matrix <- args$hierarchy_matrix
 }
 
-if (!is.null("args$hierarchy_parameter1")) {
+if (!is.null(args$hierarchy_parameter1)) {
   hp1 <- args$hierarchy_parameter1
 }
 
-if (!is.null("args$hierarchy_parameter21")) {
+if (!is.null(args$hierarchy_parameter2)) {
   hp2 <- args$hierarchy_parameter2
 }
 
-if (!exists("chain_index")) {
+if (!is.null(args$chain_index)) {
   chain_index <- args$chain_index
 }
 
-if (!exists("threshold")) {
+if (!is.null(args$threshold)) {
   threshold <- args$threshold
 }
 

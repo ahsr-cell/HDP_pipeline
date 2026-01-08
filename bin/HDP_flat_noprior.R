@@ -27,9 +27,9 @@ parser$add_argument("-o", "--posterior", type = 'double', default = "100", help 
 
 parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
 
-parser$add_argument("-n", "--chain_index", type = 'character', help = "Chain index")
+parser$add_argument("-n", "--chain_index", type = 'double', help = "Chain index")
 
-parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
+parser$add_argument("-t", "--threshold", type = 'double', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
 parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), DBS78, or ID83.", required = TRUE)
 
@@ -41,12 +41,12 @@ if(!exists("mutation_matrix")) {
   stop(sprintf("Mutation matrix not provided. Please specify by providing path at end of command; Use -h for further information."))
 }
 
-if(!exists("chain_index")) {
-    chain_index <- args$chain_index
+if(!is.null(args$chain_index)) {
+  chain_index <- args$chain_index
 }
 
-if(!exists("threshold")) {
-    threshold <- args$threshold
+if(!is.null(args$threshold)) {
+  threshold <- args$threshold
 }
 
 lower_threshold <- threshold
@@ -70,13 +70,13 @@ u_analysis_type <- args$analysis_type
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   message(paste0("Analysis run selected. Please note that this is intended to be run on a HPC as it requires 20 threads. \n"))
 
-  if (!is.null("args$burnin_iterations")) {
+  if (!is.null(args$burnin_iterations)) {
     u_burnin <- args$burnin_iterations
     }
-  if (!is.null("args$posterior")) {
+  if (!is.null(args$posterior)) {
     u_post <- args$posterior
   }
-  if (!is.null("args$posterior_iterations")) {
+  if (!is.null(args$posterior_iterations)) {
     u_post_space <- args$posterior_iterations
   }
 }
@@ -120,7 +120,7 @@ cpindex = c(1, rep(2, nrow(mutations)))
 
 hdp_mut <- hdp_init(ppindex = ppindex, # index of parental node
                       cpindex = cpindex, # index of the CP to use
-                      hh = rep(1, init_hhval), # prior is uniform over 96 categories
+                      hh = rep(1, init_hhval), # prior is uniform over 96/78/83 categories
                       alphaa = rep(1,length(unique(cpindex))), # shape hyperparameters for 2 CPs
                       alphab = rep(1,length(unique(cpindex))))  # rate hyperparameters for 2 CPs
 

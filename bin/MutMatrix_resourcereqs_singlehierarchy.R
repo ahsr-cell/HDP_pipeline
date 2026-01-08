@@ -15,8 +15,10 @@ options(stringsAsFactors = F )
 parser = ArgumentParser(prog = 'Input matrix matrix check and HDP memory requirements generation', description = 'Mutation matrix validation and memory requirements generation.')
 #Command line arguments
 parser$add_argument("matrix_path", nargs = 1, help = "Specify path to input mutational matrix.") 
-parser$add_argument("-umem","--user_defmemory", type = 'double', help = "If known and optimised, specify memory required for HDP run.", required=FALSE)
-
+parser$add_argument("-hierarchy","--hierarchy_type", type = 'character', help = "If available, specify hierarchy type.", required=FALSE)
+parser$add_argument("-hmat","--hierarchy_matrix", type = 'character', help = "If available, specify path to hierarchy matrix.", required=FALSE)
+parser$add_argument("-hp1","--hierarchy_parameter1", type = 'character', help = "Specify primary hierarchy parameter as listed in input hierarchy matrix (e.g., column name). Used to identify 1st hierarchy column.", required=FALSE)
+parser$add_argument("-umem","--user_defmemory", type = 'double', help = "If known and optimised, specify memory required for mSigHdp run.", required=FALSE)
 #Parse arguments
 args <- parser$parse_args()
 
@@ -26,11 +28,19 @@ if(is.null(mutation_matrix_path)) {
   stop(sprintf("Mutation matrix not provided. Please specify by providing path at end of command; Use -h for further information."))
 }
 
+if (!is.null(args$hierarchy_matrix)) {
+  hierarchy_matrix <- args$hierarchy_matrix
+}
+
+if (!is.null("args$hierarchy_parameter1")) {
+  hp1 <- args$hierarchy_parameter1
+}
+
+
 u_mem <- args$user_defmemory
 
-message("Importing user datasets and conducting necessary data wrangling.")
+message("Importing user datasets and validating required formatting.")
 
-### Data wrangling
 ##Mutation matrix 
 #change context to rownames
 mutation_matrix <- read.csv(file = mutation_matrix_path, 
@@ -38,14 +48,34 @@ mutation_matrix <- read.csv(file = mutation_matrix_path,
 
 if (ncol(mutation_matrix) == 1 ) {
   stop(sprintf("Error: Incorrect format of input mutation matrix. Please input tab delimited matrix. Stopping mSigHdp pipeline."))
+} else {
+  message("Mutation matrix ")
 }
 
 ### Check that the input mutation matrix is in SigProfilerMatrixGenerator output format
 
 if ("MutationType" %in% colnames(mutation_matrix)) {
   mutation_matrix <- tibble::column_to_rownames(mutation_matrix, "MutationType")
+  message("Mutation matrix correctly formatted. Assessing hierarchy matrix.")
 } else {
   stop(sprintf("Error: Input mutation matrix does not provide mutations under a column labelled as 'MutationType'. Please conduct the necessary data wrangling to ensure your mutation matrix is compatible with the pipeline. Stopping mSigHdp pipeline."))
+}
+
+### Check input hierarchy table is correct format, listed hierarchy parameter is correct, and data wrangling occurs
+if (!is.null(hierarchy_matrix)) {
+  hierarchy_key <- read.csv(file = hierarchy_matrix, 
+                           header = TRUE, sep="\t")
+  if (ncol(hierarchy_key) == 1 ) {
+    stop(sprintf("Incorrect format of input hierarchy matrix. Please provide tab delimited matrix. Stopping mSigHdp pipeline."))
+  }
+  if (hp1 %in% colnames(hierarchy_key)) {
+    hp1_i <- which(colnames(hierarchy_key)==hp1)
+    message(paste0("Hierarchy parameter ", hp1, " detected in column ", hp1_i,". Hierarchy matrix correctly formatted. Assessing integration into mutation matrix."))
+  } else {
+  stop(sprintf("Error: Input hierarchy parameter not found in hierarchy matrix. Please correct provided hierarchy parameter. Stopping mSigHdp pipeline."))
+  }
+} else {
+  message(paste("No hierarchy matrix provided, please note that mSigHdp will run assuming no hierarchy."))
 }
 
 if (is.null(u_mem) | (u_mem == 0)) {
@@ -115,4 +145,4 @@ memory_requirements_df <- data.frame(
 write.table(memory_requirements_df, file = paste0(u.work.dir,"/memory_requirements.csv"), sep = ",",
                 quote = FALSE, row.names = FALSE, col.names = TRUE)
 
-message(paste0("Mutation matrix successfully validated. Memory requirements successfully calculated. Proceeding with HDP pipeline."))
+message(paste0("Mutation matrix and hierarchy key successfully validated. Memory requirements successfully calculated. Proceeding with HDP pipeline."))

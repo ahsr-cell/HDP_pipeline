@@ -2,7 +2,10 @@
 
 nextflow.enable.dsl=2
 
-include { MutMatrix_resourcereqs } from './modules/MutMatrix_resourcereqs.nf' 
+include { MutMatrix_resourcereqs } from './modules/MutMatrix_resourcereqs.nf'
+include { MutMatrix_resourcereqs_singlehierarchy } from './modules/MutMatrix_resourcereqs_singlehierarchy.nf'
+include { MutMatrix_resourcereqs_doublehierarchy } from './modules/MutMatrix_resourcereqs_doublehierarchy.nf'
+include { Prior_validation } from './modules/Prior_validation.nf'
 include { HDP_flat_prior } from './modules/HDP_flat_prior.nf'
 include { HDP_flat_noprior } from './modules/HDP_flat_noprior.nf'
 include { HDP_single_prior } from './modules/HDP_single_prior.nf'
@@ -23,17 +26,53 @@ workflow {
     //
     // WORKFLOW: Full suite of analysis: HDP, SigProfilerPlotting, and SigProfilerAssignment
     //
+    
+    if (params.hierarchy == "double") {
+        MutMatrix_resourcereqs_doublehierarchy(
+            params.mutational_matrix,
+            params.hierarchy_matrix,
+            params.hierarchy_parameter1,
+            params.hierarchy_parameter2,
+            params.user_defmemory
+        )
 
-    MutMatrix_resourcereqs(
-        params.mutational_matrix
-    )
-
-    memory_requirements_ch = MutMatrix_resourcereqs.out.memory_reqs_matrix
+        memory_requirements_ch = MutMatrix_resourcereqs_doublehierarchy.out.memory_reqs_matrix
                         .splitCsv( header: true )
                         .map { row -> tuple( row.Sample_number, row.Mutation_burden, row.Memory_required )
                         }
-    
-     if (params.hierarchy == "double") {
+    }
+    if (params.hierarchy == "single") {
+        MutMatrix_resourcereqs_singlehierarchy(
+            params.mutational_matrix,
+            params.hierarchy_matrix,
+            params.hierarchy_parameter1,
+            params.user_defmemory
+        )
+        memory_requirements_ch = MutMatrix_resourcereqs_singlehierarchy.out.memory_reqs_matrix
+                        .splitCsv( header: true )
+                        .map { row -> tuple( row.Sample_number, row.Mutation_burden, row.Memory_required )
+                        }
+    }
+    if (params.hierarchy == "flat") {
+        MutMatrix_resourcereqs(
+        params.mutational_matrix,
+        params.user_defmemory
+        )
+        
+        memory_requirements_ch = MutMatrix_resourcereqs.out.memory_reqs_matrix
+                        .splitCsv( header: true )
+                        .map { row -> tuple( row.Sample_number, row.Mutation_burden, row.Memory_required )
+                        }
+    }
+
+    if (params.prior == true) {
+        Prior_validation(
+        params.prior_matrix,
+        params.prior_pseudocounts
+        )
+    }
+
+    if (params.hierarchy == "double") {
         if (params.prior == true) {
             HDP_double_prior(
              Channel.of(1..params.numchains)
@@ -41,7 +80,7 @@ workflow {
              params.mutational_matrix,
              params.hierarchy_matrix,
              params.prior_matrix,
-             params.prior_pseudocount,
+             params.prior_pseudocounts,
              params.analysis_type, 
              params.hierarchy_parameter1,
              params.hierarchy_parameter2,
@@ -174,7 +213,7 @@ workflow {
              params.mutational_matrix,
              params.hierarchy_matrix,
              params.prior_matrix,
-             params.prior_pseudocount,             
+             params.prior_pseudocounts,             
              params.analysis_type,
              params.hierarchy_parameter1,
              params.burnin_iterations,
@@ -302,7 +341,7 @@ workflow {
              .combine(memory_requirements_ch),
              params.mutational_matrix,
              params.prior_matrix,
-             params.prior_pseudocount,
+             params.prior_pseudocounts,
              params.analysis_type, 
              params.burnin_iterations,
              params.posterior,
