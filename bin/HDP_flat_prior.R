@@ -127,7 +127,7 @@ message("Chain ",n,": successfully imported input mutation matrix. \n")
 
 message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate into HDP structure. \n"))
 
-ref = read.table(prior_matrix, header = TRUE, stringsAsFactors = FALSE, sep = '\t', row.names = 1)
+ref = read.table(prior_matrix, header = TRUE, stringsAsFactors = FALSE, sep = '\t')
 if (ncol(ref) == 1 ) {
   ref <- read.table(prior_matrix, header=T, sep = ",", row.names = 1)
 }
