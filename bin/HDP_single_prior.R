@@ -34,11 +34,15 @@ parser$add_argument("-b", "--burnin_iterations", type = 'double', default = "300
 
 parser$add_argument("-o", "--posterior", type = 'double', default = "100", help = "Specify number of posterior samples to collect. Default set to 100.", required=FALSE) 
 
-parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
+parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE)
+
+parser$add_argument("-cp", "--concentration_parameter", type = 'double', default = "3", help = "Specify number iterations of concentration parameter sampling to perform after each main Gibbs-sample iteration.", required=FALSE)
 
 parser$add_argument("-n", "--chain_index", type = 'double', help = "Chain index")
 
 parser$add_argument("-t", "--threshold", type = 'double', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
+
+parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), DBS78, or ID83.", required = TRUE)
 
 # Function to parse multiple pseudocounts values
 pseudocount_list <- function(arg) {
@@ -78,6 +82,16 @@ if (!exists(args$threshold)) {
 
 lower_threshold=threshold
 
+if (mut_context == 'SBS96') {
+  init_hhval <- as.integer(96)
+}
+if (mut_context == 'DBS78') {
+  init_hhval = as.integer(78)
+}
+  if (mut_context == 'ID83') {
+  init_hhval = as.integer(83)
+}
+
 u_analysis_type <- args$analysis_type
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
@@ -91,6 +105,9 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   }
   if (!is.null(args$posterior_iterations)) {
     u_post_space <- args$posterior_iterations
+  }
+  if (!is.null(args$concentration_parameter)) {
+    u_cpiter <- args$concentration_parameter
   }
 } else {
   message(paste0("Testing run selected. Executing run with minimal HDP settings. \n"))
@@ -184,7 +201,7 @@ if (length(unique(u_pseudocounts))!=1) {
   message(paste0("Multiple pseudocounts provided, assigning ",u_pseudocounts," to prior signatures", prior_signatures," in corresponding order."))
   hdp_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
                             prior_pseudoc = as.integer(u_pseudocounts), # pseudocount weights
-                            hh=rep(1, 96), # uniform prior over 96 categories
+                            hh = rep(1, init_hhval), # prior is uniform over 96/78/83 categories
                             alphaa=c(1, 1), # shape hyperparams for 2 CPs
                             alphab=c(1, 1)) # rate hyperparams for 2 CPs
 }
@@ -192,7 +209,7 @@ if (length(unique(u_pseudocounts))==1) {
   message(paste0("Single pseudocount provided, assigning ",u_pseudocounts," pseudocounts to all prior signatures."))
   hdp_prior <- hdp_prior_init(prior_distn = prior_sigs, # matrix of prior sigs
                             prior_pseudoc = rep(as.integer(u_pseudocounts), nps), # pseudocount weights
-                            hh=rep(1, 96), # uniform prior over 96 categories
+                            hh = rep(1, init_hhval), # prior is uniform over 96/78/83 categories
                             alphaa=c(1, 1), # shape hyperparams for 2 CPs
                             alphab=c(1, 1)) # rate hyperparams for 2 CPs
 }
@@ -236,7 +253,8 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
                     n=u_post,
                     seed=n*1000,
                     space=u_post_space,
-                    cpiter=3)
+                    cpiter=u_cpiter #3
+                    )
 }
 
 if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {

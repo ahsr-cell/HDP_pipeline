@@ -10,7 +10,9 @@ process HDP_flat_prior {
     val burnin_iterations 
     val posterior 
     val posterior_space
+    val concentration_parameter
     val threshold
+    val mutation_context
 
     output:
     // path "HDP_chains", emit: HDP_chains
@@ -18,6 +20,6 @@ process HDP_flat_prior {
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_flat_prior.R --prior_matrix ${prior_matrix} --prior_pseudocounts ${prior_pseudocounts} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -t ${threshold} -n ${chain_index} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_flat_prior.R --prior_matrix ${prior_matrix} --prior_pseudocounts ${prior_pseudocounts} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -cp ${concentration_parameter} -t ${threshold} -n ${chain_index} -c ${mutation_context} ${mutational_matrix}
     """
 }

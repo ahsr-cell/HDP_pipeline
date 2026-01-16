@@ -29,11 +29,15 @@ parser$add_argument("-b", "--burnin_iterations", type = 'double', default = "300
 
 parser$add_argument("-o", "--posterior", type = 'double', default = "100", help = "Specify number of posterior samples to collect. Default set to 100.", required=FALSE) 
 
-parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
+parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE)
+
+parser$add_argument("-cp", "--concentration_parameter", type = 'double', default = "3", help = "Specify number iterations of concentration parameter sampling to perform after each main Gibbs-sample iteration.", required=FALSE)
 
 parser$add_argument("-n", "--chain_index", type = 'double', help = "Chain index")
 
 parser$add_argument("-t", "--threshold", type = 'double', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
+
+parser$add_argument("-c", "--mutational_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), DBS78, or ID83.", required = TRUE)
 
 #Parse arguments
 args <- parser$parse_args()
@@ -61,6 +65,16 @@ if (!is.null(args$threshold)) {
 
 lower_threshold=threshold
 
+if (mut_context == 'SBS96') {
+  init_hhval <- as.integer(96)
+}
+if (mut_context == 'DBS78') {
+  init_hhval = as.integer(78)
+}
+  if (mut_context == 'ID83') {
+  init_hhval = as.integer(83)
+}
+
 u_analysis_type <- args$analysis_type
 
 if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
@@ -74,6 +88,9 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   }
   if (!is.null(args$posterior_iterations)) {
     u_post_space <- args$posterior_iterations
+  }
+  if (!is.null(args$concentration_parameter)) {
+    u_cpiter <- args$concentration_parameter
   }
 } else {
   message(paste0("Testing run selected. Executing run with minimal HDP settings. \n"))
@@ -138,7 +155,7 @@ message(paste0("Chain ", n,": Hierarchy parameters successfully extracted. No pr
 #with Just type as parent (1 hierarchy)
 hdp_mut <- hdp_init(ppindex = c(0, rep(1,length(freq)),rep(2:(length(freq)+1), times=freq)), # index of parental node
                       cpindex = c(1, rep(2,length(freq)),rep(3:(length(freq)+2), times=freq)), # index of the CP to use
-                      hh = rep(1, 96), # prior is uniform over 96 categories
+                      hh = rep(1, init_hhval), # prior is uniform over 96/78/83 categories
                       alphaa = rep(1,length(freq)+2), # shape hyperparameters for 2 CPs
                       alphab = rep(1,length(freq)+2))  # rate hyperparameters for 2 CPs
 
@@ -159,7 +176,8 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
                     n=u_post,
                     seed=n*1000,
                     space=u_post_space,
-                    cpiter=3)
+                    cpiter=u_cpiter #3
+                    )
 }
 
 if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {

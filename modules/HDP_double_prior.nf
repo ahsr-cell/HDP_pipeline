@@ -13,7 +13,9 @@ process HDP_double_prior {
     val burnin_iterations 
     val posterior
     val posterior_space
+    val concentration_parameter
     val threshold
+    val mutation_context
 
     output:
     // path "HDP_chains", emit: HDP_chains
@@ -21,6 +23,6 @@ process HDP_double_prior {
 
     script:
     """
-    Rscript --vanilla ${projectDir}/bin/HDP_double_prior.R --hierarchy_matrix ${hierarchy_matrix} -hp1 ${hierarchy_parameter1} -hp2 ${hierarchy_parameter1} --prior_matrix ${prior_matrix} --prior_pseudocounts ${prior_pseudocounts} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -n ${chain_index} -t ${threshold} ${mutational_matrix}
+    Rscript --vanilla ${projectDir}/bin/HDP_double_prior.R --hierarchy_matrix ${hierarchy_matrix} -hp1 ${hierarchy_parameter1} -hp2 ${hierarchy_parameter1} --prior_matrix ${prior_matrix} --prior_pseudocounts ${prior_pseudocounts} -a ${analysis_type} -b ${burnin_iterations} -o ${posterior} -i ${posterior_space} -cp ${concentration_parameter} -n ${chain_index} -t ${threshold} -c ${mutation_context} ${mutational_matrix}
     """
 }

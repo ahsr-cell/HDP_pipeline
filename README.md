@@ -26,7 +26,7 @@ HDP has two run modes (`analysis` and `testing`) set by `analysis_type`.
 
 The HDP pipeline can be run with **hierarchy**, supporting single and double tier hierarchy (setting `hierarchy = double` or `hierarchy = single`) or **no hierarchy** (setting `hierarchy=flat`). In hierarchy runs, the hierarchy table is specified via `--hierarchy_matrix /path/to/hierarchy_matrix`. Hierarchy parameter(s), which define how hierarchy is constructed, must be their own column(s) in the hierarchy matrix and may specified via their respective column name(s), specified to the pipeline by `--hierarchy_parameter1 <column_name_of_hierarchy_parameter1>` and, if double hierarchy, `--hierarchy_parameter2 <column_name_of_hierarchy_parameter2>`. The default for the pipeline is **no hierarchy**. 
 
-HDP can be run with **prior** (setting `prior = true`, specifying the prior matrix via `--prior_matrix /path/to/prior_matrix`) or **no prior** (setting `prior = false`). The pipeline defaults to **no priors**, thus this functionality is turned on by providing a `prior_matrix`. 
+HDP can be run with **prior** (setting `prior = true`, specifying the prior matrix via `--prior_matrix /path/to/prior_matrix`) or **no prior** (setting `prior=false`). The pipeline defaults to **no priors**. Pseudocounts can be assigned to prior signatures provided via `--prior_pseudocounts <pseudocounts1,pseudocounts2,pseudocounts3>`. Further guidance is provided below. 
 
 The primary output of HDP, found under the subdirectory `/HDP_ExtractedSigs/`) include the extracted *de novo* signature table (`HDP_deNovoSignatures.txt`) and standard QC plots and matrices.
 
@@ -61,16 +61,50 @@ Clone this repository via
 | `hierarchy_matrix`   | Optional input file, required if `hierarchy = double` or `hierarchy = single`. The expected format is a matrix with one row per sample ID (matching the input mutation matrix) and one column specifying hierarchy groupings. See [example_hierarchy_matrix.tsv](https://github.com/ahsr-cell/HDP_pipeline/blob/main/docs/example_input_data/example_hierarchy_matrix.tsv) for an example.         |
 | `hierarchy_parameter1` and `hierarchy_parameter2`  | Optional values, required if `hierarchy = double` or `hierarchy = single`. This should be formatted exactly as the column name specifying hierarchy groupings in the input `hierarchy_matrix`. E.g., if a user provided [example_hierarchy_matrix.tsv](https://github.com/ahsr-cell/HDP_pipeline/blob/main/docs/example_input_data/example_hierarchy_matrix.tsv), `hierarchy_parameter1` would be `hierarchy_parameter1=Grouping`             |
 | `prior`   | Required value. Options are `true` or `false`          |
-| `prior_matrix`   | Optional input file, provided if `prior = true`. The expected format is a matrix with one column per mutational signature (e.g., SBS1, SBS5, etc.) and one column per mutation type (e.g., A[C>A]A). Include the mutation types as the first column labelled as 'MutationType'. Note that the prior matrix variant class should match the mutation matrix variant class; in other words, if the inputted mutation matrix is SBS96, the prior matrix should be SBS96. See [example_prior_matrix.tsv](https://github.com/ahsr-cell/HDP_pipeline/blob/main/docs/example_input_data/example_prior_matrix.tsv) for an example.         |
-| `prior_pseudocounts`   | Optional value, provided as a string, required if `prior = true`, default is `1000`. Note, the pipeline will detect how many prior signatures are provided through the input prior matrix. If a user wants to assign the same amount of pseudocounts to each signature, they should provide a single value (i.e., if a user has SBS1, SBS5, and SBS88 and wants to assign each 500 pseudocounts, they can simply provide `prior_pseudocounts=500`). If a user wants to assign different pseudocounts values to their signatures (i.e., SBS1 has 300 pseudocounts, SBS5 has 300 pseudocounts, and SBS88 has 500 pseudocounts), a user should provide the values separated by a space, for example: `prior_pseudocounts=300 300 500`.          |
+| `prior_matrix`   | Optional input file, required if `prior = true`. The expected format is a matrix with one column per mutational signature (e.g., SBS1, SBS5, etc.) and one column per mutation type (e.g., A[C>A]A). Include the mutation types as the first column labelled as 'MutationType'. Note that the prior matrix variant class should match the mutation matrix variant class; in other words, if the inputted mutation matrix is SBS96, the prior matrix should be SBS96. See [example_prior_matrix.tsv](https://github.com/ahsr-cell/HDP_pipeline/blob/main/docs/example_input_data/example_prior_matrix.tsv) for an example.         |
+| `prior_pseudocounts`   | Optional value, provided as a string, required if `prior = true`, default is `1000`. Note, the pipeline will detect how many prior signatures are provided through the input prior matrix. If a user wants to assign the same amount of pseudocounts to each signature, they should provide a single value (i.e., if a user has SBS1, SBS5, and SBS88 and wants to assign 500 pseudocounts to each signature, they can simply provide `prior_pseudocounts=500`). If a user wants to assign different pseudocounts values to their signatures (i.e., SBS1 has 300 pseudocounts, SBS5 has 300 pseudocounts, and SBS88 has 500 pseudocounts), a user should provide the values separated by a comma, for example: `prior_pseudocounts=300,300,500`. See below for further guidance on usage of pseudocounts in HDP.          |
 | `analysis_type`   | Required value, provided as a string. Options are `analysis` or `testing`, default is `analysis`         |
 | `mutation_context`   | Required value, provided as a string. Options are `SBS96`, `DBS78`, `ID83`, default is `SBS96`         |
 | `plotting`   | Required value, provided as a string. Options are `true` or `false`, default is `true`         |
 | `decompose`   | Required value, provided as a string. Options are `true` or `false`, default is `true`         |
 | `outdir`   | Required path, specifying the location of output files generated by pipeline. See [`output.md`](docs/output.md) for the files/directories that will be contained within this directory.        |
 | `user_defmemory`   | Optional value that can be provided if a user would like to specify the amount of memory to request for each HDP run. Note, by default, the pipeline will calculate the amount of memory required, based on the number of samples and highest mutation burden. By providing a value to `user_defmemory`, this process will be turned off.        |
+| `burnin_iterations`[^*]   | Optional value, provided as a double. Used to change number of burn-in iterations conducted. Default is `30000`          |
+| `posterior`[^*]   | Optional value, provided as a double. Used to change number of posterior samples collected. Default is `100`         |
+| `posterior_iterations`[^*]   | Optional value, provided as a double. Used to change number of iterations conducted between each posterior sample. Default is `1000`         |
+| `concentration_parameter`[^*]   | Optional value, provided as a double. Used to change number of iterations concentration parameter sampling. Default is `3`         |
+| `chains`[^*]   | Optional value, provided as a double. Used to change number of posterior sampling chains and number of CPUs to use (for parallelisation). Default is `20`         |
+| `threshold`[^*]   | Optional value, provided as a double. Used to change minimum number of mutations required in a sample. Default is `20`         |
+[^*]: HDP run options that can be changed in analysis runs. Recommended to change only after conducting an initial analysis run with default settings and having validated reasonable cause for changing number of iterations.
 
-The pipeline can be run using:
+### Pseudocounts
+The HDP pipeline has functionality for prior pseudocounts. Pseudocounts are synthetic counts included at the start of each HDP structure, thereby providing an initial number of mutations directly attributable to the respective prior signature.
+
+The number of pseudocounts provided to each prior signature is the ‘strength’. However, the number of pseudocounts to assign a prior signature is influenced by numerous factors, including but not limited to overall mutation burden, number of prior signatures, context and scientific question, etc.
+
+Thus, it is recommended that users optimise their HDP run to test the run settings most appropriate for their data and research question. However, the following table has been generated as a guideline, with the understanding that the amount of pseudocounts assigned and ‘strength’ will be relative to dataset and context.
+
+To illustrate this, suppose you are analysing 50 samples with moderate mutation burdens.
+
+You know that SBS1 and SBS5 (clock-like signatures) are biologically expected in all tissues [Boysen et al. 2025](https://doi.org/10.1093/nar/gkaf1149). However, you could not detect them in samples with very low mutation counts.
+
+Without pseudocounts: HDP might under-detect SBS1/5 in low-mutation samples because their weak signal is overshadowed by noisier signatures. With pseudocounts: By adding pseudocounts to SBS1/5 gives them a baseline presence, encouraging HDP to retain them.
+
+If you have time, it is recommended you run HDP with different pseudocounts values as in the table below for the detailed example.
+
+In general, fewer pseudocounts allows the model to freely discover mutation patterns, while in contrast, more pseudocounts lets the model lean on the provided prior signatures. On one hand, too few pseudocounts may ignore weak but biologically real priors. On the other hand, adding too many creates bias by forcing priors to present even when the data does not support them. Therefore, choosing the number of pseudocounts relies on the experience and the nature of your data. If you think of a signature should be there, then use high number of pseudocounts, and vice versa.
+
+When you first use the pipeline, you can start with adding 100 pseudocounts. However, I would say you would not see much of the difference in the extraction nor attribution. One approach could be using the moderate prior strength, let’s say 400, then comparing the results to the run without prior. You will have a better idea of either increase or decrease pseudocounts based on biological interpretations and model stability.
+
+| Relative Strength      | Pseudocounts | % of mutation data, *assuming a dataset of 20,000 real mutations* |
+| ----------- | ----------- | ----------- |
+| Weak      | 100 counts * 10 signatures = 1,000 pseudcounts        | 5% *(1,000/20,000)* |
+| &#8593;      | 400 counts * 10 signatures = 4,000 pseudcounts        | 20% *(4,000/20,000)* |
+| &#8595;      | 800 counts * 10 signatures = 8,000 pseudcounts        | 40% *(8,000/20,000)* |
+| Strong      | 1200 counts * 10 signatures = 12,000 pseudcounts        | 60% *(12,000/20,000)* |
+
+
+The pipeline can be run using (removing unused options):
 
 ```
      nextflow run /path/to/HDP_pipeline/main.nf \
@@ -84,7 +118,7 @@ The pipeline can be run using:
      --prior <true/false> \
      --prior_matrix /path/to/prior_matrix.tsv \
      --prior_pseudocounts <pseudocounts_values_to_assign> \
-     --mutation_context <SBS96/SBS288/DBS78/ID83> \
+     --mutation_context <SBS96/DBS78/ID83> \
      --analysis_type <analysis/testing> \
      --outdir /path/to/outdir/ \
      --plotting <true/false> \
@@ -94,46 +128,51 @@ The pipeline can be run using:
      --burnin_iterations <number_of_desired_burnin_chains> \
      --posterior <number_of_desired_posterior_samples> \
      --posterior_iterations <number_of_desired_posterior_iterations> \
+     --concentration_parameter <value_of_desired_concentration_parameter> \
      -resume
 ```
 
 ### Sanger Users
-Sangers can run the pipeline using the following wrapper script:
+Sangers can run the pipeline using the wrapper script below. Note that users will need to remove/comment out options that not required for their run :
 
 ```
 #! /usr/bin/env bash
 
-#BSUB -J USER_JOB_NAME
+#BSUB -J HDP_pipeline_run
 #BSUB -o %J.out
 #BSUB -e %J.err
-#BSUB -u USER@sanger.ac.uk
+#BSUB -u user@sanger.ac.uk
 #BSUB -q basement #set time requirements
 #BSUB -n 1 #single node needed for Nextflow job submitter
-#BSUB -M5000 #set memory requirements*
+#BSUB -M5000 #set memory requirements
 #BSUB -R "select[mem>5000] rusage[mem=5000]" #set memory requirements
 
 ### Run inputs and options, change accordingly
 mutational_matrix=/path/to/mutation_matrix.tsv
 hierarchy=flat #Options include flat, single, double 
+
+prior=false #if running prior, set to true
+ 
+mutation_context=SBS96 #For SigProfilerPlotting, options include SBS96, DBS78, ID83
+analysis_type=analysis #'testing' for test run, 'analysis' for full analysis run
+
 hierarchy_matrix=/path/to/input/hierarchy_key.tsv #if running no hierarchy, delete/comment this line out 
 hierarchy_parameter1=parameter1 #The column name of the primary hierarchy parameter
 hierarchy_parameter2=parameter2 #The column name of secondary hierarchy parameter
 prior=true #if running prior, set to true
 prior_matrix=/path/to/input/prior_matrix.tsv #if running no prior, delete/comment this line out
 prior_pseudocounts=1000 #If desired, the amount of pseudocounts to assign to prior signatures
-mutation_context=SBS96 #For SigProfilerPlotting, options include SBS96, DBS78, ID83
-analysis_type=analysis #'testing' for test run, 'analysis' for full analysis run
-
-outdir=/path/to/directory_of_output #set to location of output files
+outdir=/path/to/output #set to location of output files
 plotting=true #set to false if you do not want to plot extracted signature spectra
 decompose=true #set to false if you do not want to decompose extracted signatures 
-user_defmemory=0 #Memory resources to request. Set if known, if not, leave as 0
+user_defmemory=0 #Memory resources to request. Set if known, if not, leave as 0. Units are in Gigabytes.
 
 numchains=20 #Number of posterior sampling chains to run
-threshold=0 #Minimum number of mutations per sample
+threshold=0 #Minimum number of mutations per sample 
 burnin_iterations=30000 #Number of burn-in iterations
 posterior=100 #Number of posterior samples
 posterior_iterations=200 #Number of iterations conducted between posterior samples
+concentration_parameter=3 #
 
 module load cellgen/nextflow/25.04.4
 module load ISG/singularity/3.11.4
@@ -157,6 +196,7 @@ nextflow run ${main_script} \
      --outdir ${outdir} \
      --plotting ${plotting} \
      --decompose ${decompose} \
+     --user_defmemory ${user_defmemory} \
      --numchains ${numchains} \
      --threshold ${threshold} \
      --burnin_iterations ${burnin_iterations} \

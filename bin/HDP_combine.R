@@ -26,7 +26,7 @@ parser$add_argument("-num_chains", "--number_chains", type = 'character', defaul
 
 parser$add_argument("-t", "--threshold", type = 'character', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
 
-parser$add_argument("-c", "--mutation_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), SBS288, SBS1536, DBS78, or ID83.")
+parser$add_argument("-c", "--mutation_context", type = 'character', default = "SBS96", help = "Specify context of mutational matrix; options are SBS96 (default), DBS78, or ID83.")
 
 #Parse arguments
 args <- parser$parse_args()

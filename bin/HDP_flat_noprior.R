@@ -27,6 +27,8 @@ parser$add_argument("-o", "--posterior", type = 'double', default = "100", help 
 
 parser$add_argument("-i", "--posterior_iterations", type = 'double', default = "200", help = "Specify number of iterations collected between posterior samples. Default set to 1000.", required=FALSE) 
 
+parser$add_argument("-cp", "--concentration_parameter", type = 'double', default = "3", help = "Specify number iterations of concentration parameter sampling to perform after each main Gibbs-sample iteration.", required=FALSE)
+
 parser$add_argument("-n", "--chain_index", type = 'double', help = "Chain index")
 
 parser$add_argument("-t", "--threshold", type = 'double', default = "0", help = "Specify threshold for minimum mutations required. Default set to 0.")
@@ -79,6 +81,11 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
   if (!is.null(args$posterior_iterations)) {
     u_post_space <- args$posterior_iterations
   }
+  if (!is.null(args$concentration_parameter)) {
+    u_cpiter <- args$concentration_parameter
+  }
+} else {
+  message(paste0("Testing run selected. Executing run with minimal HDP settings. \n"))
 }
 
 n <- as.numeric(chain_index)
@@ -153,7 +160,8 @@ if (u_analysis_type == 'analysis' | u_analysis_type == 'Analysis') {
                     n=u_post,
                     seed=n*1000,
                     space=u_post_space,
-                    cpiter=3)
+                    cpiter=u_cpiter #3
+                    )
 }
 
 if (u_analysis_type == 'testing' | u_analysis_type == 'Testing' | u_analysis_type == 'test' | u_analysis_type == 'Test') {
