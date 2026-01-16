@@ -254,7 +254,7 @@ hdp_PD_prior <- hdp_setdata(hdp_PD_prior,
 
 hdp_PD_prior_activated <- dp_activate(hdp_PD_prior,
                                       dpindex = ((1+nps+1)+0):length(dpstate(hdp_PD_prior)),
-                                      initcc = 10,
+                                      initcc = nps+5, #10
                                       seed = n*300)
     
 message(paste0("Chain ", n,": HDP structure initialised with priors and double hierarchy. \n"))
