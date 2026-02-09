@@ -177,6 +177,10 @@ dps_to_add <- c(0,
                 pp + 1, 
                 cd + max(gp) + 1)
 
+message(paste0("Providing overview of HDP parental node structure."))
+
+dps_to_add
+
 #Initialising HDP structure
 message(paste0("Chain ",n,": Hierarchy parameters successfully extracted. No prior matrix provided. Initialising HDP structure with double hierarchy. \n"))
 

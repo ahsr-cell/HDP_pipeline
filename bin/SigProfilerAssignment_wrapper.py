@@ -18,7 +18,7 @@ def get_arguments():
 def sigPA_decompose(mutational_matrix, deNovoSignatures_matrix,output_directory):
     output = "SigProfilerDecomposition" 
     Analyze.decompose_fit(mutational_matrix, output, deNovoSignatures_matrix, genome_build="GRCh38",
-                           verbose=False, make_plots = True,
+                           verbose=False, make_plots = True, #cosmic_version=3.5,
                            volume = Path(output_directory) / "pkl"
                            )
     print('SigProfilerAssignment completed. Output plots can be found in /SigProfilerDecomposition')

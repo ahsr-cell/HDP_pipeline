@@ -206,6 +206,10 @@ dps_to_add <- c(0,
                 pp + 1, 
                 cd + max(gp) + 1)
 
+message(paste0("Providing overview of HDP structure."))
+
+dps_to_add
+
 #Initialising HDP structure, assessing if user provided prior matrix needs to be integrated, then executing run
 message(paste0("Chain ", n,": prior matrix provided. Extracting prior signatures to incorporate into HDP structure. \n"))
 

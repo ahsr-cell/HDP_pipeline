@@ -2,16 +2,16 @@
 
 ![HDP pipeline overview](/docs/images/HDP_overview.png)
 
-**HDP pipeline** is a bioinformatics pipeline for standardised mutational signature extraction using [HDP](https://github.com/nicolaroberts/hdp).
+**HDP pipeline** is a bioinformatics pipeline for standardised mutational signature extraction using [HDP](https://github.com/nicolaroberts/hdp). This pipeline was developed in conjunction with the [mSigHdp pipeline](https://github.com/ahsr-cell/mSigHdp_pipeline), another mutation signature extraction pipeline that may be of interests to users. 
 
 There are four main processes of the pipeline: Validation, HDP, SigProfilerPlotting, and SigProfilerAssignment. 
 
 The pipeline executes all four processes (by default). Validation runs first, followed by HDP. The results of HDP (i.e., a matrix containing the *de novo* signatures) are subsequently fed to [SigProfilerPlotting](https://github.com/AlexandrovLab/SigProfilerPlotting) for signature spectra plotting and [SigProfilerAssignment](https://github.com/AlexandrovLab/SigProfilerAssignment) for a preliminary decomposition. Validation and HDP will always run, but depending on user needs, SigProfilerPlotting and SigProfilerAssignment can be turned off. The pipeline is compatible with the following mutation type classifications: SBS96, DBS78, ID83. 
 
 ### Validation
-The validation step of the pipeline serves two purposes. First, it checks the input matrices' format(s) (e.g., for the input mutational matrix, is it in the standardised SigProfiler format: mutation types as rows, samples as columns). If they are not in the required format, the pipeline will stop and print out (in error logs), which input is incorrectly formatted.
+The validation step of the pipeline serves two purposes. First, it checks the input matrices' format(s), (e.g., for the input mutational matrix, is it in the standardised SigProfiler format: mutation types as rows, samples as columns). If they are not in the required format, the pipeline will stop and print out (in error logs), which input is incorrectly formatted. See [Inputs](https://github.com/ahsr-cell/HDP_pipeline?tab=readme-ov-file#input-files) for more information on required formatting.
 
-Second, the pipeline provides functionality to automatically calculate resource requirements. 
+Second, the pipeline provides functionality to automatically calculate resource requirements for HDP runs. HDP memory and runtime requirements scale with sample number and maximum mutation burden. Within the HDP pipeline, linear mixed-effects models are used to approximate memory requirements, accounting for sample number and mutation burden. The pipeline take the inputted mutation matrix, calculate these two metrics, use the linear mixed-effect model to calculate the memory requirement, and finally pass this value for each HDP chain. 
 
 ### HDP
 HDP uses hierarchical Dirichlet processes to identify mutational signatures present within samples. 
@@ -45,6 +45,13 @@ Setting `decompose` to `false` will turn this functionality off.
 * Python, required packages: [SigProfilerPlotting](https://github.com/AlexandrovLab/SigProfilerPlotting), [SigProfilerAssignment](https://github.com/AlexandrovLab/SigProfilerAssignment), [argparse](https://docs.python.org/3/library/argparse.html)
 * R, required packages: [HDP](https://github.com/nicolaroberts/hdp), [tidyverse](https://www.tidyverse.org/), [argparse](https://cran.r-project.org/web/packages/argparse/index.html), [Tidyverse](https://tidyverse.org/)
 
+### Docker Images
+The following Docker images have been created to facilitate the running of the HDP pipeline and are available from DockerHub. The Docker files used to create them are available under [docker_files](https://github.com/ahsr-cell/HDP_pipeline/tree/main/docker_files). 
+
+* HDP: ar39944/hdp_amd64:0.0.2
+* SigProfilerPlotting: ar39944/sigprofilerplotting_amd64:0.0.1
+* SigProfilerAssignment ar39944/sigprofilerassignment_amd64:0.0.2
+
 ## Installation
 Clone this repository via
 
@@ -52,17 +59,17 @@ Clone this repository via
 
 ## Usage
 
-### Input files
+### Input files and parameters
 
 | Input      | Description |
 | ----------- | ----------- |
 | `mutation_matrix`      | Required input file, provided as a tab-delimited file (.tsv). The expected format is a matrix with one row per mutation type and one column per sample. Include the mutation types as the first column labelled as 'MutationType'. It is highly recommended to generate mutation matrices via [SigProfilerMatrixGenerator](https://github.com/AlexandrovLab/SigProfilerMatrixGenerator). For an example. please see [example_mutation_matrix.tsv](https://github.com/ahsr-cell/HDP_pipeline/blob/main/docs/example_input_data/example_mutation_matrix.tsv) for an example.        |
 | `hierarchy`   | Required value, provided as a string. Options are `double`, `single` or `flat`         |
 | `hierarchy_matrix`   | Optional input file, required if `hierarchy = double` or `hierarchy = single`. The expected format is a matrix with one row per sample ID (matching the input mutation matrix) and one column specifying hierarchy groupings. See [example_hierarchy_matrix.tsv](https://github.com/ahsr-cell/HDP_pipeline/blob/main/docs/example_input_data/example_hierarchy_matrix.tsv) for an example.         |
-| `hierarchy_parameter1` and `hierarchy_parameter2`  | Optional values, required if `hierarchy = double` or `hierarchy = single`. This should be formatted exactly as the column name specifying hierarchy groupings in the input `hierarchy_matrix`. E.g., if a user provided [example_hierarchy_matrix.tsv](https://github.com/ahsr-cell/HDP_pipeline/blob/main/docs/example_input_data/example_hierarchy_matrix.tsv), `hierarchy_parameter1` would be `hierarchy_parameter1=Grouping`             |
+| `hierarchy_parameter1` and `hierarchy_parameter2`  | Optional values, required if `hierarchy = double` or `hierarchy = single`. This should be formatted exactly as the column name specifying hierarchy groupings in the input `hierarchy_matrix`. E.g., if a user provided [example_hierarchy_matrix.tsv](https://github.com/ahsr-cell/HDP_pipeline/blob/main/docs/example_input_data/example_hierarchy_matrix.tsv), `hierarchy_parameter1` would be `hierarchy_parameter1=Grouping` and `hierarchy_parameter2=Subgrouping`. Note that the algorithm does *not* sort the hierarchy key; thus, users are advised to sort their hierarchy key so that their sample ID and primary hierarchy parameter are columns in matching, alphanumeric order.              |
 | `prior`   | Required value. Options are `true` or `false`          |
 | `prior_matrix`   | Optional input file, required if `prior = true`. The expected format is a matrix with one column per mutational signature (e.g., SBS1, SBS5, etc.) and one column per mutation type (e.g., A[C>A]A). Include the mutation types as the first column labelled as 'MutationType'. Note that the prior matrix variant class should match the mutation matrix variant class; in other words, if the inputted mutation matrix is SBS96, the prior matrix should be SBS96. See [example_prior_matrix.tsv](https://github.com/ahsr-cell/HDP_pipeline/blob/main/docs/example_input_data/example_prior_matrix.tsv) for an example.         |
-| `prior_pseudocounts`   | Optional value, provided as a string, required if `prior = true`, default is `1000`. Note, the pipeline will detect how many prior signatures are provided through the input prior matrix. If a user wants to assign the same amount of pseudocounts to each signature, they should provide a single value (i.e., if a user has SBS1, SBS5, and SBS88 and wants to assign 500 pseudocounts to each signature, they can simply provide `prior_pseudocounts=500`). If a user wants to assign different pseudocounts values to their signatures (i.e., SBS1 has 300 pseudocounts, SBS5 has 300 pseudocounts, and SBS88 has 500 pseudocounts), a user should provide the values separated by a comma, for example: `prior_pseudocounts=300,300,500`. See below for further guidance on usage of pseudocounts in HDP.          |
+| `prior_pseudocounts`   | Optional value, provided as a string, required if `prior = true`, default is `1000`. Note, the pipeline will detect how many prior signatures are provided through the input prior matrix. If a user wants to assign the same amount of pseudocounts to each signature, they should provide a single value (i.e., if a user has SBS1, SBS5, and SBS88 and wants to assign 500 pseudocounts to each signature, they can simply provide `prior_pseudocounts=500`). If a user wants to assign different pseudocounts values to their signatures (i.e., SBS1 has 300 pseudocounts, SBS5 has 300 pseudocounts, and SBS88 has 500 pseudocounts), a user should provide the values separated by a comma, for example: `prior_pseudocounts=300,300,500`. See [below](https://github.com/ahsr-cell/HDP_pipeline?tab=readme-ov-file#pseudocounts) for further guidance on usage of pseudocounts in HDP.          |
 | `analysis_type`   | Required value, provided as a string. Options are `analysis` or `testing`, default is `analysis`         |
 | `mutation_context`   | Required value, provided as a string. Options are `SBS96`, `DBS78`, `ID83`, default is `SBS96`         |
 | `plotting`   | Required value, provided as a string. Options are `true` or `false`, default is `true`         |
@@ -86,7 +93,7 @@ Thus, it is recommended that users optimise their HDP run to test the run settin
 
 To illustrate this, suppose you are analysing 50 samples with moderate mutation burdens.
 
-You know that SBS1 and SBS5 (clock-like signatures) are biologically expected in all tissues [Boysen et al. 2025](https://doi.org/10.1093/nar/gkaf1149). However, you could not detect them in samples with very low mutation counts.
+We know that SBS1 and SBS5 (clock-like signatures) are biologically expected in all tissues [(Boysen et al. 2025)](https://doi.org/10.1093/nar/gkaf1149). However, you could not detect them in samples with very low mutation counts.
 
 Without pseudocounts: HDP might under-detect SBS1/5 in low-mutation samples because their weak signal is overshadowed by noisier signatures. With pseudocounts: By adding pseudocounts to SBS1/5 gives them a baseline presence, encouraging HDP to retain them.
 
@@ -123,6 +130,7 @@ The pipeline can be run using (removing unused options):
      --outdir /path/to/outdir/ \
      --plotting <true/false> \
      --decompose <true/false> \
+     --user_defmemory <desired_memory_inGB> \
      --numchains <number_of_desired_chains> \
      --threshold <minimum_mutation_threshold> \
      --burnin_iterations <number_of_desired_burnin_chains> \
@@ -133,7 +141,7 @@ The pipeline can be run using (removing unused options):
 ```
 
 ### Sanger Users
-Sangers can run the pipeline using the wrapper script below. Note that users will need to remove/comment out options that not required for their run :
+Sangers can run the pipeline using the wrapper script below. Note: users will need to remove/comment out options in the Nextflow run command that not required for their run:
 
 ```
 #! /usr/bin/env bash
