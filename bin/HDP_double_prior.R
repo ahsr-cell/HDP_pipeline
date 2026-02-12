@@ -182,7 +182,7 @@ hp2i <- which(colnames(key_table)==hp2)
 
 key_table$Type <- factor(key_table[,hp1i])
 key_table$Type = paste0(key_table[,hp1i], key_table[,hp2i])
-key_table$GP <- as.numeric(factor(key_table[,hp2i], levels = unique(key_table[,hp2i])))
+key_table$GP <- as.numeric(factor(key_table[,hp1i], levels = unique(key_table[,hp1i]))) #Change: 12 Feb, from [,hp2i] to [,hp1i] -> correcting grandparent
 table(key_table$GP)
 key_table$CD <- as.numeric(factor(key_table$Type, levels = unique(key_table$Type)))
 table(key_table$CD)
