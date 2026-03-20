@@ -33,7 +33,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 # Install python packages with pip
 RUN pip install \
-	SigProfilerAssignment==0.2.3
+	SigProfilerAssignment==1.1.3
 
 #Set working directory in the container
 WORKDIR /usr/src/app
